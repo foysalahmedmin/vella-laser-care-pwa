@@ -2,8 +2,8 @@
 
 import { cn } from "@/lib/utils";
 import { cva, type VariantProps } from "class-variance-authority";
+import type { ElementType } from "react";
 import React, {
-  ElementType,
   forwardRef,
   type ComponentPropsWithoutRef,
   type ElementRef,
@@ -52,7 +52,7 @@ const formControlVariants = cva(
       variant: "default",
       size: "lg",
     },
-  }
+  },
 );
 
 const FormControl = forwardRef<
@@ -72,7 +72,7 @@ const FormControl = forwardRef<
       isLoading = false,
       ...props
     },
-    ref
+    ref,
   ) => {
     const Comp = (asChild ? "span" : as || "input") as ElementType;
 
@@ -89,13 +89,13 @@ const FormControl = forwardRef<
           }),
           {
             [cn("loading", loadingClassName)]: isLoading,
-          }
+          },
         )}
         ref={ref}
         {...props}
       />
     );
-  }
+  },
 );
 
 FormControl.displayName = "FormControl";

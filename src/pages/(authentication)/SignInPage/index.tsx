@@ -1,4 +1,4 @@
-import useUser from "@/hooks/states/useUesr";
+import useUser from "@/hooks/states/useUser";
 import { signIn } from "@/services/auth.service";
 import { useState } from "react";
 import { useMutation } from "react-query";
@@ -40,24 +40,24 @@ export default function Login() {
     <div className="min-h-screen bg-gray-50">
       <div className="flex flex-col">
         {/* Header Section */}
-        <div className="h-[50vh] bg-blue-500 relative">
-          <div className="h-[60%] flex flex-col justify-center items-center relative text-white text-center px-5">
+        <div className="relative h-[50vh] bg-blue-500">
+          <div className="relative flex h-[60%] flex-col items-center justify-center px-5 text-center text-white">
             <img
               src="/images/white_logo.png"
               alt="Logo"
-              className="w-16 h-16 mb-4"
+              className="mb-4 h-16 w-16"
             />
-            <h1 className="text-3xl md:text-5xl font-bold">Sign in to your</h1>
-            <h1 className="text-3xl md:text-5xl font-bold">Account</h1>
-            <p className="text-lg md:text-xl pt-4">
+            <h1 className="text-3xl font-bold md:text-5xl">Sign in to your</h1>
+            <h1 className="text-3xl font-bold md:text-5xl">Account</h1>
+            <p className="pt-4 text-lg md:text-xl">
               Enter your email and password
             </p>
           </div>
 
           {/* Form Section */}
-          <div className="absolute top-3/4 left-1/2 transform -translate-x-1/2 bg-white shadow-lg p-6 md:p-12 w-5/6 md:w-4/5 lg:w-3/5 rounded-2xl">
+          <div className="absolute top-3/4 left-1/2 w-5/6 -translate-x-1/2 transform rounded-2xl bg-white p-6 shadow-lg md:w-4/5 md:p-12 lg:w-3/5">
             <div className="mb-4 md:mb-8">
-              <label htmlFor="email" className="block text-gray-700 mb-2">
+              <label htmlFor="email" className="mb-2 block text-gray-700">
                 Email
               </label>
               <input
@@ -66,12 +66,12 @@ export default function Login() {
                 placeholder="Enter your email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-full rounded-md border border-gray-300 px-4 py-2 focus:ring-2 focus:ring-blue-500 focus:outline-none"
               />
             </div>
 
             <div className="mb-4 md:mb-8">
-              <label htmlFor="password" className="block text-gray-700 mb-2">
+              <label htmlFor="password" className="mb-2 block text-gray-700">
                 Password
               </label>
               <input
@@ -80,17 +80,17 @@ export default function Login() {
                 placeholder="Enter your password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-full rounded-md border border-gray-300 px-4 py-2 focus:ring-2 focus:ring-blue-500 focus:outline-none"
               />
             </div>
 
-            <div className="flex justify-between items-center mb-4 md:mb-8">
+            <div className="mb-4 flex items-center justify-between md:mb-8">
               <div className="flex items-center">
                 <input
                   type="checkbox"
                   id="remember"
                   defaultChecked
-                  className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
+                  className="h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500"
                 />
                 <label htmlFor="remember" className="ml-2 text-gray-700">
                   Remember me
@@ -104,18 +104,18 @@ export default function Login() {
             <button
               onClick={handleSignIn}
               disabled={isLoading}
-              className={`w-full py-2 px-4 rounded-md text-white font-medium ${
+              className={`w-full rounded-md px-4 py-2 font-medium text-white ${
                 isLoading ? "bg-blue-400" : "bg-blue-500 hover:bg-blue-600"
-              } focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2`}
+              } focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:outline-none`}
             >
               {isLoading ? "Loading..." : "Login"}
             </button>
 
-            <div className="flex justify-center items-center mt-4 md:mt-8">
+            <div className="mt-4 flex items-center justify-center md:mt-8">
               <span className="text-gray-700">Don't have an account?</span>
               <button
                 onClick={() => navigate("/signup")}
-                className="ml-2 text-blue-500 font-bold hover:text-blue-700"
+                className="ml-2 font-bold text-blue-500 hover:text-blue-700"
               >
                 Sign Up
               </button>

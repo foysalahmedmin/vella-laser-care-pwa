@@ -3,15 +3,13 @@
 import useRippleEffect from "@/hooks/ui/useRippleEffect";
 import { cn } from "@/lib/utils";
 import { cva, type VariantProps } from "class-variance-authority";
-import React, {
+import type {
   ComponentPropsWithoutRef,
   ElementRef,
   ElementType,
-  forwardRef,
   RefObject,
-  useImperativeHandle,
-  useRef,
 } from "react";
+import React, { forwardRef, useImperativeHandle, useRef } from "react";
 
 type SupportedElements = "button" | "input" | "textarea" | "select";
 
@@ -65,7 +63,7 @@ const buttonVariants = cva(
       shape: "default",
       loading: "center",
     },
-  }
+  },
 );
 
 const Button = forwardRef<
@@ -87,13 +85,13 @@ const Button = forwardRef<
       isAnimation = false,
       ...props
     },
-    ref
+    ref,
   ) => {
     const buttonRef = useRef<HTMLButtonElement | null>(null);
 
     useImperativeHandle(
       ref,
-      () => buttonRef.current as ElementRef<SupportedElements>
+      () => buttonRef.current as ElementRef<SupportedElements>,
     );
     useRippleEffect(buttonRef as RefObject<HTMLElement>, !isAnimation);
 
@@ -112,13 +110,13 @@ const Button = forwardRef<
           }),
           {
             [cn("loading", loadingClassName)]: isLoading,
-          }
+          },
         )}
         ref={buttonRef}
         {...props}
       />
     );
-  }
+  },
 );
 
 Button.displayName = "Button";

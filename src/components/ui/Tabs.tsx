@@ -1,13 +1,15 @@
 "use client";
 
 import { cn } from "@/lib/utils";
-import {
-  createContext,
+import type {
   ForwardedRef,
-  forwardRef,
   HTMLAttributes,
   LiHTMLAttributes,
   ReactNode,
+} from "react";
+import {
+  createContext,
+  forwardRef,
   useContext,
   useEffect,
   useState,
@@ -41,7 +43,7 @@ interface TabsProps extends HTMLAttributes<HTMLDivElement> {
 const Tabs = forwardRef<HTMLDivElement, TabsProps>(
   (
     { className, value: valueProp, setValue: setValueProp, children, ...props },
-    ref: ForwardedRef<HTMLDivElement>
+    ref: ForwardedRef<HTMLDivElement>,
   ) => {
     const [value, setValue] = useState(valueProp);
 
@@ -70,7 +72,7 @@ const Tabs = forwardRef<HTMLDivElement, TabsProps>(
         </div>
       </TabsContext.Provider>
     );
-  }
+  },
 );
 Tabs.displayName = "Tabs";
 
@@ -84,12 +86,12 @@ const TabsList = forwardRef<HTMLUListElement, TabsListProps>(
         ref={ref}
         className={cn(
           "flex items-center justify-center gap-1 overflow-x-auto",
-          className
+          className,
         )}
         {...props}
       />
     );
-  }
+  },
 );
 TabsList.displayName = "TabsList";
 
@@ -103,7 +105,7 @@ interface TabsTriggerProps extends LiHTMLAttributes<HTMLLIElement> {
 const TabsTrigger = forwardRef<HTMLLIElement, TabsTriggerProps>(
   (
     { className, activeClassName, value, disabled, isLoading, ...props },
-    ref: ForwardedRef<HTMLLIElement>
+    ref: ForwardedRef<HTMLLIElement>,
   ) => {
     const { value: contextValue, onTabSelect } = useTabs();
     return (
@@ -123,15 +125,15 @@ const TabsTrigger = forwardRef<HTMLLIElement, TabsTriggerProps>(
           {
             [cn(
               "text-primary after:border-primary cursor-default after:w-full",
-              activeClassName
+              activeClassName,
             )]: value === contextValue,
-          }
+          },
         )}
         // disabled={disabled || isLoading}
         {...props}
       />
     );
-  }
+  },
 );
 TabsTrigger.displayName = "TabsTrigger";
 
@@ -140,7 +142,7 @@ type TabsContentProps = HTMLAttributes<HTMLDivElement>;
 const TabsContent = forwardRef<HTMLDivElement, TabsContentProps>(
   ({ className, ...props }, ref: ForwardedRef<HTMLDivElement>) => {
     return <div ref={ref} className={cn("", className)} {...props} />;
-  }
+  },
 );
 TabsContent.displayName = "TabsContent";
 
@@ -152,7 +154,7 @@ interface TabsItemProps extends HTMLAttributes<HTMLDivElement> {
 const TabsItem = forwardRef<HTMLDivElement, TabsItemProps>(
   (
     { className, activeClassName, value, ...props },
-    ref: ForwardedRef<HTMLDivElement>
+    ref: ForwardedRef<HTMLDivElement>,
   ) => {
     const { value: contextValue } = useTabs();
     return (
@@ -164,7 +166,7 @@ const TabsItem = forwardRef<HTMLDivElement, TabsItemProps>(
         {...props}
       />
     );
-  }
+  },
 );
 TabsItem.displayName = "TabsItem";
 

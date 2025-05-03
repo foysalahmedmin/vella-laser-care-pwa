@@ -91,7 +91,7 @@ export const useCarouselNavigation = (api?: EmblaCarouselType) => {
         scrollNext();
       }
     },
-    [scrollPrev, scrollNext]
+    [scrollPrev, scrollNext],
   );
 
   useEffect(() => {
@@ -118,7 +118,7 @@ export const useCarouselPagination = (api?: EmblaCarouselType) => {
     (index: number) => {
       api?.scrollTo(index);
     },
-    [api]
+    [api],
   );
 
   const onInit = useCallback(() => {
@@ -198,7 +198,7 @@ const Carousel = forwardRef<HTMLDivElement, CarouselProps>(
       children,
       ...props
     },
-    ref
+    ref,
   ) => {
     const [carouselRef, api] = useEmblaCarousel(
       { ...opts, axis: orientation === "horizontal" ? "x" : "y" },
@@ -206,7 +206,7 @@ const Carousel = forwardRef<HTMLDivElement, CarouselProps>(
         emblaCarouselClassNames(),
         ...(autoplay ? [emblaCarouselAutoplay({ delay: 5000 })] : []),
         ...plugins,
-      ]
+      ],
     );
 
     useEffect(() => {
@@ -244,7 +244,7 @@ const Carousel = forwardRef<HTMLDivElement, CarouselProps>(
         </div>
       </CarouselContext.Provider>
     );
-  }
+  },
 );
 Carousel.displayName = "Carousel";
 
@@ -260,7 +260,7 @@ const CarouselContent = forwardRef<
         className={cn(
           "flex h-full",
           { "flex-col": orientation === "vertical" },
-          className
+          className,
         )}
         {...props}
       />
@@ -278,12 +278,12 @@ const CarouselItem = forwardRef<HTMLDivElement, HTMLAttributes<HTMLDivElement>>(
         aria-roledescription="slide"
         className={cn(
           "min-w-0 shrink-0 grow-0 basis-full self-stretch",
-          className
+          className,
         )}
         {...props}
       />
     );
-  }
+  },
 );
 CarouselItem.displayName = "CarouselItem";
 
@@ -312,7 +312,7 @@ const CarouselPreviousTrigger = forwardRef<HTMLButtonElement, TriggerProps>(
       ),
       ...props
     },
-    ref
+    ref,
   ) => {
     const { orientation, scrollPrev, canScrollPrev } = useCarousel();
     return (
@@ -325,7 +325,7 @@ const CarouselPreviousTrigger = forwardRef<HTMLButtonElement, TriggerProps>(
           orientation === "horizontal"
             ? "top-1/2 left-0 -translate-y-1/2"
             : "top-0 left-1/2 -translate-x-1/2 rotate-90",
-          className
+          className,
         )}
         disabled={!canScrollPrev}
         onClick={scrollPrev}
@@ -334,7 +334,7 @@ const CarouselPreviousTrigger = forwardRef<HTMLButtonElement, TriggerProps>(
         {children}
       </Button>
     );
-  }
+  },
 );
 CarouselPreviousTrigger.displayName = "CarouselPreviousTrigger";
 
@@ -363,7 +363,7 @@ const CarouselNextTrigger = forwardRef<HTMLButtonElement, TriggerProps>(
       ),
       ...props
     },
-    ref
+    ref,
   ) => {
     const { orientation, scrollNext, canScrollNext } = useCarousel();
     return (
@@ -376,7 +376,7 @@ const CarouselNextTrigger = forwardRef<HTMLButtonElement, TriggerProps>(
           orientation === "horizontal"
             ? "top-1/2 right-0 -translate-y-1/2"
             : "bottom-0 left-1/2 -translate-x-1/2 rotate-90",
-          className
+          className,
         )}
         disabled={!canScrollNext}
         onClick={scrollNext}
@@ -385,7 +385,7 @@ const CarouselNextTrigger = forwardRef<HTMLButtonElement, TriggerProps>(
         {children}
       </Button>
     );
-  }
+  },
 );
 CarouselNextTrigger.displayName = "CarouselNextTrigger";
 
@@ -402,7 +402,7 @@ const CarouselPaginationTrigger = forwardRef<
       size = "none",
       ...props
     },
-    ref
+    ref,
   ) => {
     return (
       <Button
@@ -410,14 +410,14 @@ const CarouselPaginationTrigger = forwardRef<
         className={cn(
           "bg-muted h-[0.125rem] w-full max-w-full flex-1 rounded-full px-0",
           className,
-          { [cn("bg-accent", activeClassName)]: isActive }
+          { [cn("bg-accent", activeClassName)]: isActive },
         )}
         variant={variant}
         size={size}
         {...props}
       />
     );
-  }
+  },
 );
 CarouselPaginationTrigger.displayName = "CarouselPaginationTrigger";
 
@@ -433,7 +433,7 @@ const CarouselPagination = forwardRef<
       ref={ref}
       className={cn(
         "absolute right-0 bottom-4 left-0 mx-auto flex w-full items-center justify-center gap-1",
-        className
+        className,
       )}
       {...props}
     >
