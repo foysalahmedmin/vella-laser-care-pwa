@@ -83,23 +83,6 @@
   font-family: "Roboto";
 }
 
-/* roboto slab font */
-@font-face {
-  font-style: normal;
-  font-weight: 400 500 600 700 900;
-  src: url("/fonts/Roboto_Slab/RobotoSlab-VariableFont_wght.ttf")
-    format("truetype");
-  font-family: "Roboto slab";
-}
-
-/* questrial font */
-@font-face {
-  font-style: normal;
-  font-weight: 400 500 600 700 900;
-  src: url("/fonts/Questrial/Questrial-Regular.ttf") format("truetype");
-  font-family: "Questrial";
-}
-
 /* playfair font */
 @font-face {
   font-style: normal;
@@ -115,20 +98,4 @@
   src: url("/fonts/Playfair_Display/PlayfairDisplay-Italic-VariableFont_wght.ttf")
     format("truetype");
   font-family: "Playfair Display";
-}
-
-/* lora font */
-@font-face {
-  font-style: normal;
-  font-weight: 400 500 600 700 900;
-  src: url("/fonts/Lora/Lora-VariableFont_wght.ttf") format("truetype");
-  font-family: "Lora";
-}
-
-@font-face {
-  font-style: italic;
-  font-weight: 400 500 600 700 900;
-  src: url("/fonts/Playfair_Display/Lora-Italic-VariableFont_wght.ttf")
-    format("truetype");
-  font-family: "Lora";
 }

@@ -2,7 +2,7 @@ import { toast } from "react-toastify";
 
 const HomePage = () => {
   return (
-    <main>
+    <main className="">
       <button onClick={() => toast.success("Hello")}></button>
     </main>
   );
