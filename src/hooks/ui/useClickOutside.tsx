@@ -1,10 +1,11 @@
 "use client";
 
-import { RefObject, useEffect } from "react";
+import type { RefObject } from "react";
+import { useEffect } from "react";
 
 export function useClickOutside<T extends HTMLElement>(
   ref: RefObject<T>,
-  callback?: () => void
+  callback?: () => void,
 ) {
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent | TouchEvent) => {

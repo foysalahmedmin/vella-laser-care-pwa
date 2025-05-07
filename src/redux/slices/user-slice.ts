@@ -1,4 +1,5 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import type { PayloadAction } from "@reduxjs/toolkit";
+import { createSlice } from "@reduxjs/toolkit";
 
 export interface User {
   accessToken?: string;
@@ -29,7 +30,7 @@ export const userSlice = createSlice({
       if (user?.accessToken) {
         localStorage.setItem(
           "user",
-          JSON.stringify({ ...user, isAuthenticated: true })
+          JSON.stringify({ ...user, isAuthenticated: true }),
         );
         return { ...user, isAuthenticated: true };
       }
