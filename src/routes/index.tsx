@@ -6,9 +6,9 @@ import UserLayout from "@/components/layouts/UserLayout";
 import AuthWrapper from "@/components/wrapper/AuthWrapper";
 import SignInPage from "@/pages/(authentication)/SignInPage";
 import SignUpPage from "@/pages/(authentication)/SignUpPage";
-import ErrorPage from "@/pages/(common)/ErrorPage";
 import HomePage from "@/pages/(common)/HomePage";
-import NotFoundPage from "@/pages/(common)/NotFoundPage";
+import ErrorPage from "@/pages/(partials)/ErrorPage";
+import NotFoundPage from "@/pages/(partials)/NotFoundPage";
 import ProfilePage from "@/pages/(user)/ProfilePage";
 import { createBrowserRouter } from "react-router";
 
