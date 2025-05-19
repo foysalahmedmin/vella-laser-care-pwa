@@ -1,4 +1,5 @@
 import Header from "@/components/partials/Header";
+import Navigation from "@/components/partials/Navigation";
 import { Outlet } from "react-router";
 
 const CommonLayout = () => {
@@ -6,6 +7,7 @@ const CommonLayout = () => {
     <>
       <Header />
       <Outlet />
+      <Navigation />
     </>
   );
 };

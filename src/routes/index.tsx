@@ -7,6 +7,8 @@ import AuthWrapper from "@/components/wrapper/AuthWrapper";
 import SignInPage from "@/pages/(authentication)/SignInPage";
 import SignUpPage from "@/pages/(authentication)/SignUpPage";
 import HomePage from "@/pages/(common)/HomePage";
+import ProductsPage from "@/pages/(common)/ProductsPage";
+import ServicesPage from "@/pages/(common)/ServicesPage";
 import ErrorPage from "@/pages/(partials)/ErrorPage";
 import NotFoundPage from "@/pages/(partials)/NotFoundPage";
 import ProfilePage from "@/pages/(user)/ProfilePage";
@@ -29,7 +31,10 @@ export const router = createBrowserRouter([
           { path: "service-appointments/:id", element: <></> },
           { path: "doctor-appointments/:id", element: <></> },
 
-          { path: "services", element: <></> },
+          {
+            path: "services",
+            element: <ServicesPage />,
+          },
           { path: "services/all", element: <></> },
           { path: "services/book", element: <></> },
           { path: "services/:id", element: <></> },
@@ -41,7 +46,7 @@ export const router = createBrowserRouter([
           { path: "doctors/:id", element: <></> },
           { path: "doctors-info/:id", element: <></> },
 
-          { path: "products", element: <></> },
+          { path: "products", element: <ProductsPage /> },
           { path: "products/:id", element: <></> },
 
           { path: "payment", element: <></> },

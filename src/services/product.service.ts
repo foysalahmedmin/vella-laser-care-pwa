@@ -37,28 +37,28 @@ interface BaseOrderPayload {
   items: OrderItem[];
 }
 
-interface ApiResponse<T = unknown> {
-  data: T;
-  status?: number;
-}
-
 // Category Endpoints
-export async function fetchCategoryFilters(): Promise<ApiResponse> {
-  return api.get("/api/shop_category/get_category_filters");
+export async function fetchCategoryFilters(): Promise<any> {
+  const response = await api.get("/api/shop_category/get_category_filters");
+  return response?.data;
 }
 
-export async function fetchFilteredSkinTypes(): Promise<ApiResponse> {
-  return api.get("/api/product/skin_type/get_filtered_skin_type");
+export async function fetchFilteredSkinTypes(): Promise<any> {
+  const response = await api.get(
+    "/api/product/skin_type/get_filtered_skin_type",
+  );
+  return response?.data;
 }
 
-export async function fetchFilteredConcerns(): Promise<ApiResponse> {
-  return api.get("/api/product/concern/get_filtered_concerns");
+export async function fetchFilteredConcerns(): Promise<any> {
+  const response = await api.get("/api/product/concern/get_filtered_concerns");
+  return response?.data;
 }
 
 // Product Endpoints
 export async function fetchFilteredProducts(
-  params: ProductFilterParams
-): Promise<ApiResponse> {
+  params: ProductFilterParams,
+): Promise<any> {
   const {
     page,
     limit,
@@ -71,45 +71,47 @@ export async function fetchFilteredProducts(
     skin_concern,
   } = params;
 
-  const queryParams = new URLSearchParams({
-    page: page.toString(),
-    limit: limit.toString(),
-    ...(search && { search }),
-    ...(category && { category }),
-    ...(sub_category && { sub_category }),
-    ...(min_price && { min_price: min_price.toString() }),
-    ...(max_price && { max_price: max_price.toString() }),
-    ...(skin_type && { skin_type }),
-    ...(skin_concern && { skin_concern }),
+  const response = await api.get("/api/product/get_filtered_products", {
+    params: {
+      page,
+      limit,
+      search,
+      category,
+      sub_category,
+      min_price,
+      max_price,
+      skin_type,
+      skin_concern,
+    },
   });
-
-  return api.get(`/api/product/get_filtered_products?${queryParams}`);
+  return response?.data?.[0];
 }
 
-export async function fetchOneProduct(id: string): Promise<ApiResponse> {
-  return api.get(`/api/product/get_one_product_details/${id}`);
+export async function fetchOneProduct(id: string): Promise<any> {
+  const response = await api.get(`/api/product/get_one_product_details/${id}`);
+  return response?.data;
 }
 
 // Shipping Endpoint
-export async function fetchFilteredShipping(
-  city: string
-): Promise<ApiResponse> {
-  return api.get(`/api/configs/shipping/get_filtered_shipping?city=${city}`);
+export async function fetchFilteredShipping(city: string): Promise<any> {
+  const response = await api.get(
+    "/api/configs/shipping/get_filtered_shipping",
+    {
+      params: { city },
+    },
+  );
+  return response?.data;
 }
 
 // Order Endpoints
-export async function addGuestOrder(
-  payload: BaseOrderPayload
-): Promise<ApiResponse> {
-  return api.post("/api/order/add_guest_order", payload, {
-    headers: { "Content-Type": "application/json" },
-  });
+export async function addGuestOrder(payload: BaseOrderPayload): Promise<any> {
+  const response = await api.post("/api/order/add_guest_order", payload);
+  return response?.data;
 }
 
 export async function addCustomerOrder(
-  payload: BaseOrderPayload
-): Promise<ApiResponse> {
-  return api.post("/api/order/add_customer_order", payload, {
-    headers: { "Content-Type": "application/json" },
-  });
+  payload: BaseOrderPayload,
+): Promise<any> {
+  const response = await api.post("/api/order/add_customer_order", payload);
+  return response?.data;
 }

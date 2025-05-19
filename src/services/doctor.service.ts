@@ -2,9 +2,11 @@ import api from "@/lib/api";
 
 // Type Definitions
 interface Doctor {
-  id: string;
+  _id: string;
   name: string;
-  department: string;
+  name_bn: string;
+  photo: string;
+  tags: Array<{ name: string; name_bn: string }>;
   [key: string]: unknown;
 }
 
@@ -26,7 +28,7 @@ interface FilterParams {
 
 // Doctor Endpoints
 export async function fetchFilteredDoctors(
-  params: FilterParams
+  params: FilterParams,
 ): Promise<ApiResponse<Doctor[]>> {
   const { department, search } = params;
   const queryParams = new URLSearchParams();
@@ -43,12 +45,12 @@ export async function fetchOneDoctor(id: string): Promise<ApiResponse<Doctor>> {
 
 // Department Endpoints
 export async function fetchFilteredDepartments(
-  search?: string
+  search?: string,
 ): Promise<ApiResponse<Department[]>> {
   const queryParams = new URLSearchParams();
   if (search) queryParams.append("search", search);
 
   return api.get(
-    `/api/doctor/department/get_filtered_departments?${queryParams}`
+    `/api/doctor/department/get_filtered_departments?${queryParams}`,
   );
 }

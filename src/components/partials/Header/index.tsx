@@ -7,6 +7,7 @@ import { ChevronDown, LogOut, User2 } from "lucide-react";
 import { useState } from "react";
 import { useQuery } from "react-query";
 import { useNavigate } from "react-router";
+import Language from "../Language";
 import Logo from "../Logo";
 
 interface HeaderProps {
@@ -48,6 +49,7 @@ const Header = ({ className }: HeaderProps) => {
               <Logo />
             </div>
             <div className="flex items-center justify-end gap-[1em]">
+              <Language className="text-xl" />
               <div>
                 {isAuthenticated && (
                   <div className="relative">

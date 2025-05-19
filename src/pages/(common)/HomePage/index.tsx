@@ -1,5 +1,11 @@
+import AuthSection from "@/components/(common)/(home-page)/AuthSection";
+
 const HomePage = () => {
-  return <main className=""></main>;
+  return (
+    <main className="">
+      <AuthSection />
+    </main>
+  );
 };
 
 export default HomePage;

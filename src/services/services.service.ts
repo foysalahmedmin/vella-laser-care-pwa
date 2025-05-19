@@ -2,9 +2,10 @@ import api from "@/lib/api";
 
 // Type Definitions
 interface Service {
-  id: string;
+  _id: string;
   name: string;
-  category: string;
+  name_bn: string;
+  image: string;
 }
 
 interface ServiceCategory {
@@ -39,7 +40,7 @@ interface ApiResponse<T = unknown> {
 
 export async function fetchOneService(id: string): Promise<Service> {
   const response = await api.get<ApiResponse<Service>>(
-    `/api/service/get_one_service/${id}`
+    `/api/service/get_one_service/${id}`,
   );
   return response.data.data;
 }
@@ -50,32 +51,32 @@ export async function fetchFeaturedServices(): Promise<ApiResponse<Service[]>> {
 
 export async function fetchFilteredServices(
   search?: string,
-  category?: string
+  category?: string,
 ): Promise<Service[]> {
   const params = new URLSearchParams();
   if (search) params.append("search", search);
   if (category) params.append("category", category);
 
   const response = await api.get<ApiResponse<Service[]>>(
-    `/api/service/get_app_filtered_services?${params}`
+    `/api/service/get_app_filtered_services?${params}`,
   );
   return response.data.data || [];
 }
 
 export async function fetchFilteredServiceCategories(
-  search?: string
+  search?: string,
 ): Promise<ServiceCategory[]> {
   const params = new URLSearchParams();
   if (search) params.append("search", search);
 
   const response = await api.get<ApiResponse<ServiceCategory[]>>(
-    `/api/service_category/get_filtered_service_categories?${params}`
+    `/api/service_category/get_filtered_service_categories?${params}`,
   );
   return response.data.data || [];
 }
 
 export async function createServiceBooking(
-  payload: ServiceBookingPayload
+  payload: ServiceBookingPayload,
 ): Promise<ApiResponse> {
   return api.post<ApiResponse>("/api/booking/add_booking", payload, {
     headers: { "Content-Type": "application/json" },
@@ -84,7 +85,7 @@ export async function createServiceBooking(
 
 export async function fetchFilteredSlots(): Promise<BookingSlot[]> {
   const response = await api.get<ApiResponse<BookingSlot[]>>(
-    "/api/doctor/slot/get_filtered_slots"
+    "/api/doctor/slot/get_filtered_slots",
   );
   return response.data.data || [];
 }
