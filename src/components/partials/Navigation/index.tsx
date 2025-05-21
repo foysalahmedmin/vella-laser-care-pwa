@@ -1,6 +1,13 @@
+import useUser from "@/hooks/states/useUser";
 import { cn } from "@/lib/utils";
 import type { LucideIcon } from "lucide-react";
-import { HomeIcon, SearchIcon } from "lucide-react";
+import {
+  BellIcon,
+  HeartIcon,
+  HomeIcon,
+  LayoutDashboardIcon,
+  ShoppingBagIcon,
+} from "lucide-react";
 import { NavLink } from "react-router";
 
 type NavItem = {
@@ -17,17 +24,48 @@ const NAV_ITEMS: NavItem[] = [
   },
   {
     label: "Products",
-    icon: SearchIcon,
+    icon: ShoppingBagIcon,
     href: "/products",
   },
 ];
 
+const CUSTOMER_NAV_ITEMS: NavItem[] = [
+  {
+    label: "Home",
+    icon: HomeIcon,
+    href: "/",
+  },
+  {
+    label: "Products",
+    icon: ShoppingBagIcon,
+    href: "/products",
+  },
+  {
+    label: "Favorite",
+    icon: HeartIcon,
+    href: "/favorites",
+  },
+  {
+    label: "Notification",
+    icon: BellIcon,
+    href: "/notifications",
+  },
+  {
+    label: "Dashboard",
+    icon: LayoutDashboardIcon,
+    href: "/dashboard",
+  },
+];
+
 const Navigation: React.FC = () => {
+  const { user } = useUser();
+  const { role } = user || {};
+  const items = role === "customer" ? CUSTOMER_NAV_ITEMS : NAV_ITEMS;
   return (
     <nav className="fixed bottom-0 z-50 h-16 w-full border-t border-gray-200 bg-white">
       <div className="container mx-auto h-full">
         <div className="flex h-full items-center justify-around">
-          {NAV_ITEMS.map((item) => (
+          {items?.map((item) => (
             <NavLink
               to={item.href}
               key={item.href}

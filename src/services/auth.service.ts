@@ -106,10 +106,10 @@ export async function fetchOneUser(id: string): Promise<User> {
 
 // Shipping functions
 export async function fetchFilteredShipping(
-  city: string
+  city: string,
 ): Promise<ShippingInfo[]> {
   const response = await api.get(
-    `/api/configs/shipping/get_filtered_shipping?city=${city}`
+    `/api/configs/shipping/get_filtered_shipping?city=${city}`,
   );
   return response?.data as ShippingInfo[];
 }
@@ -119,7 +119,7 @@ export async function fetchFilteredCities(): Promise<CityInfo[]> {
   return response?.data as CityInfo[];
 }
 
-export async function fetchFiliatedParlors(): Promise<Parlor[]> {
+export async function fetchAffiliatedParlors(): Promise<Parlor[]> {
   const response = await api.get("/api/auth/get_affiliated_parlors");
   return response?.data as Parlor[];
 }
@@ -149,7 +149,7 @@ export async function updateProfile({
     payload,
     {
       headers: { "Content-Type": "multipart/form-data" },
-    }
+    },
   );
   return response?.data as User;
 }

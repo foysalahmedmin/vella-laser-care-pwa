@@ -1,6 +1,22 @@
 import api from "@/lib/api";
 
 // Type Definitions
+interface Product {
+  _id: string;
+  media: string;
+  country_origin: string;
+  name: string;
+  name_bn: string;
+  short_description: string;
+  short_description_bn: string;
+  rating: number;
+  discount: number;
+  discount_type: string;
+  discount_amount: number;
+  selling_price: number;
+  total_review: number;
+}
+
 interface PaginationParams {
   page: number;
   limit: number;
@@ -58,7 +74,7 @@ export async function fetchFilteredConcerns(): Promise<any> {
 // Product Endpoints
 export async function fetchFilteredProducts(
   params: ProductFilterParams,
-): Promise<any> {
+): Promise<{ data: Product[]; total: number }> {
   const {
     page,
     limit,
