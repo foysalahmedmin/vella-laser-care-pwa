@@ -2,11 +2,14 @@ import useUser from "@/hooks/states/useUser";
 import { cn } from "@/lib/utils";
 import type { LucideIcon } from "lucide-react";
 import {
+  BanknoteIcon,
   BellIcon,
   HeartIcon,
+  HistoryIcon,
   HomeIcon,
   LayoutDashboardIcon,
   ShoppingBagIcon,
+  WalletIcon,
 } from "lucide-react";
 import { NavLink } from "react-router";
 
@@ -41,26 +44,64 @@ const CUSTOMER_NAV_ITEMS: NavItem[] = [
     href: "/products",
   },
   {
-    label: "Favorite",
+    label: "Favorites",
     icon: HeartIcon,
-    href: "/favorites",
+    href: "/customer/favorites",
   },
   {
-    label: "Notification",
+    label: "Notifications",
     icon: BellIcon,
     href: "/notifications",
   },
   {
     label: "Dashboard",
     icon: LayoutDashboardIcon,
-    href: "/dashboard",
+    href: "/customer",
+  },
+];
+
+const PARLOR_NAV_ITEMS: NavItem[] = [
+  {
+    label: "Home",
+    icon: HomeIcon,
+    href: "/",
+  },
+  {
+    label: "Earnings",
+    icon: WalletIcon,
+    href: "/parlor/earnings",
+  },
+  {
+    label: "Withdraws",
+    icon: BanknoteIcon,
+    href: "/parlor/withdraws",
+  },
+  {
+    label: "History",
+    icon: HistoryIcon,
+    href: "/parlor/history",
+  },
+  {
+    label: "Notifications",
+    icon: BellIcon,
+    href: "/notifications",
+  },
+  {
+    label: "Dashboard",
+    icon: LayoutDashboardIcon,
+    href: "/parlor",
   },
 ];
 
 const Navigation: React.FC = () => {
   const { user } = useUser();
   const { role } = user || {};
-  const items = role === "customer" ? CUSTOMER_NAV_ITEMS : NAV_ITEMS;
+  const items =
+    role === "customer"
+      ? CUSTOMER_NAV_ITEMS
+      : role === "parlor"
+        ? PARLOR_NAV_ITEMS
+        : NAV_ITEMS;
   return (
     <nav className="fixed bottom-0 z-50 h-16 w-full border-t border-gray-200 bg-white">
       <div className="container mx-auto h-full">

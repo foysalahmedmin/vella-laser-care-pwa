@@ -6,22 +6,17 @@ interface ServiceCardProps {
   title: string;
   title_bn: string;
   image: string;
-  navigation: string;
+  href: string;
 }
 
-const ServiceCard = ({
-  title,
-  title_bn,
-  image,
-  navigation,
-}: ServiceCardProps) => {
+const ServiceCard = ({ title, title_bn, image, href }: ServiceCardProps) => {
   const navigate = useNavigate();
   const { code } = useLanguage();
 
   return (
     <div
       className="flex w-1/3 items-center p-2"
-      onClick={() => navigate(navigation)}
+      onClick={() => navigate(href)}
       style={{ cursor: "pointer" }}
     >
       <div className="w-full rounded-md bg-white p-2 text-center">
@@ -43,7 +38,7 @@ const FeaturesSection = () => {
     id: number;
     title: string;
     title_bn: string;
-    navigation: string;
+    href: string;
     image: string;
   }
 
@@ -52,21 +47,21 @@ const FeaturesSection = () => {
       id: 1,
       title: "Doctors",
       title_bn: "ডাক্তার",
-      navigation: "/doctors",
+      href: "/doctors-home",
       image: "/images/icons/circle-doctor.png",
     },
     {
       id: 2,
       title: "Services",
       title_bn: "সেবাসমূহ",
-      navigation: "/services",
+      href: "/services-home",
       image: "/images/icons/circle-service.png",
     },
     {
       id: 3,
       title: "Products",
       title_bn: "পণ্যসমূহ",
-      navigation: "/products",
+      href: "/products-home",
       image: "/images/icons/circle-product.png",
     },
   ];
@@ -80,7 +75,7 @@ const FeaturesSection = () => {
             title={service.title}
             title_bn={service.title_bn}
             image={service.image}
-            navigation={service.navigation}
+            href={service.href}
           />
         ))}
       </div>

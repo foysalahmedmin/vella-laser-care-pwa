@@ -114,7 +114,7 @@ const Header = () => {
   );
 };
 
-export const Favorite = () => {
+export const FavoritePage = () => {
   const { code } = useLanguage();
   const { data, isLoading } = useQuery<Product[]>({
     queryKey: ["my_favorites"],

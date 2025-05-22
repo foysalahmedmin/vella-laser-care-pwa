@@ -76,7 +76,7 @@ const Header = () => {
   );
 };
 
-export const NotificationPage = () => {
+const NotificationPage = () => {
   const { code } = useLanguage();
   const { data, isLoading, refetch } = useQuery<Notification[]>({
     queryKey: ["notifications"],
@@ -118,3 +118,5 @@ export const NotificationPage = () => {
     </div>
   );
 };
+
+export default NotificationPage;
