@@ -103,7 +103,7 @@ const Navigation: React.FC = () => {
         ? PARLOR_NAV_ITEMS
         : NAV_ITEMS;
   return (
-    <nav className="fixed bottom-0 z-50 h-16 w-full border-t border-gray-200 bg-white">
+    <nav className="bg-card sticky bottom-0 z-50 h-16 w-full border-t border-gray-200">
       <div className="container mx-auto h-full">
         <div className="flex h-full items-center justify-around">
           {items?.map((item) => (

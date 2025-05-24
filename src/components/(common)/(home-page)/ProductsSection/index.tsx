@@ -1,17 +1,17 @@
+import ProductCard from "@/components/cards/ProductCard";
 import NotFound from "@/components/partials/NotFound";
 import {
   Carousel,
   CarouselContent,
   CarouselItem,
+  CarouselPagination,
 } from "@/components/ui/Carousel";
-import { URLS } from "@/config";
 import useLanguage from "@/hooks/states/useLanguage";
 import { SetFilterSearch } from "@/redux/slices/product-filter-slice";
 import type { RootState } from "@/redux/store";
 import { fetchFilteredProducts } from "@/services/product.service";
 import { useQuery } from "react-query";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router";
 
 interface Product {
   _id: string;
@@ -28,63 +28,6 @@ interface Product {
   country_origin: string;
   total_review: number;
 }
-
-const ProductCard = ({ product }: { product: Product }) => {
-  const { code } = useLanguage();
-  const navigate = useNavigate();
-
-  return (
-    <div
-      className="flex cursor-pointer items-center justify-between rounded-lg p-2 hover:bg-gray-50"
-      onClick={() => navigate(`/products/${product._id}`)}
-    >
-      <div className="flex flex-1">
-        <img
-          src={`${URLS.product_thumbnail}/${product.media}`}
-          alt={code === "en" ? product.name : product.name_bn}
-          className="h-36 w-32 rounded-lg object-cover"
-        />
-        <div className="ml-4 flex-1">
-          <h3 className="text-lg font-bold">
-            {code === "en" ? product.name : product.name_bn}
-          </h3>
-          <p className="mt-1 text-sm text-gray-600">
-            {code === "en"
-              ? product.short_description
-              : product.short_description_bn}
-          </p>
-          <div className="mt-2 flex items-center">
-            <span className="text-yellow-500">★</span>
-            <span className="ml-1 text-sm">
-              {product.rating} ({product.total_review})
-            </span>
-            <img
-              src={`${URLS.country_origin}/${product.country_origin}`}
-              alt="Country flag"
-              className="ml-2 h-6 w-6"
-            />
-          </div>
-          <div className="mt-2 flex items-center">
-            <span className="text-lg font-bold">
-              ৳
-              {code === "en"
-                ? product.selling_price - (product.discount_amount || 0)
-                : product.selling_price - (product.discount_amount || 0)}
-            </span>
-            <span className="ml-2 text-sm text-gray-500 line-through">
-              ৳{product.selling_price}
-            </span>
-            <span className="ml-2 rounded bg-green-100 px-2 py-1 text-sm text-green-800">
-              {product.discount_type === "percentage"
-                ? `${product.discount}%`
-                : `৳${product.discount}`}
-            </span>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-};
 
 const SearchBar = () => {
   const { code } = useLanguage();
@@ -146,28 +89,29 @@ const ProductsSection: React.FC = () => {
   });
 
   return (
-    <div className="mb-6 bg-white p-4">
-      <div className="mb-6">
-        <SearchBar />
+    <section className="bg-card py-4">
+      <div className="container">
+        <div>
+          <div className="mb-4">
+            <SearchBar />
+          </div>
+          {products?.data?.length === 0 ? (
+            <NotFound />
+          ) : (
+            <Carousel opts={{ align: "start", containScroll: "trimSnaps" }}>
+              <CarouselContent>
+                {(products?.data ?? []).map((product: Product) => (
+                  <CarouselItem key={product._id}>
+                    <ProductCard product={product} />
+                  </CarouselItem>
+                ))}
+              </CarouselContent>
+              <CarouselPagination />
+            </Carousel>
+          )}
+        </div>
       </div>
-
-      {products?.data?.length === 0 ? (
-        <NotFound />
-      ) : (
-        <Carousel opts={{ align: "start", containScroll: "trimSnaps" }}>
-          <CarouselContent>
-            {(products?.data ?? []).map((product: Product) => (
-              <CarouselItem
-                key={product._id}
-                className="basis-full md:basis-1/2"
-              >
-                <ProductCard product={product} />
-              </CarouselItem>
-            ))}
-          </CarouselContent>
-        </Carousel>
-      )}
-    </div>
+    </section>
   );
 };
 

@@ -55,7 +55,7 @@ export default function Login() {
           </div>
 
           {/* Form Section */}
-          <div className="absolute top-3/4 left-1/2 w-5/6 -translate-x-1/2 transform rounded-2xl bg-white p-6 shadow-lg md:w-4/5 md:p-12 lg:w-3/5">
+          <div className="bg-card absolute top-3/4 left-1/2 w-5/6 -translate-x-1/2 transform rounded-2xl p-6 shadow-lg md:w-4/5 md:p-12 lg:w-3/5">
             <div className="mb-4 md:mb-8">
               <label htmlFor="email" className="mb-2 block text-gray-700">
                 Email

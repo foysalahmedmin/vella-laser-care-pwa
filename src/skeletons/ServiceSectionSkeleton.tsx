@@ -2,7 +2,7 @@ import React from "react";
 
 const ServiceSectionSkeleton: React.FC = () => {
   return (
-    <div className="mb-4 flex w-full flex-col items-center justify-center bg-white p-4 pb-6">
+    <div className="bg-card mb-4 flex w-full flex-col items-center justify-center p-4 pb-6">
       {/* Top Title Skeleton */}
       <div className="mb-6 flex w-full items-center justify-between px-4">
         <div className="h-7 w-36 animate-pulse rounded bg-gray-200"></div>

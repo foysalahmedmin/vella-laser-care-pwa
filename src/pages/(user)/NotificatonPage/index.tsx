@@ -85,7 +85,7 @@ const NotificationPage = () => {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-white">
+      <div className="bg-card min-h-screen">
         <Header />
         <NotificationSkeleton />
       </div>
@@ -93,7 +93,7 @@ const NotificationPage = () => {
   }
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="bg-card min-h-screen">
       <Header />
       <div className="divide-y divide-gray-200">
         {data?.length ? (

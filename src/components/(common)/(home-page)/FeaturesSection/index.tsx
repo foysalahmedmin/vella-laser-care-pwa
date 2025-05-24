@@ -1,25 +1,32 @@
 // Assuming you have images imported correctly
 import useLanguage from "@/hooks/states/useLanguage";
+import { cn } from "@/lib/utils";
 import { useNavigate } from "react-router";
 
-interface ServiceCardProps {
+interface Feature {
+  _id?: number | string;
   title: string;
   title_bn: string;
   image: string;
   href: string;
 }
+interface FeatureCardProps {
+  feature: Feature;
+  className?: string;
+}
 
-const ServiceCard = ({ title, title_bn, image, href }: ServiceCardProps) => {
+const FeatureCard: React.FC<FeatureCardProps> = ({ feature, className }) => {
+  const { title, title_bn, image, href } = feature;
   const navigate = useNavigate();
   const { code } = useLanguage();
 
   return (
     <div
-      className="flex w-1/3 items-center p-2"
+      className={cn("flex items-center p-2", className)}
       onClick={() => navigate(href)}
       style={{ cursor: "pointer" }}
     >
-      <div className="w-full rounded-md bg-white p-2 text-center">
+      <div className="bg-card w-full space-y-2 rounded-md p-2 text-center">
         <img
           src={image}
           alt={code === "en" ? title : title_bn}
@@ -34,52 +41,40 @@ const ServiceCard = ({ title, title_bn, image, href }: ServiceCardProps) => {
 };
 
 const FeaturesSection = () => {
-  interface Feature {
-    id: number;
-    title: string;
-    title_bn: string;
-    href: string;
-    image: string;
-  }
-
   const services: Feature[] = [
     {
-      id: 1,
+      _id: 1,
       title: "Doctors",
       title_bn: "ডাক্তার",
-      href: "/doctors-home",
+      href: "/doctors",
       image: "/images/icons/circle-doctor.png",
     },
     {
-      id: 2,
+      _id: 2,
       title: "Services",
       title_bn: "সেবাসমূহ",
-      href: "/services-home",
+      href: "/services",
       image: "/images/icons/circle-service.png",
     },
     {
-      id: 3,
+      _id: 3,
       title: "Products",
       title_bn: "পণ্যসমূহ",
-      href: "/products-home",
+      href: "/products",
       image: "/images/icons/circle-product.png",
     },
   ];
 
   return (
-    <div className="my-2 flex w-full items-center justify-center bg-white p-2">
-      <div className="grid w-full grid-cols-3 gap-2">
-        {services.map((service) => (
-          <ServiceCard
-            key={service.id}
-            title={service.title}
-            title_bn={service.title_bn}
-            image={service.image}
-            href={service.href}
-          />
-        ))}
+    <section className="bg-card py-4">
+      <div className="container">
+        <div className="grid w-full grid-cols-3 gap-2">
+          {services.map((feature) => (
+            <FeatureCard key={feature._id} feature={feature} />
+          ))}
+        </div>
       </div>
-    </div>
+    </section>
   );
 };
 

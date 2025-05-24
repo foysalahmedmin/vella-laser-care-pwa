@@ -68,7 +68,7 @@ interface Booking {
 const EmptyAppointmentList = () => {
   const { language } = useLanguage();
   return (
-    <div className="flex h-full flex-col items-center justify-center bg-white p-4">
+    <div className="bg-card flex h-full flex-col items-center justify-center p-4">
       <div className="flex flex-col items-center justify-center gap-4">
         <img
           src="/path-to-no-appointments-image.png"
@@ -104,7 +104,7 @@ const AppointmentCard = ({ item }: { item: Appointment }) => {
           language.code === "en" ? "MMMM DD, YYYY" : "DD MMMM, YYYY",
         )}
       </p>
-      <div className="mt-1 flex items-center justify-between gap-4 rounded-xl bg-white p-4 shadow">
+      <div className="bg-card mt-1 flex items-center justify-between gap-4 rounded-xl p-4 shadow">
         <img
           src={`${URLS.user_photos}/${item.doctor?.photo}`}
           className="h-32 w-32 rounded-md"
@@ -144,7 +144,7 @@ const BookingCard = ({ item }: { item: Booking }) => {
           language.code === "en" ? "MMMM DD, YYYY" : "DD MMMM, YYYY",
         )}
       </p>
-      <div className="mt-1 flex items-center justify-between gap-4 rounded-xl bg-white p-4 shadow">
+      <div className="bg-card mt-1 flex items-center justify-between gap-4 rounded-xl p-4 shadow">
         <img
           src={`${URLS.service_header}/${item.service?.header?.image_1}`}
           className="h-32 w-32 rounded-md"
@@ -178,7 +178,7 @@ const OrderCard = ({ item }: { item: Order }) => {
   const { language } = useLanguage();
 
   return (
-    <div className="mt-1 flex items-center justify-between rounded-lg bg-white p-4 shadow">
+    <div className="bg-card mt-1 flex items-center justify-between rounded-lg p-4 shadow">
       <div className="flex flex-1 items-center gap-4">
         <div className="bg-primary-100 rounded-full p-2">
           <Truck className="text-primary" />
@@ -217,7 +217,7 @@ const Header = () => {
 const SearchBar = () => {
   const { language } = useLanguage();
   return (
-    <div className="border-b bg-white p-4">
+    <div className="bg-card border-b p-4">
       <div className="flex items-center justify-between gap-4">
         <div className="flex h-12 flex-1 items-center rounded-md border border-gray-200">
           <input
@@ -253,7 +253,7 @@ const DashboardCustomer = () => {
   );
 
   return (
-    <div className="flex-1 bg-white">
+    <div className="bg-card flex-1">
       <Header />
       <Tabs value={activeTab} setValue={setActiveTab}>
         <TabsList className="p-2">

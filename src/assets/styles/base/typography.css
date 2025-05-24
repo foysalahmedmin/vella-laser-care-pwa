@@ -3,7 +3,7 @@
 }
 
 body {
-  @apply bg-background text-foreground;
+  @apply text-foreground bg-background;
 }
 
 h1,
@@ -12,22 +12,22 @@ h3,
 h4,
 h5,
 h6 {
-  @apply font-playfair font-bold;
+  @apply font-bold;
 }
 h1 {
-  @apply font-playfair text-4xl font-black;
+  @apply text-3xl font-black;
 }
 h2 {
-  @apply text-3xl;
-}
-h3 {
   @apply text-2xl;
 }
-h4 {
+h3 {
   @apply text-xl;
 }
-h5 {
+h4 {
   @apply text-lg;
+}
+h5 {
+  @apply text-base;
 }
 h6 {
   @apply text-base;

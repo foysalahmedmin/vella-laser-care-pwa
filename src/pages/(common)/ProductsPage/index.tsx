@@ -1,30 +1,13 @@
-import { URLS } from "@/config";
+import ProductCard from "@/components/cards/ProductCard";
 import useLanguage from "@/hooks/states/useLanguage";
 import useUser from "@/hooks/states/useUser";
 import { SetFilterSearch } from "@/redux/slices/product-filter-slice";
 import type { RootState } from "@/redux/store";
 import { fetchFilteredProducts } from "@/services/product.service";
-import { ArrowLeft, Filter, Search, ShoppingCart, Star } from "lucide-react";
+import { ArrowLeft, Filter, Search } from "lucide-react";
 import { useQuery } from "react-query";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router";
-
-// Interfaces
-interface Product {
-  _id: string;
-  media: string;
-  country_origin: string;
-  name: string;
-  name_bn: string;
-  short_description: string;
-  short_description_bn: string;
-  rating: number;
-  discount: number;
-  discount_type: string;
-  discount_amount: number;
-  selling_price: number;
-  total_review: number;
-}
 
 interface SearchSectionProps {
   lang: string;
@@ -38,7 +21,7 @@ const SearchSection: React.FC<SearchSectionProps> = ({ lang }) => {
   const navigate = useNavigate();
 
   return (
-    <div className="bg-white p-4 shadow-sm">
+    <div className="bg-card p-4 shadow-sm">
       <h2 className="mb-4 text-xl font-bold">
         {lang === "en" ? "Search Product" : "পণ্য অনুসন্ধান করুন"}
       </h2>
@@ -77,86 +60,6 @@ const SearchSection: React.FC<SearchSectionProps> = ({ lang }) => {
   );
 };
 
-// Product Card Component
-const ProductCard: React.FC<Product> = ({
-  _id,
-  media,
-  country_origin,
-  name,
-  name_bn,
-  short_description,
-  short_description_bn,
-  rating,
-  discount,
-  discount_type,
-  discount_amount,
-  selling_price,
-  total_review,
-}) => {
-  const { code } = useLanguage();
-  const navigate = useNavigate();
-  const finalPrice = selling_price - (discount_amount || 0);
-
-  return (
-    <article
-      onClick={() => navigate(`/products/${_id}`)}
-      className="cursor-pointer rounded-lg border p-4 transition-shadow hover:shadow-lg"
-    >
-      <div className="flex gap-4">
-        <div className="relative flex-shrink-0">
-          <img
-            src={`${URLS.product_thumbnail}/${media}`}
-            alt={code === "en" ? name : name_bn}
-            className="h-32 w-32 rounded-lg object-cover"
-          />
-          <div className="bg-primary absolute right-2 bottom-2 rounded-full p-1">
-            <ShoppingCart size={16} className="text-white" />
-          </div>
-        </div>
-
-        <div className="flex-1">
-          <h3 className="text-lg font-semibold">
-            {code === "en" ? name : name_bn}
-          </h3>
-          <p className="mb-2 text-sm text-gray-600">
-            {code === "en" ? short_description : short_description_bn}
-          </p>
-
-          <div className="mb-2 flex items-center gap-1">
-            <Star size={16} fill="currentColor" className="text-primary" />
-            <span className="text-sm">
-              {rating} ({total_review})
-            </span>
-            <img
-              src={`${URLS.country_origin}/${country_origin}`}
-              alt="Country flag"
-              className="ml-1 h-4 w-4"
-            />
-          </div>
-
-          <div className="flex items-center gap-2">
-            <span className="text-lg font-bold">
-              ৳{finalPrice.toLocaleString()}
-            </span>
-            {discount > 0 && (
-              <>
-                <span className="text-sm text-gray-500 line-through">
-                  ৳{selling_price.toLocaleString()}
-                </span>
-                <span className="rounded bg-green-500 px-2 py-1 text-sm text-white">
-                  {discount_type === "percentage"
-                    ? `-${discount}%`
-                    : `-৳${discount.toLocaleString()}`}
-                </span>
-              </>
-            )}
-          </div>
-        </div>
-      </div>
-    </article>
-  );
-};
-
 // Main App Search Component
 const ProductsPage: React.FC = () => {
   const { code } = useLanguage();
@@ -188,13 +91,13 @@ const ProductsPage: React.FC = () => {
   });
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="bg-card min-h-screen">
       <SearchSection lang={code} />
       <div className="container mx-auto p-4">
         <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
           {products?.data?.length ? (
             products.data.map((product) => (
-              <ProductCard key={product._id} {...product} />
+              <ProductCard key={product._id} product={product} />
             ))
           ) : (
             <div className="col-span-full py-8 text-center">

@@ -123,7 +123,7 @@ export const FavoritePage = () => {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-white">
+      <div className="bg-card min-h-screen">
         <Header />
         <ProductListSkeleton />
       </div>
@@ -131,7 +131,7 @@ export const FavoritePage = () => {
   }
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="bg-card min-h-screen">
       <Header />
       <div className="divide-y">
         {data?.length ? (

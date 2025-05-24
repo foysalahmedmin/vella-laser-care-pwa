@@ -2,7 +2,7 @@ import React from "react";
 
 const DoctorSectionSkeleton: React.FC = () => {
   return (
-    <div className="mb-2 flex w-full flex-col items-center bg-white p-6">
+    <div className="bg-card mb-2 flex w-full flex-col items-center p-6">
       {/* Header Skeleton */}
       <div className="mb-4 flex w-full flex-row items-center justify-between">
         <div className="h-6 w-32 animate-pulse rounded bg-gray-200" />
