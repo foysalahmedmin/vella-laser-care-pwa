@@ -107,9 +107,11 @@ const Header = () => {
 
   return (
     <header className="border-b border-gray-200 p-4">
-      <h1 className="text-xl font-bold">
-        {code === "en" ? "Favorite" : "পছন্দের পণ্য"}
-      </h1>
+      <div className="container">
+        <h1 className="text-xl font-bold">
+          {code === "en" ? "Favorite" : "পছন্দের পণ্য"}
+        </h1>
+      </div>
     </header>
   );
 };
@@ -131,17 +133,21 @@ export const FavoritePage = () => {
   }
 
   return (
-    <div className="bg-card min-h-screen">
+    <main>
       <Header />
-      <div className="divide-y">
-        {data?.length ? (
-          data.map((product) => (
-            <ProductCard key={product._id} product={product} lang={code} />
-          ))
-        ) : (
-          <NotFound />
-        )}
-      </div>
-    </div>
+      <section className="bg-card min-h-screen">
+        <div className="container">
+          <div className="divide-y">
+            {data?.length ? (
+              data.map((product) => (
+                <ProductCard key={product._id} product={product} lang={code} />
+              ))
+            ) : (
+              <NotFound />
+            )}
+          </div>
+        </div>
+      </section>
+    </main>
   );
 };

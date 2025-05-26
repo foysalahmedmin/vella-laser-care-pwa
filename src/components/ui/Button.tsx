@@ -1,26 +1,18 @@
-"use client";
-
-import useRippleEffect from "@/hooks/ui/useRippleEffect";
 import { cn } from "@/lib/utils";
-import { cva, type VariantProps } from "class-variance-authority";
-import type {
-  ComponentPropsWithoutRef,
-  ElementRef,
-  ElementType,
-  RefObject,
-} from "react";
-import React, { forwardRef, useImperativeHandle, useRef } from "react";
+import type { VariantProps } from "class-variance-authority";
+import { cva } from "class-variance-authority";
+import type { ComponentPropsWithoutRef, ElementType, ReactNode } from "react";
 
-type SupportedElements = "button" | "input" | "textarea" | "select";
+type SupportedElements = "button" | "input" | "textarea" | "select" | "div";
 
-type ButtonProps<T extends ElementType = SupportedElements> = {
-  as?: T | React.ElementType;
+type BaseProps<T extends ElementType = SupportedElements> = {
+  as?: T | ElementType;
   asChild?: boolean;
   isLoading?: boolean;
-  isAnimation?: boolean;
   loadingClassName?: string;
-} & ComponentPropsWithoutRef<T> &
-  VariantProps<typeof buttonVariants>;
+  activeClassName?: string;
+  children?: ReactNode;
+} & ComponentPropsWithoutRef<T>;
 
 const buttonVariants = cva(
   "button animate-pop relative inline-flex cursor-pointer items-center justify-center gap-2 overflow-hidden rounded-none border border-transparent text-base leading-tight whitespace-nowrap transition-all duration-300 ease-in-out active:scale-95 disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50",
@@ -50,75 +42,70 @@ const buttonVariants = cva(
         icon: "rounded-md aspect-square px-0",
         none: "",
       },
-      loading: {
-        center: "loading-center",
-        left: "loading-left",
-        right: "loading-right",
-      },
     },
-
     defaultVariants: {
       variant: "default",
       size: "default",
       shape: "default",
-      loading: "center",
     },
   },
 );
 
-const Button = forwardRef<
-  ElementRef<SupportedElements>,
-  ButtonProps<SupportedElements>
->(
-  (
-    {
-      className = "primary",
-      loadingClassName,
-      variant,
-      size,
-      shape,
-      loading,
-      as = "button",
-      asChild = false,
-      disabled = false,
-      isLoading = false,
-      isAnimation = false,
-      ...props
-    },
-    ref,
-  ) => {
-    const buttonRef = useRef<HTMLButtonElement | null>(null);
+type ButtonProps = BaseProps<"button"> &
+  VariantProps<typeof buttonVariants> & {
+    disabled?: boolean;
+    isAnimation?: boolean;
+  };
 
-    useImperativeHandle(
-      ref,
-      () => buttonRef.current as ElementRef<SupportedElements>,
-    );
-    useRippleEffect(buttonRef as RefObject<HTMLElement>, !isAnimation);
+// Button Root Component
+const ButtonRoot: React.FC<ButtonProps> = ({
+  className = "primary",
+  loadingClassName,
+  variant,
+  size,
+  shape,
+  as = "button",
+  asChild = false,
+  disabled = false,
+  isLoading = false,
+  isAnimation = false,
+  children,
+  ...props
+}) => {
+  const Comp = asChild ? "span" : (as as ElementType);
 
-    const Comp = asChild ? "span" : as;
-    return (
-      <Comp
-        data-as={as || null}
-        disabled={disabled || isLoading}
-        className={cn(
-          buttonVariants({
-            variant,
-            size,
-            shape,
-            loading,
-            className,
-          }),
-          {
-            [cn("loading", loadingClassName)]: isLoading,
-          },
-        )}
-        ref={buttonRef}
-        {...props}
-      />
-    );
-  },
+  return (
+    <Comp
+      data-as={as}
+      disabled={disabled || isLoading}
+      className={cn(buttonVariants({ variant, size, shape, className }), {
+        [cn("loading", loadingClassName)]: isLoading,
+      })}
+      {...props}
+    >
+      {children}
+    </Comp>
+  );
+};
+
+// Button Icon Component
+const ButtonIcon: React.FC<BaseProps> = ({ className, children, ...props }) => (
+  <span className={cn("inline-flex items-center", className)} {...props}>
+    {children}
+  </span>
 );
 
-Button.displayName = "Button";
+// Button Text Component
+const ButtonText: React.FC<BaseProps> = ({ className, children, ...props }) => (
+  <span className={cn("truncate", className)} {...props}>
+    {children}
+  </span>
+);
 
-export { Button, buttonVariants };
+// Button Compound Component
+const Button = Object.assign(ButtonRoot, {
+  Icon: ButtonIcon,
+  Text: ButtonText,
+});
+
+export { Button, buttonVariants, type ButtonProps };

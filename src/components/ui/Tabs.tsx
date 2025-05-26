@@ -2,172 +2,308 @@
 
 import { cn } from "@/lib/utils";
 import type {
-  ForwardedRef,
+  ComponentPropsWithoutRef,
+  ComponentType,
   HTMLAttributes,
   LiHTMLAttributes,
-  ReactNode,
 } from "react";
 import {
   createContext,
-  forwardRef,
+  useCallback,
   useContext,
   useEffect,
   useState,
 } from "react";
 
-// Define types for the tabs context
-type TabsContextType = {
-  value: string | undefined;
-  onTabSelect: (tabValue: string) => void;
+// Core Types
+type TabValue = string | number;
+
+type TabsContextValue = {
+  readonly activeValue: TabValue | undefined;
+  readonly onTabChange: (value: TabValue) => void;
+  readonly isAnimating: boolean;
 };
 
-// tabs context //
-export const TabsContext = createContext<TabsContextType | null>(null);
+type BaseProps = ComponentPropsWithoutRef<"div">;
 
-export const useTabs = () => {
+type TabsRootProps = BaseProps &
+  Omit<HTMLAttributes<HTMLDivElement>, "children"> & {
+    readonly value?: TabValue;
+    readonly defaultValue?: TabValue;
+    readonly onValueChange?: (value: TabValue) => void;
+  };
+
+type TabsListProps = BaseProps &
+  Omit<HTMLAttributes<HTMLUListElement>, "children">;
+
+type TabsTriggerProps = BaseProps &
+  Omit<LiHTMLAttributes<HTMLLIElement>, "children" | "onClick"> & {
+    readonly value: TabValue;
+    readonly disabled?: boolean;
+    readonly isLoading?: boolean;
+    readonly activeClassName?: string;
+    readonly onClick?: (e: React.MouseEvent<HTMLLIElement>) => void;
+  };
+
+type TabsContentProps = BaseProps &
+  Omit<HTMLAttributes<HTMLDivElement>, "children">;
+
+type TabsItemProps = BaseProps &
+  Omit<HTMLAttributes<HTMLDivElement>, "children"> & {
+    readonly value: TabValue;
+    readonly activeClassName?: string;
+  };
+
+// Context Setup
+const TabsContext = createContext<TabsContextValue | null>(null);
+
+const useTabs = (): TabsContextValue => {
   const context = useContext(TabsContext);
 
   if (!context) {
-    throw new Error("useTabs must be used within a <Tabs />");
+    throw new Error("Tabs compound components must be used within <Tabs.Root>");
   }
 
   return context;
 };
 
-interface TabsProps extends HTMLAttributes<HTMLDivElement> {
-  value?: string;
-  setValue?: (tabValue: string) => void;
-  children: ReactNode;
-}
+// Root Component
+const TabsRoot = ({
+  className,
+  value: controlledValue,
+  defaultValue,
+  onValueChange,
+  children,
+  ...props
+}: TabsRootProps) => {
+  const [activeValue, setActiveValue] = useState<TabValue | undefined>(
+    controlledValue ?? defaultValue,
+  );
+  const [isAnimating, setIsAnimating] = useState(false);
 
-const Tabs = forwardRef<HTMLDivElement, TabsProps>(
-  (
-    { className, value: valueProp, setValue: setValueProp, children, ...props },
-    ref: ForwardedRef<HTMLDivElement>,
-  ) => {
-    const [value, setValue] = useState(valueProp);
+  const handleTabChange = useCallback(
+    (value: TabValue) => {
+      if (value === activeValue) return;
 
-    const onTabSelect = (tabValue: string) => {
-      setValue(tabValue);
-      if (setValueProp) {
-        setValueProp(tabValue);
-      }
-    };
+      setIsAnimating(true);
+      setActiveValue(value);
+      onValueChange?.(value);
 
-    useEffect(() => {
-      if (valueProp !== undefined) {
-        setValue(valueProp);
-      }
-    }, [valueProp]);
+      // Reset animation state after transition
+      setTimeout(() => setIsAnimating(false), 200);
+    },
+    [activeValue, onValueChange],
+  );
 
-    return (
-      <TabsContext.Provider
-        value={{
-          value,
-          onTabSelect,
-        }}
-      >
-        <div ref={ref} className={cn("relative", className)} {...props}>
-          {children}
-        </div>
-      </TabsContext.Provider>
-    );
-  },
-);
-Tabs.displayName = "Tabs";
+  useEffect(() => {
+    if (controlledValue !== undefined) {
+      setActiveValue(controlledValue);
+    }
+  }, [controlledValue]);
 
-// tabs contents //
-type TabsListProps = HTMLAttributes<HTMLUListElement>;
+  const contextValue: TabsContextValue = {
+    activeValue,
+    onTabChange: handleTabChange,
+    isAnimating,
+  };
 
-const TabsList = forwardRef<HTMLUListElement, TabsListProps>(
-  ({ className, ...props }, ref: ForwardedRef<HTMLUListElement>) => {
-    return (
-      <ul
-        ref={ref}
-        className={cn(
-          "flex items-center justify-center gap-1 overflow-x-auto",
-          className,
-        )}
-        {...props}
-      />
-    );
-  },
-);
-TabsList.displayName = "TabsList";
+  return (
+    <TabsContext.Provider value={contextValue}>
+      <div className={cn("relative w-full", className)} {...props}>
+        {children}
+      </div>
+    </TabsContext.Provider>
+  );
+};
 
-interface TabsTriggerProps extends LiHTMLAttributes<HTMLLIElement> {
-  activeClassName?: string;
-  value?: string;
-  disabled?: boolean;
-  isLoading?: boolean;
-}
+// List Component
+const TabsList = ({ className, children, ...props }: TabsListProps) => {
+  return (
+    <ul
+      role="tablist"
+      className={cn(
+        "scrollbar-hide flex items-center justify-center gap-1 overflow-x-auto",
+        "border-b border-gray-200 dark:border-gray-700",
+        className,
+      )}
+      {...props}
+    >
+      {children}
+    </ul>
+  );
+};
 
-const TabsTrigger = forwardRef<HTMLLIElement, TabsTriggerProps>(
-  (
-    { className, activeClassName, value, disabled, isLoading, ...props },
-    ref: ForwardedRef<HTMLLIElement>,
-  ) => {
-    const { value: contextValue, onTabSelect } = useTabs();
-    return (
-      <li
-        ref={ref}
-        onClick={() =>
-          !disabled &&
-          !isLoading &&
-          value !== undefined &&
-          value !== null &&
-          onTabSelect(value)
+// Trigger Component
+const TabsTrigger = ({
+  className,
+  activeClassName,
+  value,
+  disabled = false,
+  isLoading = false,
+  children,
+  ...props
+}: TabsTriggerProps) => {
+  const { activeValue, onTabChange } = useTabs();
+  const isActive = value === activeValue;
+  const isInteractive = !disabled && !isLoading;
+
+  const handleClick = useCallback(() => {
+    if (isInteractive) {
+      onTabChange(value);
+    }
+  }, [isInteractive, onTabChange, value]);
+
+  return (
+    <li
+      role="tab"
+      tabIndex={isInteractive ? 0 : -1}
+      aria-selected={isActive}
+      aria-disabled={disabled}
+      data-state={isActive ? "active" : "inactive"}
+      data-disabled={disabled}
+      data-loading={isLoading}
+      onClick={handleClick}
+      onKeyDown={(e) => {
+        if ((e.key === "Enter" || e.key === " ") && isInteractive) {
+          e.preventDefault();
+          handleClick();
         }
-        data-state={value === contextValue ? "active" : "inactive"}
-        className={cn(
-          "hover-underline-overlay text-title after:border-title cursor-pointer after:mx-auto after:origin-center disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50",
-          className,
-          {
-            [cn(
-              "text-primary after:border-primary cursor-default after:w-full",
-              activeClassName,
-            )]: value === contextValue,
-          },
-        )}
-        // disabled={disabled || isLoading}
-        {...props}
-      />
-    );
-  },
-);
-TabsTrigger.displayName = "TabsTrigger";
+      }}
+      className={cn(
+        // Base styles
+        "relative cursor-pointer px-4 py-2 text-sm font-medium",
+        "transition-all duration-200 ease-in-out",
+        "hover:text-primary focus:ring-primary/20 focus:ring-2 focus:outline-none",
+        "before:absolute before:bottom-0 before:left-0 before:h-0.5 before:w-full",
+        "before:bg-primary before:scale-x-0 before:transform before:transition-transform before:duration-200",
 
-type TabsContentProps = HTMLAttributes<HTMLDivElement>;
+        // Inactive state
+        "text-gray-600 dark:text-gray-400",
 
-const TabsContent = forwardRef<HTMLDivElement, TabsContentProps>(
-  ({ className, ...props }, ref: ForwardedRef<HTMLDivElement>) => {
-    return <div ref={ref} className={cn("", className)} {...props} />;
-  },
-);
-TabsContent.displayName = "TabsContent";
+        // Active state
+        isActive && [
+          "text-primary dark:text-primary",
+          "before:scale-x-100",
+          activeClassName,
+        ],
 
-interface TabsItemProps extends HTMLAttributes<HTMLDivElement> {
-  activeClassName?: string;
-  value?: string;
-}
+        // Disabled state
+        disabled && [
+          "cursor-not-allowed opacity-50",
+          "hover:text-gray-600 dark:hover:text-gray-400",
+        ],
 
-const TabsItem = forwardRef<HTMLDivElement, TabsItemProps>(
-  (
-    { className, activeClassName, value, ...props },
-    ref: ForwardedRef<HTMLDivElement>,
-  ) => {
-    const { value: contextValue } = useTabs();
-    return (
-      <div
-        ref={ref}
-        className={cn("hidden", className, {
-          [cn("block", activeClassName)]: value === contextValue,
-        })}
-        {...props}
-      />
-    );
-  },
-);
-TabsItem.displayName = "TabsItem";
+        // Loading state
+        isLoading && "cursor-wait",
 
-export { Tabs, TabsContent, TabsItem, TabsList, TabsTrigger };
+        className,
+      )}
+      {...props}
+    >
+      <span
+        className={cn("transition-all duration-200", isLoading && "opacity-50")}
+      >
+        {children}
+      </span>
+
+      {isLoading && (
+        <span className="absolute inset-0 flex items-center justify-center">
+          <span className="h-4 w-4 animate-spin rounded-full border-2 border-current border-t-transparent" />
+        </span>
+      )}
+    </li>
+  );
+};
+
+// Content Container Component
+const TabsContent = ({ className, children, ...props }: TabsContentProps) => {
+  const { isAnimating } = useTabs();
+
+  return (
+    <div
+      role="tabpanel"
+      className={cn(
+        "mt-4 transition-opacity duration-200",
+        isAnimating && "opacity-90",
+        className,
+      )}
+      {...props}
+    >
+      {children}
+    </div>
+  );
+};
+
+// Individual Tab Content Item
+const TabsItem = ({
+  className,
+  activeClassName,
+  value,
+  children,
+  ...props
+}: TabsItemProps) => {
+  const { activeValue, isAnimating } = useTabs();
+  const isActive = value === activeValue;
+
+  if (!isActive) {
+    return null;
+  }
+
+  return (
+    <div
+      role="tabpanel"
+      aria-labelledby={`tab-${value}`}
+      data-state="active"
+      className={cn(
+        "animate-in fade-in-0 slide-in-from-bottom-1 duration-200",
+        isAnimating && "animate-out fade-out-0 slide-out-to-top-1",
+        activeClassName,
+        className,
+      )}
+      {...props}
+    >
+      {children}
+    </div>
+  );
+};
+
+// Compound Component Structure using Object.assign
+type TabsComponent = ComponentType<TabsRootProps> & {
+  Root: ComponentType<TabsRootProps>;
+  List: ComponentType<TabsListProps>;
+  Trigger: ComponentType<TabsTriggerProps>;
+  Content: ComponentType<TabsContentProps>;
+  Item: ComponentType<TabsItemProps>;
+};
+
+const Tabs = TabsRoot as TabsComponent;
+
+// Assign compound components
+Object.assign(Tabs, {
+  Root: TabsRoot,
+  List: TabsList,
+  Trigger: TabsTrigger,
+  Content: TabsContent,
+  Item: TabsItem,
+});
+
+// Export everything
+export {
+  Tabs,
+  TabsContent,
+  TabsItem,
+  TabsList,
+  TabsRoot,
+  TabsTrigger,
+  useTabs,
+};
+
+export type {
+  TabsContentProps,
+  TabsContextValue,
+  TabsItemProps,
+  TabsListProps,
+  TabsRootProps,
+  TabsTriggerProps,
+  TabValue,
+};

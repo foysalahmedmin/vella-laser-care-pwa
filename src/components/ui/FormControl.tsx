@@ -2,22 +2,19 @@
 
 import { cn } from "@/lib/utils";
 import { cva, type VariantProps } from "class-variance-authority";
-import type { ElementType } from "react";
-import React, {
-  forwardRef,
-  type ComponentPropsWithoutRef,
-  type ElementRef,
-} from "react";
+import type { ComponentPropsWithoutRef, ElementType, ReactNode } from "react";
+import React from "react";
 
 type SupportedElements = "input" | "textarea" | "select";
 
-type FormControlProps<T extends ElementType = SupportedElements> = {
-  as?: T | React.ElementType;
+type BaseProps<T extends ElementType = SupportedElements> = {
+  as?: T | ElementType;
   asChild?: boolean;
   isLoading?: boolean;
   loadingClassName?: string;
-} & ComponentPropsWithoutRef<T> &
-  VariantProps<typeof formControlVariants>;
+  activeClassName?: string;
+  children?: ReactNode;
+} & ComponentPropsWithoutRef<T>;
 
 const formControlVariants = cva(
   "flex w-full rounded-md file:border-0 disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50",
@@ -42,11 +39,6 @@ const formControlVariants = cva(
         lg: "h-12 px-6 text-base file:text-base",
         none: "",
       },
-      loading: {
-        center: "loading-center",
-        left: "loading-left",
-        right: "loading-right",
-      },
     },
     defaultVariants: {
       variant: "default",
@@ -55,49 +47,78 @@ const formControlVariants = cva(
   },
 );
 
-const FormControl = forwardRef<
-  ElementRef<SupportedElements>,
-  FormControlProps<SupportedElements>
->(
-  (
-    {
-      className = "primary",
-      loadingClassName,
-      variant,
-      size,
-      loading,
-      as = "input",
-      asChild = false,
-      disabled = false,
-      isLoading = false,
-      ...props
-    },
-    ref,
-  ) => {
-    const Comp = (asChild ? "span" : as || "input") as ElementType;
+type FormControlProps = BaseProps<"input"> &
+  VariantProps<typeof formControlVariants> & {
+    disabled?: boolean;
+  };
 
-    return (
-      <Comp
-        data-as={as || null}
-        disabled={disabled || isLoading}
-        className={cn(
-          formControlVariants({
-            variant,
-            size,
-            loading,
-            className,
-          }),
-          {
-            [cn("loading", loadingClassName)]: isLoading,
-          },
-        )}
-        ref={ref}
-        {...props}
-      />
-    );
-  },
+// FormControl Root Component
+const FormControlRoot: React.FC<FormControlProps> = ({
+  className = "primary",
+  loadingClassName,
+  variant,
+  size,
+  as = "input",
+  asChild = false,
+  disabled = false,
+  isLoading = false,
+  ...props
+}) => {
+  const Comp = asChild ? "span" : (as as ElementType);
+
+  return (
+    <Comp
+      data-as={as}
+      disabled={disabled || isLoading}
+      className={cn(formControlVariants({ variant, size, className }), {
+        [cn("loading", loadingClassName)]: isLoading,
+      })}
+      {...props}
+    />
+  );
+};
+
+// FormControl Label Component
+const FormControlLabel: React.FC<BaseProps<"label">> = ({
+  className,
+  children,
+  ...props
+}) => (
+  <label
+    className={cn("mb-1 block text-sm font-medium text-gray-700", className)}
+    {...props}
+  >
+    {children}
+  </label>
 );
 
-FormControl.displayName = "FormControl";
+// FormControl Error Component
+const FormControlError: React.FC<BaseProps<"div">> = ({
+  className,
+  children,
+  ...props
+}) => (
+  <div className={cn("mt-1 text-sm text-red-600", className)} {...props}>
+    {children}
+  </div>
+);
 
-export { FormControl, formControlVariants };
+// FormControl Helper Component
+const FormControlHelper: React.FC<BaseProps<"div">> = ({
+  className,
+  children,
+  ...props
+}) => (
+  <div className={cn("mt-1 text-sm text-gray-500", className)} {...props}>
+    {children}
+  </div>
+);
+
+// FormControl Compound Component
+const FormControl = Object.assign(FormControlRoot, {
+  Label: FormControlLabel,
+  Error: FormControlError,
+  Helper: FormControlHelper,
+});
+
+export { FormControl, formControlVariants, type FormControlProps };

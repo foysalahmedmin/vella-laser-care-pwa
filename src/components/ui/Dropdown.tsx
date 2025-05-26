@@ -1,68 +1,202 @@
-import { useClickOutside } from "@/hooks/ui/useClickOutside";
+import type { OverlayState } from "@/hooks/ui/useOverlayState";
+import useOverlayState from "@/hooks/ui/useOverlayState";
 import { cn } from "@/lib/utils";
-import { cva, type VariantProps } from "class-variance-authority";
-import {
-  forwardRef,
-  useRef,
-  type ComponentPropsWithoutRef,
-  type ReactNode,
-} from "react";
+import type { VariantProps } from "class-variance-authority";
+import { cva } from "class-variance-authority";
+import type { ComponentPropsWithoutRef, ElementType } from "react";
+import { createContext, useContext } from "react";
+import type { ButtonProps } from "./Button";
+import { Button } from "./Button";
 
-const dropdownVariants = cva(
-  "transition-[opacity,transform] z-30 absolute duration-300 bg-card origin-center text-card-foreground border rounded-md",
-  {
-    variants: {
-      side: {
-        left: "-left-2 -translate-x-full top-1/2 -translate-y-1/2 origin-right",
-        right: "-right-2 translate-x-full top-1/2 -translate-y-1/2 origin-left",
-        top: "-top-2 -translate-y-full left-1/2 -translate-x-1/2 origin-bottom",
-        bottom:
-          "-bottom-2 translate-y-full left-1/2 -translate-x-1/2 origin-top",
-      },
-    },
-    defaultVariants: {
-      side: "bottom",
+type BaseProps<T extends ElementType = "div"> = {
+  activeClassName?: string;
+} & ComponentPropsWithoutRef<T>;
+
+const dropdownVariants = cva("relative", {
+  variants: {
+    variant: {
+      default: "",
+      none: "",
     },
   },
-);
+  defaultVariants: {
+    variant: "default",
+  },
+});
 
-export type DropdownVariants = VariantProps<typeof dropdownVariants>;
+const dropdownContentVariants = cva("absolute z-50 shadow-lg", {
+  variants: {
+    variant: {
+      default: "border border-gray-200 bg-white rounded-lg p-1",
+      none: "",
+    },
+    side: {
+      top: "bottom-full left-0 mb-1 origin-top",
+      bottom: "top-full left-0 mt-1 origin-bottom",
+      left: "right-full top-0 mr-1 origin-left",
+      right: "left-full top-0 ml-1 origin-right",
+    },
+  },
+  defaultVariants: {
+    variant: "default",
+    side: "bottom",
+  },
+});
 
-export interface DropdownProps
-  extends ComponentPropsWithoutRef<"div">,
-    DropdownVariants {
-  onClose: () => void;
-  isOpen: boolean;
-  children: ReactNode;
-}
+type DropdownContextType = OverlayState &
+  VariantProps<typeof dropdownVariants> &
+  VariantProps<typeof dropdownContentVariants>;
 
-const Dropdown = forwardRef<HTMLDivElement, DropdownProps>(
-  ({ onClose, isOpen, children, className, side, ...props }, ref) => {
-    const internalRef = useRef<HTMLDivElement>(null);
-    useClickOutside(internalRef as any, onClose);
+type DropdownProps = BaseProps &
+  VariantProps<typeof dropdownVariants> &
+  VariantProps<typeof dropdownContentVariants> & {
+    isOpen?: boolean;
+    setIsOpen?: (open: boolean) => void;
+    asPortal?: boolean;
+  };
 
-    return (
+const DropdownContext = createContext<DropdownContextType | null>(null);
+
+const useDropdown = () => {
+  const context = useContext(DropdownContext);
+  if (!context) {
+    throw new Error("useDropdown must be used within a <Dropdown />");
+  }
+  return context;
+};
+
+// Dropdown Root Component
+const DropdownRoot: React.FC<DropdownProps> = ({
+  className,
+  activeClassName,
+  variant,
+  side,
+  isOpen: isOpenProp,
+  setIsOpen: setIsOpenProp,
+  children,
+  asPortal = false,
+  ...props
+}) => {
+  const overlayState = useOverlayState(isOpenProp, setIsOpenProp);
+
+  return (
+    <DropdownContext.Provider value={{ ...overlayState, variant, side }}>
       <div
-        className={cn(dropdownVariants({ side, className }), {
-          "animate-pop scale-0 opacity-0": !isOpen,
-          "animate-pop scale-100 opacity-100": isOpen,
+        className={cn(dropdownVariants({ variant, className }), {
+          [cn("open", activeClassName)]: overlayState.isOpen,
         })}
-        ref={(node) => {
-          internalRef.current = node;
-          if (typeof ref === "function") {
-            ref(node);
-          } else if (ref) {
-            ref.current = node;
-          }
-        }}
         {...props}
       >
         {children}
       </div>
-    );
-  },
+    </DropdownContext.Provider>
+  );
+};
+
+// Dropdown Content Component
+const DropdownContent: React.FC<
+  BaseProps & VariantProps<typeof dropdownContentVariants>
+> = ({ className, activeClassName, variant, side, children, ...props }) => {
+  const { isOpen, variant: contextVariant, side: contextSide } = useDropdown();
+
+  return (
+    <div
+      className={cn(
+        dropdownContentVariants({
+          variant: variant ?? contextVariant,
+          side: side ?? contextSide,
+          className,
+        }),
+        {
+          [cn("visible scale-100 opacity-100", activeClassName)]: isOpen,
+          "invisible scale-95 opacity-0": !isOpen,
+        },
+      )}
+      {...props}
+    >
+      {children}
+    </div>
+  );
+};
+
+// Dropdown Item Component
+const DropdownItem: React.FC<BaseProps<"button"> & { disabled?: boolean }> = ({
+  className,
+  disabled = false,
+  children,
+  onClick,
+  ...props
+}) => {
+  const { onClose } = useDropdown();
+
+  return (
+    <button
+      className={cn(
+        "w-full rounded-md px-3 py-2 text-left text-sm hover:bg-gray-100 focus:bg-gray-100 focus:outline-none disabled:cursor-not-allowed disabled:opacity-50",
+        className,
+      )}
+      disabled={disabled}
+      onClick={(e) => {
+        onClick?.(e);
+        onClose();
+      }}
+      {...props}
+    >
+      {children}
+    </button>
+  );
+};
+
+// Dropdown Separator Component
+const DropdownSeparator: React.FC<BaseProps> = ({ className, ...props }) => (
+  <div className={cn("my-1 h-px bg-gray-200", className)} {...props} />
 );
 
-Dropdown.displayName = "Dropdown";
+// Dropdown Label Component
+const DropdownLabel: React.FC<BaseProps> = ({
+  className,
+  children,
+  ...props
+}) => (
+  <div
+    className={cn(
+      "px-3 py-2 text-xs font-medium tracking-wider text-gray-500 uppercase",
+      className,
+    )}
+    {...props}
+  >
+    {children}
+  </div>
+);
 
-export { Dropdown, dropdownVariants };
+// Dropdown Trigger Component
+const DropdownTrigger: React.FC<ButtonProps> = ({ onClick, ...props }) => {
+  const { onToggle } = useDropdown();
+
+  return (
+    <Button
+      onClick={(e) => {
+        onToggle();
+        onClick?.(e);
+      }}
+      {...props}
+    />
+  );
+};
+
+// Dropdown Compound Component
+const Dropdown = Object.assign(DropdownRoot, {
+  Content: DropdownContent,
+  Item: DropdownItem,
+  Separator: DropdownSeparator,
+  Label: DropdownLabel,
+  Trigger: DropdownTrigger,
+});
+
+export {
+  Dropdown,
+  dropdownContentVariants,
+  dropdownVariants,
+  useDropdown,
+  type DropdownProps,
+};
