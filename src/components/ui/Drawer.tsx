@@ -1,10 +1,13 @@
+"use client";
+
+import { useClickOutside } from "@/hooks/ui/useClickOutside";
 import type { OverlayState } from "@/hooks/ui/useOverlayState";
 import useOverlayState from "@/hooks/ui/useOverlayState";
 import { cn } from "@/lib/utils";
 import { cva, type VariantProps } from "class-variance-authority";
 import { X } from "lucide-react";
 import type { ComponentProps } from "react";
-import React, { createContext, useContext } from "react";
+import React, { createContext, useContext, useRef } from "react";
 import type { ButtonProps } from "./Button";
 import { Button } from "./Button";
 
@@ -174,13 +177,16 @@ const DrawerContent: React.FC<DrawerContentProps> = ({
   children,
   ...props
 }) => {
-  const { isOpen } = useDrawer();
+  const { isOpen, onClose } = useDrawer();
+  const componentRef = useRef<HTMLDivElement>(null!);
+  useClickOutside<HTMLDivElement>(componentRef, onClose);
 
   return (
     <div
       className={cn(drawerContentVariants({ variant, size, side, className }), {
         [cn("translate-x-0", activeClassName)]: isOpen,
       })}
+      ref={componentRef}
       {...props}
     >
       {children}

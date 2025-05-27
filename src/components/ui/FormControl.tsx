@@ -2,7 +2,7 @@
 
 import { cn } from "@/lib/utils";
 import { cva, type VariantProps } from "class-variance-authority";
-import type { ComponentPropsWithoutRef, ElementType, ReactNode } from "react";
+import type { ComponentProps, ElementType, ReactNode } from "react";
 import React from "react";
 
 type SupportedElements = "input" | "textarea" | "select";
@@ -14,7 +14,7 @@ type BaseProps<T extends ElementType = SupportedElements> = {
   loadingClassName?: string;
   activeClassName?: string;
   children?: ReactNode;
-} & ComponentPropsWithoutRef<T>;
+} & ComponentProps<T>;
 
 const formControlVariants = cva(
   "flex w-full rounded-md file:border-0 disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50",
@@ -79,39 +79,31 @@ const FormControlRoot: React.FC<FormControlProps> = ({
 };
 
 // FormControl Label Component
-const FormControlLabel: React.FC<BaseProps<"label">> = ({
+const FormControlLabel: React.FC<ComponentProps<"label">> = ({
   className,
-  children,
   ...props
 }) => (
   <label
-    className={cn("mb-1 block text-sm font-medium text-gray-700", className)}
+    className={cn("mb-1 block text-sm font-medium", className)}
     {...props}
-  >
-    {children}
-  </label>
+  />
 );
 
 // FormControl Error Component
-const FormControlError: React.FC<BaseProps<"div">> = ({
+const FormControlError: React.FC<ComponentProps<"div">> = ({
   className,
-  children,
   ...props
-}) => (
-  <div className={cn("mt-1 text-sm text-red-600", className)} {...props}>
-    {children}
-  </div>
-);
+}) => <div className={cn("mt-1 text-sm text-red-500", className)} {...props} />;
 
 // FormControl Helper Component
-const FormControlHelper: React.FC<BaseProps<"div">> = ({
+const FormControlHelper: React.FC<ComponentProps<"div">> = ({
   className,
-  children,
   ...props
 }) => (
-  <div className={cn("mt-1 text-sm text-gray-500", className)} {...props}>
-    {children}
-  </div>
+  <div
+    className={cn("text-muted-foreground mt-1 text-sm", className)}
+    {...props}
+  />
 );
 
 // FormControl Compound Component

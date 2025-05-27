@@ -1,7 +1,9 @@
+"use client";
+
 import { cn } from "@/lib/utils";
 import type { VariantProps } from "class-variance-authority";
 import { cva } from "class-variance-authority";
-import type { ComponentPropsWithoutRef, ElementType, ReactNode } from "react";
+import type { ComponentProps, ElementType, ReactNode } from "react";
 
 type SupportedElements = "button" | "input" | "textarea" | "select" | "div";
 
@@ -12,7 +14,7 @@ type BaseProps<T extends ElementType = SupportedElements> = {
   loadingClassName?: string;
   activeClassName?: string;
   children?: ReactNode;
-} & ComponentPropsWithoutRef<T>;
+} & ComponentProps<T>;
 
 const buttonVariants = cva(
   "button animate-pop relative inline-flex cursor-pointer items-center justify-center gap-2 overflow-hidden rounded-none border border-transparent text-base leading-tight whitespace-nowrap transition-all duration-300 ease-in-out active:scale-95 disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50",
@@ -89,14 +91,22 @@ const ButtonRoot: React.FC<ButtonProps> = ({
 };
 
 // Button Icon Component
-const ButtonIcon: React.FC<BaseProps> = ({ className, children, ...props }) => (
+const ButtonIcon: React.FC<ComponentProps<"span">> = ({
+  className,
+  children,
+  ...props
+}) => (
   <span className={cn("inline-flex items-center", className)} {...props}>
     {children}
   </span>
 );
 
 // Button Text Component
-const ButtonText: React.FC<BaseProps> = ({ className, children, ...props }) => (
+const ButtonText: React.FC<ComponentProps<"span">> = ({
+  className,
+  children,
+  ...props
+}) => (
   <span className={cn("truncate", className)} {...props}>
     {children}
   </span>

@@ -1,3 +1,5 @@
+"use client";
+
 import type { OverlayState } from "@/hooks/ui/useOverlayState";
 import useOverlayState from "@/hooks/ui/useOverlayState";
 import { cn } from "@/lib/utils";

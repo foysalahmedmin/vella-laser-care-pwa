@@ -1,3 +1,5 @@
+"use client";
+
 import * as icons from "lucide-react";
 import React from "react";
 
