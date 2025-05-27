@@ -3,14 +3,10 @@ import useOverlayState from "@/hooks/ui/useOverlayState";
 import { cn } from "@/lib/utils";
 import type { VariantProps } from "class-variance-authority";
 import { cva } from "class-variance-authority";
-import type { ComponentPropsWithoutRef, ElementType } from "react";
+import type { ComponentProps } from "react";
 import { createContext, useContext } from "react";
 import type { ButtonProps } from "./Button";
 import { Button } from "./Button";
-
-type BaseProps<T extends ElementType = "div"> = {
-  activeClassName?: string;
-} & ComponentPropsWithoutRef<T>;
 
 const dropdownVariants = cva("relative", {
   variants: {
@@ -46,13 +42,18 @@ const dropdownContentVariants = cva("absolute z-50 shadow-lg", {
 type DropdownContextType = OverlayState &
   VariantProps<typeof dropdownVariants> &
   VariantProps<typeof dropdownContentVariants>;
-
-type DropdownProps = BaseProps &
+type DropdownProps = ComponentProps<"div"> &
   VariantProps<typeof dropdownVariants> &
   VariantProps<typeof dropdownContentVariants> & {
-    isOpen?: boolean;
-    setIsOpen?: (open: boolean) => void;
-    asPortal?: boolean;
+    readonly isOpen?: boolean;
+    readonly setIsOpen?: (open: boolean) => void;
+    readonly asPortal?: boolean;
+    readonly activeClassName?: string;
+  };
+
+type DropdownContentProps = ComponentProps<"div"> &
+  VariantProps<typeof dropdownContentVariants> & {
+    readonly activeClassName?: boolean;
   };
 
 const DropdownContext = createContext<DropdownContextType | null>(null);
@@ -94,9 +95,14 @@ const DropdownRoot: React.FC<DropdownProps> = ({
 };
 
 // Dropdown Content Component
-const DropdownContent: React.FC<
-  BaseProps & VariantProps<typeof dropdownContentVariants>
-> = ({ className, activeClassName, variant, side, children, ...props }) => {
+const DropdownContent: React.FC<DropdownContentProps> = ({
+  className,
+  activeClassName,
+  variant,
+  side,
+  children,
+  ...props
+}) => {
   const { isOpen, variant: contextVariant, side: contextSide } = useDropdown();
 
   return (
@@ -120,7 +126,7 @@ const DropdownContent: React.FC<
 };
 
 // Dropdown Item Component
-const DropdownItem: React.FC<BaseProps<"button"> & { disabled?: boolean }> = ({
+const DropdownItem: React.FC<ComponentProps<"button">> = ({
   className,
   disabled = false,
   children,
@@ -148,12 +154,13 @@ const DropdownItem: React.FC<BaseProps<"button"> & { disabled?: boolean }> = ({
 };
 
 // Dropdown Separator Component
-const DropdownSeparator: React.FC<BaseProps> = ({ className, ...props }) => (
-  <div className={cn("my-1 h-px bg-gray-200", className)} {...props} />
-);
+const DropdownSeparator: React.FC<ComponentProps<"div">> = ({
+  className,
+  ...props
+}) => <div className={cn("my-1 h-px bg-gray-200", className)} {...props} />;
 
 // Dropdown Label Component
-const DropdownLabel: React.FC<BaseProps> = ({
+const DropdownLabel: React.FC<ComponentProps<"div">> = ({
   className,
   children,
   ...props
@@ -198,5 +205,6 @@ export {
   dropdownContentVariants,
   dropdownVariants,
   useDropdown,
+  type DropdownContentProps,
   type DropdownProps,
 };

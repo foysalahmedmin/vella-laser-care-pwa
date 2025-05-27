@@ -4,18 +4,10 @@ import { cn } from "@/lib/utils";
 import type { VariantProps } from "class-variance-authority";
 import { cva } from "class-variance-authority";
 import { X } from "lucide-react";
-import {
-  createContext,
-  useContext,
-  type ComponentPropsWithoutRef,
-  type ElementType,
-} from "react";
+import type { ComponentProps } from "react";
+import { createContext, useContext } from "react";
 import type { ButtonProps } from "./Button";
 import { Button } from "./Button";
-
-type BaseProps<T extends ElementType = "div"> = {
-  activeClassName?: string;
-} & ComponentPropsWithoutRef<T>;
 
 const modalVariants = cva(
   "fixed inset-0 z-[1000] invisible opacity-0 transition-all duration-200 ease-in-out",
@@ -86,13 +78,21 @@ const modalContentVariants = cva(
 type ModalContextType = OverlayState &
   VariantProps<typeof modalVariants> &
   VariantProps<typeof modalContentVariants>;
-
-type ModalProps = BaseProps &
+type ModalProps = ComponentProps<"div"> &
   VariantProps<typeof modalVariants> &
   VariantProps<typeof modalContentVariants> & {
-    isOpen?: boolean;
-    setIsOpen?: (open: boolean) => void;
-    asPortal?: boolean;
+    readonly isOpen?: boolean;
+    readonly setIsOpen?: (open: boolean) => void;
+    readonly asPortal?: boolean;
+    readonly activeClassName?: string;
+  };
+type ModalBackdropProps = ComponentProps<"div"> &
+  VariantProps<typeof modalBackdropVariants> & {
+    readonly activeClassName?: string;
+  };
+type ModalContentProps = ComponentProps<"div"> &
+  VariantProps<typeof modalContentVariants> & {
+    readonly activeClassName?: string;
   };
 
 const ModalContext = createContext<ModalContextType | null>(null);
@@ -135,9 +135,14 @@ const ModalRoot: React.FC<ModalProps> = ({
 };
 
 // Modal Backdrop Component
-const ModalBackdrop: React.FC<
-  BaseProps & VariantProps<typeof modalBackdropVariants>
-> = ({ className, activeClassName, variant, size, children, ...props }) => {
+const ModalBackdrop: React.FC<ModalBackdropProps> = ({
+  className,
+  activeClassName,
+  variant,
+  size,
+  children,
+  ...props
+}) => {
   const { isOpen, onClose } = useModal();
 
   return (
@@ -158,9 +163,7 @@ const ModalBackdrop: React.FC<
 };
 
 // Modal Content Component
-const ModalContent: React.FC<
-  BaseProps & VariantProps<typeof modalContentVariants>
-> = ({
+const ModalContent: React.FC<ModalContentProps> = ({
   className,
   activeClassName,
   variant,
@@ -184,7 +187,7 @@ const ModalContent: React.FC<
 };
 
 // Modal Header Component
-const ModalHeader: React.FC<BaseProps> = ({
+const ModalHeader: React.FC<ComponentProps<"div">> = ({
   className,
   children,
   ...props
@@ -198,7 +201,7 @@ const ModalHeader: React.FC<BaseProps> = ({
 );
 
 // Modal Title Component
-const ModalTitle: React.FC<BaseProps<"h2">> = ({
+const ModalTitle: React.FC<ComponentProps<"h2">> = ({
   className,
   children,
   ...props
@@ -209,14 +212,18 @@ const ModalTitle: React.FC<BaseProps<"h2">> = ({
 );
 
 // Modal Body Component
-const ModalBody: React.FC<BaseProps> = ({ className, children, ...props }) => (
+const ModalBody: React.FC<ComponentProps<"div">> = ({
+  className,
+  children,
+  ...props
+}) => (
   <div className={cn("p-6", className)} {...props}>
     {children}
   </div>
 );
 
 // Modal Footer Component
-const ModalFooter: React.FC<BaseProps> = ({
+const ModalFooter: React.FC<ComponentProps<"div">> = ({
   className,
   children,
   ...props
@@ -296,5 +303,7 @@ export {
   modalContentVariants,
   modalVariants,
   useModal,
+  type ModalBackdropProps,
+  type ModalContentProps,
   type ModalProps,
 };

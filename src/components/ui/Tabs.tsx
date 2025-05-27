@@ -2,7 +2,7 @@
 
 import { cn } from "@/lib/utils";
 import type {
-  ComponentPropsWithoutRef,
+  ComponentProps,
   ComponentType,
   HTMLAttributes,
   LiHTMLAttributes,
@@ -24,19 +24,17 @@ type TabsContextValue = {
   readonly isAnimating: boolean;
 };
 
-type BaseProps = ComponentPropsWithoutRef<"div">;
-
-type TabsRootProps = BaseProps &
+type TabsRootProps = ComponentProps<"div"> &
   Omit<HTMLAttributes<HTMLDivElement>, "children"> & {
     readonly value?: TabValue;
     readonly defaultValue?: TabValue;
     readonly onValueChange?: (value: TabValue) => void;
   };
 
-type TabsListProps = BaseProps &
+type TabsListProps = ComponentProps<"ul"> &
   Omit<HTMLAttributes<HTMLUListElement>, "children">;
 
-type TabsTriggerProps = BaseProps &
+type TabsTriggerProps = ComponentProps<"li"> &
   Omit<LiHTMLAttributes<HTMLLIElement>, "children" | "onClick"> & {
     readonly value: TabValue;
     readonly disabled?: boolean;
@@ -45,10 +43,10 @@ type TabsTriggerProps = BaseProps &
     readonly onClick?: (e: React.MouseEvent<HTMLLIElement>) => void;
   };
 
-type TabsContentProps = BaseProps &
+type TabsContentProps = ComponentProps<"div"> &
   Omit<HTMLAttributes<HTMLDivElement>, "children">;
 
-type TabsItemProps = BaseProps &
+type TabsItemProps = ComponentProps<"div"> &
   Omit<HTMLAttributes<HTMLDivElement>, "children"> & {
     readonly value: TabValue;
     readonly activeClassName?: string;
@@ -290,20 +288,12 @@ Object.assign(Tabs, {
 // Export everything
 export {
   Tabs,
-  TabsContent,
-  TabsItem,
-  TabsList,
-  TabsRoot,
-  TabsTrigger,
   useTabs,
-};
-
-export type {
-  TabsContentProps,
-  TabsContextValue,
-  TabsItemProps,
-  TabsListProps,
-  TabsRootProps,
-  TabsTriggerProps,
-  TabValue,
+  type TabsContentProps,
+  type TabsContextValue,
+  type TabsItemProps,
+  type TabsListProps,
+  type TabsRootProps,
+  type TabsTriggerProps,
+  type TabValue,
 };

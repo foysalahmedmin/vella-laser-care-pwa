@@ -1,5 +1,6 @@
 "use client";
 
+import type { ButtonProps } from "@/components/ui/Button";
 import { Button } from "@/components/ui/Button";
 import { cn } from "@/lib/utils";
 import type {
@@ -10,7 +11,7 @@ import type {
 import emblaCarouselAutoplay from "embla-carousel-autoplay";
 import emblaCarouselClassNames from "embla-carousel-class-names";
 import useEmblaCarousel from "embla-carousel-react";
-import type { KeyboardEvent, ReactNode } from "react";
+import type { KeyboardEvent } from "react";
 import {
   createContext,
   useCallback,
@@ -54,33 +55,27 @@ type CarouselAutoplayState = {
 
 // ----- Component Props Types -----
 type CarouselRootProps = ComponentProps<"div"> & {
-  orientation?: CarouselOrientation;
-  direction?: CarouselDirection;
-  autoplay?: boolean | CarouselAutoplayConfig;
-  opts?: EmblaOptionsType;
-  plugins?: EmblaPluginType[];
-  onApiReady?: (api: EmblaCarouselType) => void;
-  children: ReactNode;
+  readonly orientation?: CarouselOrientation;
+  readonly direction?: CarouselDirection;
+  readonly autoplay?: boolean | CarouselAutoplayConfig;
+  readonly opts?: EmblaOptionsType;
+  readonly plugins?: EmblaPluginType[];
+  readonly onApiReady?: (api: EmblaCarouselType) => void;
 };
 
 type CarouselContentProps = ComponentProps<"div">;
 type CarouselItemProps = ComponentProps<"div">;
 
-type CarouselTriggerProps = ComponentProps<"button"> & {
-  shape?: "icon" | "default";
-  variant?: "default" | "gradient" | "outline" | "ghost" | "link" | "none";
-  children?: ReactNode;
-};
+type CarouselTriggerProps = ButtonProps;
 
 type CarouselPaginationProps = ComponentProps<"div"> & {
-  buttonProps?: CarouselPaginationTriggerProps;
+  readonly trigger?: ComponentProps<"button"> &
+    ((props: CarouselPaginationTriggerProps) => React.ReactElement);
 };
 
-type CarouselPaginationTriggerProps = ComponentProps<"button"> & {
-  isActive?: boolean;
-  activeClassName?: string;
-  variant?: "default" | "gradient" | "outline" | "ghost" | "link" | "none";
-  size?: "default" | "sm" | "md" | "lg" | "none";
+type CarouselPaginationTriggerProps = ButtonProps & {
+  readonly isActive?: boolean;
+  readonly activeClassName?: string;
 };
 
 // ----- Context Types -----
@@ -415,7 +410,7 @@ const CarouselPaginationTrigger = ({
 
 const CarouselPagination = ({
   className,
-  buttonProps,
+  trigger = CarouselPaginationTrigger,
   ...props
 }: CarouselPaginationProps) => {
   const { pagination } = useCarousel();
@@ -429,15 +424,19 @@ const CarouselPagination = ({
       aria-label="Carousel pagination"
       {...props}
     >
-      {pagination.scrollSnaps.map((_, i) => (
-        <CarouselPaginationTrigger
-          key={i}
-          isActive={i === pagination.selectedIndex}
-          onClick={() => pagination.scrollToIndex(i)}
-          aria-label={`Go to slide ${i + 1}`}
-          {...buttonProps}
-        />
-      ))}
+      {pagination.scrollSnaps.map((_, index) => {
+        const isActive = index === pagination.selectedIndex;
+        const Trigger = trigger;
+
+        return (
+          <Trigger
+            key={index}
+            isActive={isActive}
+            onClick={() => pagination.scrollToIndex(index)}
+            aria-label={`Go to slide ${index + 1}`}
+          />
+        );
+      })}
     </div>
   );
 };

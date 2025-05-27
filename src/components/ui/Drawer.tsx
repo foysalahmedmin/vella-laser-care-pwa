@@ -3,14 +3,10 @@ import useOverlayState from "@/hooks/ui/useOverlayState";
 import { cn } from "@/lib/utils";
 import { cva, type VariantProps } from "class-variance-authority";
 import { X } from "lucide-react";
-import type { ComponentPropsWithoutRef, ElementType } from "react";
+import type { ComponentProps } from "react";
 import React, { createContext, useContext } from "react";
 import type { ButtonProps } from "./Button";
 import { Button } from "./Button";
-
-type BaseProps<T extends ElementType = "div"> = {
-  activeClassName?: string;
-} & ComponentPropsWithoutRef<T>;
 
 const drawerVariants = cva(
   "fixed inset-0 z-[1000] invisible opacity-0 transition-all duration-300 ease-in-out",
@@ -86,13 +82,21 @@ const drawerContentVariants = cva(
 type DrawerContextType = OverlayState &
   VariantProps<typeof drawerVariants> &
   VariantProps<typeof drawerContentVariants>;
-
-type DrawerProps = BaseProps &
+type DrawerProps = ComponentProps<"div"> &
   VariantProps<typeof drawerVariants> &
   VariantProps<typeof drawerContentVariants> & {
-    isOpen?: boolean;
-    setIsOpen?: (open: boolean) => void;
-    asPortal?: boolean;
+    readonly isOpen?: boolean;
+    readonly setIsOpen?: (open: boolean) => void;
+    readonly asPortal?: boolean;
+    readonly activeClassName?: string;
+  };
+type DrawerBackdropProps = ComponentProps<"div"> &
+  VariantProps<typeof drawerBackdropVariants> & {
+    readonly activeClassName?: string;
+  };
+type DrawerContentProps = ComponentProps<"div"> &
+  VariantProps<typeof drawerContentVariants> & {
+    readonly activeClassName?: string;
   };
 
 const DrawerContext = createContext<DrawerContextType | null>(null);
@@ -135,9 +139,7 @@ const DrawerRoot: React.FC<DrawerProps> = ({
 };
 
 // Drawer Backdrop Component
-const DrawerBackdrop: React.FC<
-  BaseProps & VariantProps<typeof drawerBackdropVariants>
-> = ({
+const DrawerBackdrop: React.FC<DrawerBackdropProps> = ({
   className,
   activeClassName,
   variant,
@@ -163,9 +165,7 @@ const DrawerBackdrop: React.FC<
 };
 
 // Drawer Content Component
-const DrawerContent: React.FC<
-  BaseProps & VariantProps<typeof drawerContentVariants>
-> = ({
+const DrawerContent: React.FC<DrawerContentProps> = ({
   className,
   activeClassName,
   variant,
@@ -189,7 +189,7 @@ const DrawerContent: React.FC<
 };
 
 // Drawer Header Component
-const DrawerHeader: React.FC<BaseProps> = ({
+const DrawerHeader: React.FC<ComponentProps<"div">> = ({
   className,
   children,
   ...props
@@ -203,7 +203,7 @@ const DrawerHeader: React.FC<BaseProps> = ({
 );
 
 // Drawer Title Component
-const DrawerTitle: React.FC<BaseProps<"h2">> = ({
+const DrawerTitle: React.FC<ComponentProps<"h2">> = ({
   className,
   children,
   ...props
@@ -214,14 +214,18 @@ const DrawerTitle: React.FC<BaseProps<"h2">> = ({
 );
 
 // Drawer Body Component
-const DrawerBody: React.FC<BaseProps> = ({ className, children, ...props }) => (
+const DrawerBody: React.FC<ComponentProps<"div">> = ({
+  className,
+  children,
+  ...props
+}) => (
   <div className={cn("flex-1 p-6", className)} {...props}>
     {children}
   </div>
 );
 
 // Drawer Footer Component
-const DrawerFooter: React.FC<BaseProps> = ({
+const DrawerFooter: React.FC<ComponentProps<"div">> = ({
   className,
   children,
   ...props
@@ -301,5 +305,7 @@ export {
   drawerContentVariants,
   drawerVariants,
   useDrawer,
+  type DrawerBackdropProps,
+  type DrawerContentProps,
   type DrawerProps,
 };
