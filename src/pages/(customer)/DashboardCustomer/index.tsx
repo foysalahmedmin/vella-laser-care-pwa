@@ -1,10 +1,4 @@
-import {
-  Tabs,
-  TabsContent,
-  TabsItem,
-  TabsList,
-  TabsTrigger,
-} from "@/components/ui/Tabs";
+import { Tabs } from "@/components/ui/Tabs";
 import { URLS } from "@/config";
 import useLanguage from "@/hooks/states/useLanguage";
 import {
@@ -255,21 +249,24 @@ const DashboardCustomer = () => {
   return (
     <div className="bg-card flex-1">
       <Header />
-      <Tabs value={activeTab} setValue={setActiveTab}>
-        <TabsList className="p-2">
-          <TabsTrigger value="orders">
+      <Tabs
+        value={activeTab}
+        onValueChange={(value) => setActiveTab(String(value))}
+      >
+        <Tabs.List className="p-2">
+          <Tabs.Trigger value="orders">
             {language.code === "en" ? "Orders" : "অর্ডার"}
-          </TabsTrigger>
-          <TabsTrigger value="appointments">
+          </Tabs.Trigger>
+          <Tabs.Trigger value="appointments">
             {language.code === "en" ? "Appointments" : "এপয়েন্টমেন্ট"}
-          </TabsTrigger>
-          <TabsTrigger value="bookings">
+          </Tabs.Trigger>
+          <Tabs.Trigger value="bookings">
             {language.code === "en" ? "Bookings" : "বুকিং"}
-          </TabsTrigger>
-        </TabsList>
+          </Tabs.Trigger>
+        </Tabs.List>
 
-        <TabsContent>
-          <TabsItem value="orders">
+        <Tabs.Content>
+          <Tabs.Item value="orders">
             {ordersLoading ? (
               <div>Loading...</div>
             ) : (
@@ -277,9 +274,9 @@ const DashboardCustomer = () => {
                 <OrderCard key={item._id} item={item} />
               ))
             )}
-          </TabsItem>
+          </Tabs.Item>
 
-          <TabsItem value="appointments">
+          <Tabs.Item value="appointments">
             {appointmentsLoading ? (
               <div>Loading...</div>
             ) : (
@@ -287,9 +284,9 @@ const DashboardCustomer = () => {
                 <AppointmentCard key={item._id} item={item} />
               ))
             )}
-          </TabsItem>
+          </Tabs.Item>
 
-          <TabsItem value="bookings">
+          <Tabs.Item value="bookings">
             {bookingsLoading ? (
               <div>Loading...</div>
             ) : (
@@ -297,8 +294,8 @@ const DashboardCustomer = () => {
                 <BookingCard key={item._id} item={item} />
               ))
             )}
-          </TabsItem>
-        </TabsContent>
+          </Tabs.Item>
+        </Tabs.Content>
       </Tabs>
 
       {!orders?.data?.length &&
