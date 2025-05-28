@@ -1,33 +1,13 @@
 import ProductCard from "@/components/cards/ProductCard";
 import NotFound from "@/components/partials/NotFound";
-import {
-  Carousel,
-  CarouselContent,
-  CarouselItem,
-  CarouselPagination,
-} from "@/components/ui/Carousel";
+import { Carousel } from "@/components/ui/Carousel";
 import useLanguage from "@/hooks/states/useLanguage";
 import { SetFilterSearch } from "@/redux/slices/product-filter-slice";
 import type { RootState } from "@/redux/store";
 import { fetchFilteredProducts } from "@/services/product.service";
+import type { Product } from "@/types";
 import { useQuery } from "react-query";
 import { useDispatch, useSelector } from "react-redux";
-
-interface Product {
-  _id: string;
-  name: string;
-  name_bn: string;
-  media: string;
-  short_description: string;
-  short_description_bn: string;
-  rating: number;
-  selling_price: number;
-  discount: number;
-  discount_type: string;
-  discount_amount: number;
-  country_origin: string;
-  total_review: number;
-}
 
 const SearchBar = () => {
   const { code } = useLanguage();
@@ -99,14 +79,14 @@ const ProductsSection: React.FC = () => {
             <NotFound />
           ) : (
             <Carousel opts={{ align: "start", containScroll: "trimSnaps" }}>
-              <CarouselContent>
+              <Carousel.Content>
                 {(products?.data ?? []).map((product: Product) => (
-                  <CarouselItem key={product._id}>
+                  <Carousel.Item key={product._id}>
                     <ProductCard product={product} />
-                  </CarouselItem>
+                  </Carousel.Item>
                 ))}
-              </CarouselContent>
-              <CarouselPagination />
+              </Carousel.Content>
+              <Carousel.Pagination />
             </Carousel>
           )}
         </div>

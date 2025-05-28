@@ -1,23 +1,7 @@
 import api from "@/lib/api";
+import type { FavoriteProduct } from "@/types";
 
 // Type Definitions
-export interface FavoriteProduct {
-  _id: string;
-  product_id: string;
-  media: string;
-  country_origin: string;
-  name: string;
-  name_bn: string;
-  short_description: string;
-  short_description_bn: string;
-  rating: number;
-  discount: number;
-  discount_type: string;
-  discount_amount: number;
-  selling_price: number;
-  total_review: number;
-}
-
 interface FavoriteResponse<T = FavoriteProduct> {
   success?: boolean;
   message?: string;

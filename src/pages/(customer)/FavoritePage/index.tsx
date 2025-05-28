@@ -3,30 +3,15 @@ import { URLS } from "@/config";
 import useLanguage from "@/hooks/states/useLanguage";
 import { fetchMyFavorites } from "@/services/favorites.service";
 import ProductListSkeleton from "@/skeletons/ProductListSkeleton";
+import type { FavoriteProduct } from "@/types";
 import { bn } from "@/utils/toBangla";
 import { ShoppingCart, Star } from "lucide-react";
 import { useQuery } from "react-query";
 import { useNavigate } from "react-router";
 
-interface Product {
-  _id: string;
-  product_id: string;
-  media: string;
-  country_origin: string;
-  name: string;
-  name_bn: string;
-  short_description: string;
-  short_description_bn: string;
-  rating: number;
-  discount: number;
-  discount_type: string;
-  discount_amount: number;
-  selling_price: number;
-  total_review: number;
-}
-
-const ProductCard = ({ product, lang }: { product: Product; lang: string }) => {
+const ProductCard = ({ product }: { product: FavoriteProduct }) => {
   const navigate = useNavigate();
+  const { code } = useLanguage();
   const finalPrice = product.selling_price - (product.discount_amount || 0);
 
   return (
@@ -38,7 +23,7 @@ const ProductCard = ({ product, lang }: { product: Product; lang: string }) => {
         <div className="relative flex-shrink-0">
           <img
             src={`${URLS.product_thumbnail}/${product.media}`}
-            alt={lang === "en" ? product.name : product.name_bn}
+            alt={code === "en" ? product.name : product.name_bn}
             className="h-32 w-32 rounded-lg object-cover"
           />
           <div className="bg-primary absolute right-2 bottom-2 rounded-full p-1">
@@ -48,10 +33,10 @@ const ProductCard = ({ product, lang }: { product: Product; lang: string }) => {
 
         <div className="flex-1">
           <h3 className="text-lg font-semibold">
-            {lang === "en" ? product.name : product.name_bn}
+            {code === "en" ? product.name : product.name_bn}
           </h3>
           <p className="text-sm text-gray-600">
-            {lang === "en"
+            {code === "en"
               ? product.short_description
               : product.short_description_bn}
           </p>
@@ -59,9 +44,9 @@ const ProductCard = ({ product, lang }: { product: Product; lang: string }) => {
           <div className="mt-2 flex items-center gap-1">
             <Star size={16} fill="currentColor" className="text-primary" />
             <span className="text-sm">
-              {lang === "en" ? product.rating : bn.engToNumber(product.rating)}{" "}
+              {code === "en" ? product.rating : bn.engToNumber(product.rating)}{" "}
               (
-              {lang === "en"
+              {code === "en"
                 ? product.total_review
                 : bn.engToNumber(product.total_review)}
               )
@@ -70,25 +55,25 @@ const ProductCard = ({ product, lang }: { product: Product; lang: string }) => {
 
           <div className="mt-2 flex items-center gap-2">
             <span className="text-lg font-bold">
-              ৳{lang === "en" ? finalPrice : bn.engToNumber(finalPrice)}
+              ৳{code === "en" ? finalPrice : bn.engToNumber(finalPrice)}
             </span>
             {product.discount > 0 && (
               <>
                 <span className="text-sm text-gray-500 line-through">
                   ৳
-                  {lang === "en"
+                  {code === "en"
                     ? product.selling_price
                     : bn.engToNumber(product.selling_price)}
                 </span>
                 <span className="rounded bg-green-500 px-2 py-1 text-sm text-white">
                   {product.discount_type === "percentage"
                     ? `-${
-                        lang === "en"
+                        code === "en"
                           ? product.discount
                           : bn.engToNumber(product.discount)
                       }%`
                     : `-৳${
-                        lang === "en"
+                        code === "en"
                           ? product.discount
                           : bn.engToNumber(product.discount)
                       }`}
@@ -117,8 +102,7 @@ const Header = () => {
 };
 
 export const FavoritePage = () => {
-  const { code } = useLanguage();
-  const { data, isLoading } = useQuery<Product[]>({
+  const { data, isLoading } = useQuery<FavoriteProduct[]>({
     queryKey: ["my_favorites"],
     queryFn: fetchMyFavorites,
   });
@@ -140,7 +124,7 @@ export const FavoritePage = () => {
           <div className="divide-y">
             {data?.length ? (
               data.map((product) => (
-                <ProductCard key={product._id} product={product} lang={code} />
+                <ProductCard key={product._id} product={product} />
               ))
             ) : (
               <NotFound />

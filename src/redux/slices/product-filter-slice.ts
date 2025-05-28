@@ -1,7 +1,7 @@
 import type { PayloadAction } from "@reduxjs/toolkit";
 import { createSlice } from "@reduxjs/toolkit";
 
-interface ProductFilterState {
+export interface ProductFilterState {
   search: string;
   category: string;
   sub_category: string;

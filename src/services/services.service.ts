@@ -1,13 +1,7 @@
 import api from "@/lib/api";
+import type { Service, ServiceDetails } from "@/types";
 
 // Type Definitions
-interface Service {
-  _id: string;
-  name: string;
-  name_bn: string;
-  image: string;
-}
-
 interface ServiceCategory {
   id: string;
   name: string;
@@ -38,8 +32,8 @@ interface ApiResponse<T = unknown> {
   status?: number;
 }
 
-export async function fetchOneService(id: string): Promise<Service> {
-  const response = await api.get<ApiResponse<Service>>(
+export async function fetchOneService(id: string): Promise<ServiceDetails> {
+  const response = await api.get<ApiResponse<ServiceDetails>>(
     `/api/service/get_one_service/${id}`,
   );
   return response.data.data;
