@@ -1,14 +1,11 @@
 import api from "@/lib/api";
-import type { Service, ServiceDetails } from "@/types";
+import type { Service, ServiceCategory, ServiceDetails } from "@/types";
 
 // Type Definitions
-interface ServiceCategory {
-  id: string;
-  name: string;
-}
-
 interface BookingSlot {
-  id: string;
+  _id: string;
+  name: string;
+  name_bn?: string;
   time: string;
   isAvailable: boolean;
 }
@@ -27,20 +24,14 @@ interface ServiceBookingPayload {
   payment_method: string;
 }
 
-interface ApiResponse<T = unknown> {
-  data: T;
-  status?: number;
-}
-
 export async function fetchOneService(id: string): Promise<ServiceDetails> {
-  const response = await api.get<ApiResponse<ServiceDetails>>(
-    `/api/service/get_one_service/${id}`,
-  );
+  const response = await api.get(`/api/service/get_one_service/${id}`);
   return response.data.data;
 }
 
-export async function fetchFeaturedServices(): Promise<ApiResponse<Service[]>> {
-  return api.get("/api/service/get_featured_services");
+export async function fetchFeaturedServices(): Promise<Service[]> {
+  const response = await api.get("/api/service/get_featured_services");
+  return response.data;
 }
 
 export async function fetchFilteredServices(
@@ -51,10 +42,10 @@ export async function fetchFilteredServices(
   if (search) params.append("search", search);
   if (category) params.append("category", category);
 
-  const response = await api.get<ApiResponse<Service[]>>(
+  const response = await api.get(
     `/api/service/get_app_filtered_services?${params}`,
   );
-  return response.data.data || [];
+  return response.data || [];
 }
 
 export async function fetchFilteredServiceCategories(
@@ -63,23 +54,20 @@ export async function fetchFilteredServiceCategories(
   const params = new URLSearchParams();
   if (search) params.append("search", search);
 
-  const response = await api.get<ApiResponse<ServiceCategory[]>>(
+  const response = await api.get(
     `/api/service_category/get_filtered_service_categories?${params}`,
   );
-  return response.data.data || [];
+  return response.data || [];
 }
 
 export async function createServiceBooking(
   payload: ServiceBookingPayload,
-): Promise<ApiResponse> {
-  return api.post<ApiResponse>("/api/booking/add_booking", payload, {
-    headers: { "Content-Type": "application/json" },
-  });
+): Promise<unknown> {
+  const response = await api.post("/api/booking/add_service_booking", payload);
+  return response.data;
 }
 
 export async function fetchFilteredSlots(): Promise<BookingSlot[]> {
-  const response = await api.get<ApiResponse<BookingSlot[]>>(
-    "/api/doctor/slot/get_filtered_slots",
-  );
-  return response.data.data || [];
+  const response = await api.get("/api/doctor/slot/get_filtered_slots");
+  return response.data || [];
 }

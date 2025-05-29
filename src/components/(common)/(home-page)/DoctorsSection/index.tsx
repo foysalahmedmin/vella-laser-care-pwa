@@ -40,7 +40,7 @@ export default function DoctorsSection() {
             </button>
           </div>
           <div className="flex w-full gap-4 overflow-x-auto">
-            {(doctors?.data ?? []).map((doctor: Doctor) => (
+            {(doctors ?? []).map((doctor: Doctor) => (
               <DoctorCard key={doctor._id} doctor={doctor} />
             ))}
           </div>

@@ -1,3 +1,4 @@
+// Parlor
 export interface Parlor {
   _id: string;
   banner: string;
@@ -6,12 +7,16 @@ export interface Parlor {
   address: string;
   address_bn?: string;
 }
+
+// Doctor
 export interface Doctor {
   _id: string;
   name: string;
   name_bn?: string;
   photo: string;
-  tags: { name: string; name_bn: string }[];
+  description: string;
+  description_bn?: string;
+  tags: { _id: string; name: string; name_bn: string }[];
 }
 export interface DoctorDetails {
   _id: string;
@@ -19,12 +24,38 @@ export interface DoctorDetails {
   name_bn?: string;
   photo: string;
   tags: { name: string; name_bn: string }[];
+  experience: string;
+  experience_bn: string;
+  user: {
+    _id: string;
+    name: string;
+    name_bn?: string;
+    photo: string;
+    phone: string;
+    email: string;
+    description: string;
+    description_bn: string;
+    tags: { name: string; name_bn: string }[];
+  };
 }
+
+export interface DoctorDepartment {
+  _id: string;
+  name: string;
+  name_bn?: string;
+  total: number;
+  [key: string]: unknown;
+}
+
+// Service
 export interface Service {
   _id: string;
   name: string;
   name_bn?: string;
+  short_description: string;
+  short_description_bn?: string;
   image: string;
+  tags: { name: string; name_bn: string }[];
 }
 export interface ServiceDetails {
   _id: string;
@@ -50,6 +81,15 @@ export interface ServiceDetails {
   before_after_2: string;
   before_after_3: string;
 }
+export interface ServiceCategory {
+  _id: string;
+  name: string;
+  name_bn: string;
+  icon: string;
+  total: number;
+}
+
+// Product
 export interface Product {
   _id: string;
   country_origin: string;
@@ -65,7 +105,6 @@ export interface Product {
   total_review: number;
   media: string;
 }
-
 export interface ProductDetails {
   _id: string;
   country_origin: string;

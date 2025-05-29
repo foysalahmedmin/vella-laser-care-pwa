@@ -32,7 +32,7 @@ export default function TopServices() {
             </button>
           </div>
           <div className="flex w-full gap-4 overflow-x-auto">
-            {(services?.data ?? []).map((service: Service) => (
+            {(services ?? []).map((service: Service) => (
               <ServiceCard key={service._id} service={service} />
             ))}
           </div>

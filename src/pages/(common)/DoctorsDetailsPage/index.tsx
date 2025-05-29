@@ -1,3 +1,4 @@
+import Badge from "@/components/ui/Badge";
 import useLanguage from "@/hooks/states/useLanguage";
 import { fetchOneDoctor } from "@/services/doctor.service";
 import type { DoctorDetails } from "@/types";
@@ -60,7 +61,7 @@ const Bio = ({ doctor }: { doctor: DoctorDetails }) => {
       <div className="my-4 border-b border-gray-100" />
 
       <button
-        onClick={() => navigate("BookAppointment", { _id: doctor?.user?._id })}
+        onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
         className="bg-primary-500 mt-3 flex w-full items-center justify-center rounded-2xl p-3"
       >
         <span className="mr-2 font-bold text-white">
@@ -70,6 +71,24 @@ const Bio = ({ doctor }: { doctor: DoctorDetails }) => {
         </span>
         <ArrowUpRight size={20} color="white" />
       </button>
+    </div>
+  );
+};
+
+const Specialization = ({
+  specialization,
+}: {
+  specialization: { name: string; name_bn: string }[];
+}) => {
+  const { language } = useLanguage();
+
+  return (
+    <div className="my-4 flex flex-wrap gap-2">
+      {specialization?.map((item, index) => (
+        <Badge key={index}>
+          {language.code === "en" ? item?.name : item?.name_bn}
+        </Badge>
+      ))}
     </div>
   );
 };
@@ -116,23 +135,6 @@ const ProfileCard = ({ doctor }: { doctor: DoctorDetails }) => {
           </div>
         </div>
       </div>
-    </div>
-  );
-};
-
-// Specialization Component
-const Specialization = ({ specialization }: { specialization: any[] }) => {
-  const { language } = useLanguage();
-
-  return (
-    <div className="my-4 flex flex-wrap gap-2">
-      {specialization?.map((item, index) => (
-        <Badge
-          key={index}
-          text={language.code === "en" ? item?.name : item?.name_bn}
-          className="bg-blue-100 text-blue-800"
-        />
-      ))}
     </div>
   );
 };
