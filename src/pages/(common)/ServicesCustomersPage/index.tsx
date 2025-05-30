@@ -15,22 +15,16 @@ import { Mail, MessageSquare, Phone, User } from "lucide-react";
 import { useEffect } from "react";
 import { useQuery } from "react-query";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router";
+import { useNavigate, useParams } from "react-router";
 import { toast } from "react-toastify";
 
-// TypeScript interfaces
-interface Service {
-  _id: string;
-  // Add other service properties as needed
-}
-
-interface SubmitFormProps {
-  service: Service;
-  me?: string;
-}
-
-// SubmitForm Component
-const SubmitForm = ({ service, me }: SubmitFormProps) => {
+const SubmitForm = ({
+  serviceId,
+  userId,
+}: {
+  serviceId: string;
+  userId?: string;
+}) => {
   const { language } = useLanguage();
   const { user } = useUser();
   const dispatch = useDispatch();
@@ -60,20 +54,24 @@ const SubmitForm = ({ service, me }: SubmitFormProps) => {
         phone,
         date,
         slot,
-        service,
+        serviceId,
         service_type,
         payment_method,
       ];
 
       if (requiredFields.some((field) => !field)) {
-        return toast.error("All fields are required");
+        return toast.error(
+          language.code === "en"
+            ? "All fields are required"
+            : "সব ঘর পূরণ করা আবশ্যক",
+        );
       }
 
       const status = await mutateAsync({
-        ...(user.role === "customer" && { customer: me }),
-        ...(user.role === "parlor" && { parlor: me }),
+        ...(user.role === "customer" && { customer: userId }),
+        ...(user.role === "parlor" && { parlor: userId }),
         name,
-        service: service._id,
+        service: serviceId,
         service_type,
         email,
         phone,
@@ -83,16 +81,24 @@ const SubmitForm = ({ service, me }: SubmitFormProps) => {
         payment_method,
       });
 
+      dispatch(ResetServiceFilter());
+
       if (payment_method === "online") {
-        dispatch(ResetServiceFilter());
-        navigate(`/payment/${status.id}`);
+        navigate(`/payment/${status}`);
       } else {
-        dispatch(ResetServiceFilter());
         navigate("/services");
-        toast.success("Service Booked Successfully");
+        toast.success(
+          language.code === "en"
+            ? "Service Booked Successfully"
+            : "সার্ভিস সফলভাবে বুক করা হয়েছে",
+        );
       }
     } catch (error) {
-      toast.error("Failed to book service");
+      toast.error(
+        language.code === "en"
+          ? "Failed to book service"
+          : "সার্ভিস বুক করতে ব্যর্থ হয়েছে",
+      );
     }
   };
 
@@ -101,11 +107,13 @@ const SubmitForm = ({ service, me }: SubmitFormProps) => {
       <div className="mb-4">
         <label className="mb-1 flex items-center text-sm font-medium text-gray-700">
           <User className="mr-2 h-4 w-4" />
-          <span>Name</span>
+          <span>{language.code === "en" ? "Name" : "নাম"}</span>
         </label>
         <input
           type="text"
-          placeholder="Enter your name"
+          placeholder={
+            language.code === "en" ? "Enter your name" : "আপনার নাম লিখুন"
+          }
           value={name}
           onChange={(e) => dispatch(SetFilterName(e.target.value))}
           className="w-full rounded-md border border-gray-300 px-3 py-2"
@@ -115,11 +123,13 @@ const SubmitForm = ({ service, me }: SubmitFormProps) => {
       <div className="mb-4">
         <label className="mb-1 flex items-center text-sm font-medium text-gray-700">
           <Mail className="mr-2 h-4 w-4" />
-          <span>Email</span>
+          <span>{language.code === "en" ? "Email" : "ইমেইল"}</span>
         </label>
         <input
           type="email"
-          placeholder="Enter your email"
+          placeholder={
+            language.code === "en" ? "Enter your email" : "আপনার ইমেইল লিখুন"
+          }
           value={email}
           onChange={(e) => dispatch(SetFilterEmail(e.target.value))}
           className="w-full rounded-md border border-gray-300 px-3 py-2"
@@ -129,11 +139,15 @@ const SubmitForm = ({ service, me }: SubmitFormProps) => {
       <div className="mb-4">
         <label className="mb-1 flex items-center text-sm font-medium text-gray-700">
           <Phone className="mr-2 h-4 w-4" />
-          <span>Phone</span>
+          <span>{language.code === "en" ? "Phone" : "ফোন"}</span>
         </label>
         <input
           type="tel"
-          placeholder="Enter your phone number"
+          placeholder={
+            language.code === "en"
+              ? "Enter your phone number"
+              : "আপনার ফোন নাম্বার লিখুন"
+          }
           value={phone}
           onChange={(e) => dispatch(SetFilterPhone(e.target.value))}
           className="w-full rounded-md border border-gray-300 px-3 py-2"
@@ -143,10 +157,12 @@ const SubmitForm = ({ service, me }: SubmitFormProps) => {
       <div className="mb-6">
         <label className="mb-1 flex items-center text-sm font-medium text-gray-700">
           <MessageSquare className="mr-2 h-4 w-4" />
-          <span>Message</span>
+          <span>{language.code === "en" ? "Message" : "মেসেজ"}</span>
         </label>
         <textarea
-          placeholder="Enter your message"
+          placeholder={
+            language.code === "en" ? "Enter your message" : "আপনার মেসেজ লিখুন"
+          }
           value={message}
           onChange={(e) => dispatch(SetFilterMessage(e.target.value))}
           rows={4}
@@ -161,39 +177,36 @@ const SubmitForm = ({ service, me }: SubmitFormProps) => {
           isPending ? "cursor-not-allowed opacity-70" : ""
         }`}
       >
-        {isPending ? "Submitting..." : "Submit"}
+        {isPending
+          ? language.code === "en"
+            ? "Submitting..."
+            : "সাবমিট হচ্ছে..."
+          : language.code === "en"
+            ? "Submit"
+            : "সাবমিট"}
       </button>
     </div>
   );
 };
 
-// ServiceCustomerInformation Page
-const ServiceCustomerInformation = () => {
+const ServicesCustomersPage = () => {
+  const { id } = useParams();
   const { language } = useLanguage();
   const dispatch = useDispatch();
   const { name, email, phone } = useSelector(
     (state: RootState) => state.service_filter,
   );
   const { user } = useUser();
+
   const { data: me } = useQuery({
     queryKey: ["me", user.isAuthenticated],
-    queryFn: async () => {
-      const data = await fetchMe();
-      if (!name) {
-        dispatch(SetFilterName(data?.name));
-      }
-      if (!email) {
-        dispatch(SetFilterEmail(data?.email));
-      }
-      if (!phone) {
-        dispatch(SetFilterPhone(data?.phone));
-      }
-      return data;
+    queryFn: fetchMe,
+    onSuccess: (data) => {
+      if (!name) dispatch(SetFilterName(data?.name));
+      if (!email) dispatch(SetFilterEmail(data?.email));
+      if (!phone) dispatch(SetFilterPhone(data?.phone || ""));
     },
   });
-
-  // Get service from route query
-  const service = router.query.service as unknown as Service;
 
   useEffect(() => {
     if (user.isAuthenticated) {
@@ -218,10 +231,12 @@ const ServiceCustomerInformation = () => {
           </h1>
         </div>
 
-        {service && <SubmitForm service={service} me={me?._id} />}
+        {id && (
+          <SubmitForm serviceId={id as string} userId={me?._id as string} />
+        )}
       </div>
     </div>
   );
 };
 
-export default ServiceCustomerInformation;
+export default ServicesCustomersPage;
