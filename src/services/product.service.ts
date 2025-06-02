@@ -33,9 +33,10 @@ interface ProductFilterParams extends PaginationParams {
 }
 
 interface OrderItem {
-  product_id: string;
+  product: string;
   quantity: number;
-  price: number;
+  selling_price: number;
+  type: string;
 }
 
 interface BaseOrderPayload {

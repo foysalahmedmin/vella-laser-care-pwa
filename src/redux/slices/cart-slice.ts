@@ -1,10 +1,6 @@
+import type { CartProduct } from "@/types";
 import type { PayloadAction } from "@reduxjs/toolkit";
 import { createSlice } from "@reduxjs/toolkit";
-
-interface CartProduct {
-  _id: string;
-  [key: string]: unknown;
-}
 
 interface CartState {
   isOpen: boolean;

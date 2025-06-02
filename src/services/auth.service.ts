@@ -55,10 +55,15 @@ interface ProfileUpdatePayload {
 }
 
 interface ShippingInfo {
+  city: string;
+  charge: number;
+  days: number;
   [key: string]: unknown;
 }
 
 interface CityInfo {
+  _id: string;
+  name: string;
   [key: string]: unknown;
 }
 
@@ -95,33 +100,33 @@ export async function signOut({
 
 export async function fetchMe(): Promise<User> {
   const response = await api.get("/api/auth/get_user_by_token");
-  return response?.data[0] as User;
+  return response?.data[0];
 }
 
 // User functions
 export async function fetchOneUser(id: string): Promise<User> {
   const response = await api.get(`/api/auth/get_one_user/${id}`);
-  return response?.data as User;
+  return response?.data;
 }
 
 // Shipping functions
 export async function fetchFilteredShipping(
   city: string,
-): Promise<ShippingInfo[]> {
+): Promise<ShippingInfo> {
   const response = await api.get(
     `/api/configs/shipping/get_filtered_shipping?city=${city}`,
   );
-  return response?.data as ShippingInfo[];
+  return response?.data;
 }
 
 export async function fetchFilteredCities(): Promise<CityInfo[]> {
   const response = await api.get("/api/configs/city/get_filtered_cities");
-  return response?.data as CityInfo[];
+  return response?.data;
 }
 
 export async function fetchAffiliatedParlors(): Promise<Parlor[]> {
   const response = await api.get("/api/auth/get_affiliated_parlors");
-  return response?.data as Parlor[];
+  return response?.data;
 }
 
 // Profile functions
@@ -151,5 +156,5 @@ export async function updateProfile({
       headers: { "Content-Type": "multipart/form-data" },
     },
   );
-  return response?.data as User;
+  return response?.data;
 }

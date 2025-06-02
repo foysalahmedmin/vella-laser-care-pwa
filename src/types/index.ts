@@ -131,6 +131,16 @@ export interface ProductDetails {
   key_ingredients_bn: string;
 }
 
+export interface CartProduct {
+  _id: string;
+  name: string;
+  price: number;
+  quantity: number;
+  thumbnail: string;
+  short_description: string;
+  discount_amount?: number;
+}
+
 export interface FavoriteProduct {
   _id: string;
   product_id: string;
