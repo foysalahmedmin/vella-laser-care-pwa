@@ -117,7 +117,7 @@ const DepartmentSelect = ({ department }: { department: DoctorDepartment }) => {
       }}
       className={`mr-4 mb-4 rounded-full px-4 py-2 transition-colors ${
         isSelected
-          ? "bg-primary-500 text-white"
+          ? "bg-primary text-white"
           : "bg-gray-100 text-gray-800 hover:bg-gray-200"
       }`}
     >

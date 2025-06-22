@@ -140,7 +140,7 @@ const ReviewRating = () => {
             <p className="font-bold">4.78 out of 5</p>
           </div>
         </div>
-        <button className="bg-primary-500 flex items-center rounded-full px-4">
+        <button className="bg-primary flex items-center rounded-full px-4">
           <span className="py-2 text-white">See All</span>
           <ChevronRight size={20} color="white" />
         </button>
@@ -219,7 +219,7 @@ const ServiceCard = ({
         </div>
       </div>
 
-      <button className="bg-primary-500 mt-6 flex w-full items-center justify-center rounded-2xl p-3">
+      <button className="bg-primary mt-6 flex w-full items-center justify-center rounded-2xl p-3">
         <span className="font-bold text-white">
           {language.code === "en" ? "BOOK SERVICE" : "বুক সার্ভিস"}
         </span>

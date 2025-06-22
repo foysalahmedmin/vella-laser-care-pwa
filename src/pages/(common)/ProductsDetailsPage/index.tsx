@@ -86,7 +86,7 @@ const AddCart = ({ product }: { product: ProductDetails }) => {
 
         <button
           onClick={handleAddToCart}
-          className="bg-primary-500 ml-4 flex w-3/5 items-center justify-center rounded-xl p-3"
+          className="bg-primary ml-4 flex w-3/5 items-center justify-center rounded-xl p-3"
         >
           <span className="mr-2 font-bold text-white">
             {language.code === "en" ? "Add to cart" : "কার্টে যুক্ত করুন"}

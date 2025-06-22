@@ -7,7 +7,8 @@ import { cn } from "@/lib/utils";
 import { cva, type VariantProps } from "class-variance-authority";
 import { X } from "lucide-react";
 import type { ComponentProps } from "react";
-import React, { createContext, useContext, useRef } from "react";
+import React, { createContext, Fragment, useContext, useRef } from "react";
+import PortalWrapper from "../wrapper/PortalWrapper";
 import type { ButtonProps } from "./Button";
 import { Button } from "./Button";
 
@@ -127,16 +128,20 @@ const DrawerRoot: React.FC<DrawerProps> = ({
 }) => {
   const overlayState = useOverlayState(isOpenProp, setIsOpenProp);
 
+  const Comp = asPortal ? PortalWrapper : Fragment;
+
   return (
     <DrawerContext.Provider value={{ ...overlayState, variant, size, side }}>
-      <div
-        className={cn(drawerVariants({ variant, className }), {
-          [cn("visible opacity-100", activeClassName)]: overlayState.isOpen,
-        })}
-        {...props}
-      >
-        {children}
-      </div>
+      <Comp>
+        <div
+          className={cn(drawerVariants({ variant, className }), {
+            [cn("visible opacity-100", activeClassName)]: overlayState.isOpen,
+          })}
+          {...props}
+        >
+          {children}
+        </div>
+      </Comp>
     </DrawerContext.Provider>
   );
 };

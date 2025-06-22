@@ -94,7 +94,7 @@ const AppointmentType = () => {
           }
           className={`flex-1 rounded-full py-3 font-semibold ${
             service_type === "consultant"
-              ? "bg-primary-500 text-white"
+              ? "bg-primary text-white"
               : "border-primary-500 text-primary-500 border"
           }`}
         >
@@ -109,7 +109,7 @@ const AppointmentType = () => {
           }
           className={`flex-1 rounded-full py-3 font-semibold ${
             service_type === "service"
-              ? "bg-primary-500 text-white"
+              ? "bg-primary text-white"
               : "border-primary-500 text-primary-500 border"
           }`}
         >
@@ -143,7 +143,7 @@ const ChooseHours = () => {
             onClick={() => dispatch(SetFilterSlot(item._id))}
             className={`rounded-lg py-3 font-bold ${
               slot === item._id
-                ? "bg-primary-500 text-white"
+                ? "bg-primary text-white"
                 : "border border-gray-300 text-gray-700"
             }`}
           >
@@ -193,7 +193,7 @@ const YourProblem = ({ id }: { id: string }) => {
           }
           className={`flex-1 rounded-full py-3 font-bold ${
             payment_method === "online"
-              ? "bg-primary-500 text-white"
+              ? "bg-primary text-white"
               : "border border-gray-300 text-gray-700"
           }`}
         >
@@ -210,7 +210,7 @@ const YourProblem = ({ id }: { id: string }) => {
           }
           className={`flex-1 rounded-full py-3 font-bold ${
             payment_method === "offline"
-              ? "bg-primary-500 text-white"
+              ? "bg-primary text-white"
               : "border border-gray-300 text-gray-700"
           }`}
         >
@@ -220,7 +220,7 @@ const YourProblem = ({ id }: { id: string }) => {
 
       <button
         onClick={handleNext}
-        className="bg-primary-500 mt-6 flex w-full items-center justify-center rounded-2xl py-3 font-bold text-white"
+        className="bg-primary mt-6 flex w-full items-center justify-center rounded-2xl py-3 font-bold text-white"
       >
         {language.code === "en" ? "NEXT" : "পরবর্তী"}
         <ChevronRight className="ml-2" />

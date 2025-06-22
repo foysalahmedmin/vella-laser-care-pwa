@@ -30,7 +30,7 @@ const BookAppointment = () => {
 
       <button
         onClick={() => navigate("BookService")}
-        className="bg-primary-500 mt-4 flex w-full items-center justify-center rounded-2xl p-3"
+        className="bg-primary mt-4 flex w-full items-center justify-center rounded-2xl p-3"
       >
         <span className="mr-2 font-bold text-white">
           {language.code === "en" ? "Book Service" : "সেবা বুক করুন"}

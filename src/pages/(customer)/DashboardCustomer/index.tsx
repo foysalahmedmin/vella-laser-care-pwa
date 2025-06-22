@@ -77,7 +77,7 @@ const EmptyAppointmentList = () => {
       </div>
       <button
         onClick={() => {}}
-        className="bg-primary-500 mt-6 mb-2 flex w-full items-center justify-center gap-2 rounded-2xl p-3 font-bold text-white"
+        className="bg-primary mt-6 mb-2 flex w-full items-center justify-center gap-2 rounded-2xl p-3 font-bold text-white"
       >
         {language.code === "en"
           ? "BOOK APPOINTMENT"
