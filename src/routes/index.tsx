@@ -6,20 +6,19 @@ import UserLayout from "@/components/layouts/UserLayout";
 import AuthWrapper from "@/components/wrapper/AuthWrapper";
 import SignInPage from "@/pages/(authentication)/SignInPage";
 import SignUpPage from "@/pages/(authentication)/SignUpPage";
+import CartPage from "@/pages/(common)/CartPage";
 import DoctorsBookingPage from "@/pages/(common)/DoctorsBookingPage";
 import DoctorsDetailsPage from "@/pages/(common)/DoctorsDetailsPage";
-import DoctorsHomePage from "@/pages/(common)/DoctorsHomePage";
-import DoctorsPage from "@/pages/(common)/DoctorsPage";
+import DoctorsListPage from "@/pages/(common)/DoctorsPage";
 import HomePage from "@/pages/(common)/HomePage";
 import MeetPage from "@/pages/(common)/MeetPage";
 import OrderDetailsPage from "@/pages/(common)/OrderDetailsPage";
 import PDFPage from "@/pages/(common)/PDFPage";
 import ProductsDetailsPage from "@/pages/(common)/ProductsDetailsPage";
-import ProductsHomePage from "@/pages/(common)/ProductsHomePage";
 import ProductsPage from "@/pages/(common)/ProductsPage";
 import ServicesBookingPage from "@/pages/(common)/ServicesBookingPage";
 import ServicesDetailsPage from "@/pages/(common)/ServicesDetailsPage";
-import ServicesHomePage from "@/pages/(common)/ServicesHomePage";
+import ServicesListPage from "@/pages/(common)/ServicesListPage";
 import ServicesPage from "@/pages/(common)/ServicesPage";
 import DashboardCustomer from "@/pages/(customer)/DashboardCustomer";
 import FavoritePage from "@/pages/(customer)/FavoritePage";
@@ -43,34 +42,28 @@ export const router = createBrowserRouter([
         element: <CommonLayout />,
         children: [
           { index: true, element: <HomePage /> },
-          { path: "cart", element: <></> },
-
-          { path: "customer-appointments/:id", element: <></> },
-          { path: "service-appointments/:id", element: <></> },
-          { path: "doctor-appointments/:id", element: <></> },
-
           {
-            path: "services",
-            element: <ServicesPage />,
+            path: "cart",
+            element: <CartPage />,
           },
-          { path: "services-home", element: <ServicesHomePage /> },
-          {
-            path: "services/book",
-            element: <ServicesBookingPage />,
-          },
+
+          // Services
+          { path: "services", element: <ServicesPage /> },
+          { path: "services/list", element: <ServicesListPage /> },
           { path: "services/:id", element: <ServicesDetailsPage /> },
-          { path: "services-info/:id", element: <></> },
+          { path: "services/:id/book", element: <ServicesBookingPage /> },
 
-          { path: "doctors", element: <DoctorsPage /> },
-          { path: "doctors-home", element: <DoctorsHomePage /> },
-          { path: "doctors/book", element: <DoctorsBookingPage /> },
+          // Doctors
+          { path: "doctors", element: <DoctorsListPage /> },
+          { path: "doctors/list", element: <DoctorsListPage /> },
           { path: "doctors/:id", element: <DoctorsDetailsPage /> },
-          { path: "doctors-info/:id", element: <></> },
+          { path: "doctors/:id/book", element: <DoctorsBookingPage /> },
 
+          // Products
           { path: "products", element: <ProductsPage /> },
-          { path: "products", element: <ProductsHomePage /> },
           { path: "products/:id", element: <ProductsDetailsPage /> },
 
+          // Protected
           {
             path: "pdf/:id",
             element: (
@@ -87,7 +80,6 @@ export const router = createBrowserRouter([
               </AuthWrapper>
             ),
           },
-
           {
             path: "notifications",
             element: (
@@ -98,6 +90,7 @@ export const router = createBrowserRouter([
           },
         ],
       },
+      // Customer
       {
         path: "customer",
         element: (
@@ -106,32 +99,13 @@ export const router = createBrowserRouter([
           </AuthWrapper>
         ),
         children: [
-          {
-            index: true,
-            element: (
-              <AuthWrapper>
-                <DashboardCustomer />
-              </AuthWrapper>
-            ),
-          },
-          {
-            path: "favorites",
-            element: (
-              <AuthWrapper>
-                <FavoritePage />
-              </AuthWrapper>
-            ),
-          },
-          {
-            path: "orders/:id",
-            element: (
-              <AuthWrapper>
-                <OrderDetailsPage />
-              </AuthWrapper>
-            ),
-          },
+          { index: true, element: <DashboardCustomer /> },
+          { path: "favorites", element: <FavoritePage /> },
+          { path: "orders/:orderId", element: <OrderDetailsPage /> },
         ],
       },
+
+      // Parlor
       {
         path: "parlor",
         element: (
@@ -140,41 +114,15 @@ export const router = createBrowserRouter([
           </AuthWrapper>
         ),
         children: [
-          {
-            index: true,
-            element: (
-              <AuthWrapper>
-                <DashboardParlor />
-              </AuthWrapper>
-            ),
-          },
-          {
-            path: "history",
-            element: (
-              <AuthWrapper>
-                <HistoryPage />
-              </AuthWrapper>
-            ),
-          },
-          {
-            path: "earnings",
-            element: (
-              <AuthWrapper>
-                <EarningsPage />
-              </AuthWrapper>
-            ),
-          },
-          {
-            path: "withdraws",
-            element: (
-              <AuthWrapper>
-                <WithdrawsPage />
-              </AuthWrapper>
-            ),
-          },
-          { path: "withdraws/:id", element: <></> },
+          { index: true, element: <DashboardParlor /> },
+          { path: "history", element: <HistoryPage /> },
+          { path: "earnings", element: <EarningsPage /> },
+          { path: "withdraws", element: <WithdrawsPage /> },
+          { path: "withdraws/:withdrawId", element: <></> },
         ],
       },
+
+      // Auth
       {
         path: "auth",
         element: <AuthenticationLayout />,
@@ -183,10 +131,9 @@ export const router = createBrowserRouter([
           { path: "signup", element: <SignUpPage /> },
         ],
       },
-      {
-        path: "*",
-        element: <NotFoundPage />,
-      },
+
+      // Fallback
+      { path: "*", element: <NotFoundPage /> },
     ],
   },
 ]);

@@ -1,149 +1,248 @@
+import ServiceCard from "@/components/cards/ServiceCard";
 import useLanguage from "@/hooks/states/useLanguage";
-import { SetFilterSearch } from "@/redux/slices/service-filter-slice";
+import {
+  SetFilterCategory,
+  SetFilterCategorySearch,
+} from "@/redux/slices/service-filter-slice";
 import type { RootState } from "@/redux/store";
-import { fetchFilteredServices } from "@/services/services.service";
-import type { Service } from "@/types";
-import { ChevronLeft, Search } from "lucide-react";
+import {
+  fetchFeaturedServices,
+  fetchFilteredServiceCategories,
+} from "@/services/services.service";
+import type { ServiceCategory } from "@/types";
+import { ArrowUpRight, ChevronLeft, Search } from "lucide-react";
 import { useQuery } from "react-query";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router";
 
-// SearchBar Component
-const SearchBar = () => {
-  const dispatch = useDispatch();
-  const { search } = useSelector((state: RootState) => state.service_filter);
-  const { language } = useLanguage();
-
-  return (
-    <div className="flex items-center bg-white p-4">
-      <button onClick={() => window.history.back()} className="mr-2">
-        <ChevronLeft size={24} />
-      </button>
-
-      <div className="flex flex-1 items-center rounded-full border border-gray-300 p-2">
-        <input
-          type="text"
-          value={search}
-          onChange={(e) => dispatch(SetFilterSearch(e.target.value))}
-          placeholder={
-            language.code === "en" ? "Search Service" : "সেবা অনুসন্ধান করুন"
-          }
-          className="h-10 flex-1 pl-2 outline-none"
-        />
-        <Search size={20} className="text-primary-500 ml-2" />
-      </div>
-    </div>
-  );
-};
-
-// ServiceCard Component
-const ServiceCard = ({ service }: { service: Service }) => {
+// BookAppointment Component
+const BookAppointment = () => {
   const { language } = useLanguage();
   const navigate = useNavigate();
 
   return (
-    <div
-      className="mb-4 cursor-pointer rounded-xl bg-white p-4 shadow-md transition-transform hover:scale-[1.02]"
-      onClick={() => navigate(`/services/${service._id}`)}
-    >
-      <div className="flex">
-        {service.image ? (
-          <img
-            src={service.image}
-            alt={service.name}
-            className="h-32 w-32 rounded-md object-cover"
-          />
-        ) : (
-          <div className="h-32 w-32 rounded-xl border-2 border-dashed bg-gray-200" />
-        )}
+    <div className="mt-6 flex flex-col items-center rounded-lg bg-white p-6 shadow-sm">
+      <p className="text-center font-bold">
+        {language.code === "en"
+          ? "Aesthetic dreams begin here visit us today!"
+          : "সৌন্দর্যের স্বপ্ন এখান থেকেই শুরু হয়, আজই আমাদের পরিদর্শন করুন!"}
+      </p>
 
-        <div className="ml-4 flex-1">
-          <h3 className="text-lg font-bold">
-            {language.code === "en" ? service.name : service?.name_bn}
-          </h3>
-          <p className="mt-1 text-gray-600">
-            {language.code === "en"
-              ? service.short_description
-              : service?.short_description_bn}
-          </p>
-
-          <div className="mt-2 flex flex-wrap gap-1">
-            {service.tags?.map((tag, index) => (
-              <span
-                key={index}
-                className="rounded-full bg-blue-100 px-2 py-1 text-xs text-blue-800"
-              >
-                {language.code === "en" ? tag.name : tag?.name_bn}
-              </span>
-            ))}
-          </div>
-        </div>
-      </div>
+      <button
+        onClick={() => navigate("BookService")}
+        className="bg-primary mt-4 flex w-full items-center justify-center rounded-2xl p-3"
+      >
+        <span className="mr-2 font-bold text-white">
+          {language.code === "en" ? "Book Service" : "সেবা বুক করুন"}
+        </span>
+        <ArrowUpRight size={20} color="white" />
+      </button>
     </div>
   );
 };
 
-// SearchResult Component
-const SearchResult = () => {
+// SearchBar Component
+const SearchBar = () => {
   const { language } = useLanguage();
-  const { search, category } = useSelector(
+  const navigate = useNavigate();
+
+  return (
+    <div className="flex items-center bg-white p-4">
+      <button onClick={() => navigate(-1)} className="mr-4">
+        <ChevronLeft size={24} className="text-gray-400" />
+      </button>
+      <button
+        onClick={() => navigate("AllServices")}
+        className="flex flex-1 items-center justify-between rounded-full border border-gray-300 p-3 px-4"
+      >
+        <span className="text-gray-400">
+          {language.code === "en" ? "Search Services" : "সেবা অনুসন্ধান করুন"}
+        </span>
+        <Search size={20} className="text-primary-500" />
+      </button>
+    </div>
+  );
+};
+
+// SearchCategoryBar Component
+const SearchCategoryBar = () => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const { language } = useLanguage();
+  const { category_search } = useSelector(
     (state: RootState) => state.service_filter,
   );
 
-  const { data: services, isLoading } = useQuery({
-    queryKey: ["filtered_services", search, category],
-    queryFn: () => fetchFilteredServices(search, category),
+  return (
+    <div className="flex items-center bg-white p-4">
+      <button onClick={() => navigate(-1)} className="mr-4">
+        <ChevronLeft size={24} className="text-gray-400" />
+      </button>
+      <div className="flex flex-1 items-center rounded-full border border-gray-300 p-2 px-4">
+        <input
+          type="text"
+          value={category_search}
+          onChange={(e) => dispatch(SetFilterCategorySearch(e.target.value))}
+          placeholder={
+            language.code === "en"
+              ? "Search Category"
+              : "ক্যাটাগরি অনুসন্ধান করুন"
+          }
+          className="flex-1 outline-none"
+        />
+        <Search size={20} className="text-primary-500" />
+      </div>
+    </div>
+  );
+};
+
+// ServiceCategoryCard Component
+const ServiceCategoryCard = ({
+  category,
+  colors = ["#F96A7E", "#F96A7E"],
+}: {
+  category: ServiceCategory;
+  colors: string[];
+}) => {
+  const { language } = useLanguage();
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const { _id, name, name_bn, total, icon } = category || {};
+
+  return (
+    <button
+      onClick={() => {
+        dispatch(SetFilterCategory(_id));
+        navigate("AllServices");
+      }}
+      className="flex h-64 flex-col items-center justify-center rounded-2xl p-4"
+      style={{
+        background: `linear-gradient(to bottom, ${colors[0]}, ${colors[1]})`,
+      }}
+    >
+      {icon ? (
+        <img
+          src={icon}
+          alt={language.code === "en" ? name : name_bn}
+          className="h-20 w-36 object-contain"
+        />
+      ) : (
+        <div className="h-20 w-36 rounded-xl border-2 border-dashed bg-gray-200" />
+      )}
+
+      <div className="mt-4 text-center">
+        <h3 className="text-lg font-bold text-white">
+          {language.code === "en" ? name : name_bn}
+        </h3>
+        <p className="mt-2 text-white">
+          {total} {language.code === "en" ? "Services" : "সেবা"}
+        </p>
+      </div>
+    </button>
+  );
+};
+
+// SpecialistCategories Component
+const SpecialistCategories = () => {
+  const { language } = useLanguage();
+  const { category_search } = useSelector(
+    (state: RootState) => state.service_filter,
+  );
+  const { data: categories } = useQuery({
+    queryKey: ["filtered_categories", category_search],
+    queryFn: () => fetchFilteredServiceCategories(category_search),
   });
 
-  if (isLoading) {
-    return (
-      <div className="mt-4 bg-white p-4">
-        {[...Array(4)].map((_, i) => (
-          <div
-            key={i}
-            className="mb-4 flex animate-pulse rounded-xl border p-4"
-          >
-            <div className="h-32 w-32 rounded-md bg-gray-200"></div>
-            <div className="ml-4 flex-1">
-              <div className="mb-2 h-6 w-3/4 rounded bg-gray-200"></div>
-              <div className="mb-2 h-4 w-full rounded bg-gray-200"></div>
-              <div className="mb-3 h-4 w-1/2 rounded bg-gray-200"></div>
-              <div className="flex gap-2">
-                <div className="h-6 w-16 rounded bg-gray-200"></div>
-                <div className="h-6 w-16 rounded bg-gray-200"></div>
-              </div>
-            </div>
-          </div>
-        ))}
-      </div>
-    );
-  }
+  const gradientColors = [
+    ["#F96A7E", "#F96A7E"],
+    ["#93B0EF", "#4082FD"],
+    ["#F5D682", "#FEC52E"],
+  ];
 
   return (
-    <div className="mt-4 bg-white p-4">
-      {services?.length ? (
-        services.map((service) => (
-          <ServiceCard key={service._id} service={service} />
-        ))
-      ) : (
-        <div className="py-12 text-center text-gray-500">
-          {language.code === "en"
-            ? "No services found"
-            : "কোনো সেবা পাওয়া যায়নি"}
-        </div>
-      )}
+    <div className="rounded-lg bg-white p-6 shadow-sm">
+      <div className="mb-4 flex items-center justify-between">
+        <h2 className="text-xl font-bold">
+          {language.code === "en" ? "Categories" : "ক্যাটেগরি"}
+        </h2>
+      </div>
+
+      <div className="flex space-x-4 overflow-x-auto pb-4">
+        {categories?.length ? (
+          categories.map((category, index) => (
+            <ServiceCategoryCard
+              key={category._id}
+              category={category}
+              colors={gradientColors[index % gradientColors.length]}
+            />
+          ))
+        ) : (
+          <div className="w-full py-8 text-center text-gray-500">
+            {language.code === "en"
+              ? "No categories found"
+              : "কোনো ক্যাটাগরি পাওয়া যায়নি"}
+          </div>
+        )}
+      </div>
     </div>
   );
 };
 
-// Main AllServices Component
-const AllServices = () => {
+// TopServices Component
+const TopServices = () => {
+  const { language } = useLanguage();
+  const navigate = useNavigate();
+  const { data: services } = useQuery({
+    queryKey: ["filtered_services"],
+    queryFn: fetchFeaturedServices,
+  });
+
+  return (
+    <div className="mt-6 rounded-lg bg-white p-6 shadow-sm">
+      <div className="mb-4 flex items-center justify-between">
+        <h2 className="text-xl font-bold">
+          {language.code === "en" ? "Top Services" : "উল্লেখযোগ্য সেবাসমূহ"}
+        </h2>
+        <button
+          onClick={() => navigate("services")}
+          className="text-primary-500"
+        >
+          {language.code === "en" ? "See All" : "সব দেখুন"}
+        </button>
+      </div>
+
+      <div className="grid grid-cols-1 gap-4">
+        {services?.length ? (
+          services.map((service) => (
+            <ServiceCard key={service._id} service={service} />
+          ))
+        ) : (
+          <div className="py-4 text-center text-gray-500">
+            {language.code === "en"
+              ? "No services found"
+              : "কোনো সেবা পাওয়া যায়নি"}
+          </div>
+        )}
+      </div>
+    </div>
+  );
+};
+
+const ServicePage = () => {
   return (
     <div className="min-h-screen bg-gray-50">
-      <SearchBar />
-      <SearchResult />
+      <div className="sticky top-0 z-10 bg-white shadow-sm">
+        <SearchCategoryBar />
+      </div>
+
+      <div className="mx-auto max-w-4xl p-4">
+        <SpecialistCategories />
+        <BookAppointment />
+        <TopServices />
+      </div>
     </div>
   );
 };
 
-export default AllServices;
+export default ServicePage;

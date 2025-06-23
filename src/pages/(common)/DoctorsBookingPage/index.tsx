@@ -1,3 +1,4 @@
+import { Button } from "@/components/ui/Button";
 import useUser from "@/hooks/states/useUser";
 import {
   SetAppointmentType,
@@ -73,13 +74,13 @@ export function AppointmentCalendar() {
       <p className="text-lg font-bold">Today</p>
 
       <div className="mt-2 flex items-center">
-        <button
+        <Button
           onClick={() => navigateDays("left")}
           className="p-2 disabled:opacity-50"
           disabled={startIndex === 0}
         >
           <ChevronLeft size={20} />
-        </button>
+        </Button>
 
         <div className="flex flex-1 justify-between">
           {visibleDays.map((item) => (
@@ -101,13 +102,13 @@ export function AppointmentCalendar() {
           ))}
         </div>
 
-        <button
+        <Button
           onClick={() => navigateDays("right")}
           className="p-2 disabled:opacity-50"
           disabled={startIndex >= days.length - 5}
         >
           <ChevronRight size={20} />
-        </button>
+        </Button>
       </div>
     </div>
   );
