@@ -270,7 +270,7 @@ export function YourProblem({ doctorId }: { doctorId: string }) {
 }
 
 // Book Appointment Component
-export function BookAppointment() {
+export default function DoctorsBookingPage() {
   const { id } = useParams();
 
   return (

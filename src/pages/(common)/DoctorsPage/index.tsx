@@ -14,9 +14,11 @@ import {
 } from "@/services/doctor.service";
 import type { Doctor, DoctorDepartment } from "@/types";
 import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router";
 
 // SearchBar Component
-const SearchBar = ({ onBack }: { onBack: () => void }) => {
+const SearchBar = () => {
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const { search } = useSelector((state: RootState) => state.filter);
   const { language } = useLanguage();
@@ -26,7 +28,7 @@ const SearchBar = ({ onBack }: { onBack: () => void }) => {
       <button
         onClick={() => {
           dispatch(ResetDoctorFilter());
-          onBack();
+          navigate(-1);
         }}
         className="mr-2 p-1"
       >
@@ -194,10 +196,10 @@ const SearchResult = () => {
 };
 
 // Main AllDoctors Component
-const AllDoctors = ({ onBack }: { onBack: () => void }) => {
+const AllDoctors = () => {
   return (
     <div className="min-h-screen bg-gray-50">
-      <SearchBar onBack={onBack} />
+      <SearchBar />
       <SearchResult />
     </div>
   );

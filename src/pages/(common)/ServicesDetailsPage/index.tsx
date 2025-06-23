@@ -3,6 +3,7 @@ import { fetchOneService } from "@/services/services.service";
 import { ArrowUpRight, ChevronRight, Star } from "lucide-react";
 import React from "react";
 import { useQuery } from "react-query";
+import { useParams } from "react-router";
 
 // Bio Component
 const Bio = ({
@@ -264,7 +265,8 @@ const Services = ({
 };
 
 // ServiceDetails Component
-const ServiceDetails = ({ id }: { id: string }) => {
+const ServiceDetails = () => {
+  const { id } = useParams();
   const { language } = useLanguage();
   const {
     data: service,
@@ -272,7 +274,7 @@ const ServiceDetails = ({ id }: { id: string }) => {
     isError,
   } = useQuery({
     queryKey: ["one_service", id],
-    queryFn: () => fetchOneService(id),
+    queryFn: () => fetchOneService(id!),
     enabled: !!id,
   });
 
@@ -323,7 +325,7 @@ const ServiceDetails = ({ id }: { id: string }) => {
           consultant_charge={service?.consultant_charge}
           service_charge={service?.service_charge}
           features={service?.header?.tags}
-          id={id}
+          id={id!}
           lang={language.code}
         />
 

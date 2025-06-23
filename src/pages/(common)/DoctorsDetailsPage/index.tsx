@@ -10,6 +10,7 @@ import {
   User,
 } from "lucide-react";
 import { useQuery } from "react-query";
+import { useParams } from "react-router";
 
 // Bio Component
 const Bio = ({ doctor }: { doctor: DoctorDetails }) => {
@@ -140,7 +141,8 @@ const ProfileCard = ({ doctor }: { doctor: DoctorDetails }) => {
 };
 
 // Main DoctorsProfile Component
-const DoctorsDetailsPage = ({ id }: { id: string }) => {
+const DoctorsDetailsPage = () => {
+  const { id } = useParams();
   const { language } = useLanguage();
   const {
     data: doctor,
@@ -148,7 +150,7 @@ const DoctorsDetailsPage = ({ id }: { id: string }) => {
     isError,
   } = useQuery({
     queryKey: ["one_doctor", id],
-    queryFn: () => fetchOneDoctor(id),
+    queryFn: () => fetchOneDoctor(id!),
     enabled: !!id,
   });
 

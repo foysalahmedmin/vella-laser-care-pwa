@@ -6,10 +6,11 @@ import {
   fetchCustomerBookings,
   fetchCustomerOrders,
 } from "@/services/order.service";
-import { ArrowUpRight, Filter, PhoneCall, Search, Truck } from "lucide-react";
+import { ArrowUpRight, PhoneCall, Truck } from "lucide-react";
 import moment from "moment";
 import { useState } from "react";
 import { useQuery } from "react-query";
+import { useNavigate } from "react-router";
 
 interface Order {
   _id: string;
@@ -169,10 +170,14 @@ const BookingCard = ({ item }: { item: Booking }) => {
 
 // OrderCard Component
 const OrderCard = ({ item }: { item: Order }) => {
+  const navigate = useNavigate();
   const { language } = useLanguage();
 
   return (
-    <div className="bg-card mt-1 flex items-center justify-between rounded-lg p-4 shadow">
+    <div
+      onClick={() => navigate(`/orders/${item.order_id}`)}
+      className="bg-card mt-1 flex items-center justify-between rounded-lg p-4 shadow"
+    >
       <div className="flex flex-1 items-center gap-4">
         <div className="bg-primary-100 rounded-full p-2">
           <Truck className="text-primary" />
@@ -203,29 +208,6 @@ const Header = () => {
       <h1 className="text-xl font-bold">
         {language.code === "en" ? "History" : "ইতিবৃত্ত"}
       </h1>
-    </div>
-  );
-};
-
-// SearchBar Component
-const SearchBar = () => {
-  const { language } = useLanguage();
-  return (
-    <div className="bg-card border-b p-4">
-      <div className="flex items-center justify-between gap-4">
-        <div className="flex h-12 flex-1 items-center rounded-md border border-gray-200">
-          <input
-            placeholder={
-              language.code === "en" ? "Search Orders" : "অর্ডার খুঁজুন"
-            }
-            className="h-full flex-1 p-4 outline-none"
-          />
-          <Search className="text-primary mr-2" />
-        </div>
-        <button className="border-primary-500 flex h-12 items-center justify-center rounded-md border px-3">
-          <Filter className="text-primary" />
-        </button>
-      </div>
     </div>
   );
 };

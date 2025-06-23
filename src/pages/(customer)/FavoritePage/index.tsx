@@ -101,7 +101,7 @@ const Header = () => {
   );
 };
 
-export const FavoritePage = () => {
+const FavoritePage = () => {
   const { data, isLoading } = useQuery<FavoriteProduct[]>({
     queryKey: ["my_favorites"],
     queryFn: fetchMyFavorites,
@@ -135,3 +135,5 @@ export const FavoritePage = () => {
     </main>
   );
 };
+
+export default FavoritePage;

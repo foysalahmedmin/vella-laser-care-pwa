@@ -6,25 +6,30 @@ import UserLayout from "@/components/layouts/UserLayout";
 import AuthWrapper from "@/components/wrapper/AuthWrapper";
 import SignInPage from "@/pages/(authentication)/SignInPage";
 import SignUpPage from "@/pages/(authentication)/SignUpPage";
+import DoctorsBookingPage from "@/pages/(common)/DoctorsBookingPage";
 import DoctorsDetailsPage from "@/pages/(common)/DoctorsDetailsPage";
 import DoctorsHomePage from "@/pages/(common)/DoctorsHomePage";
 import DoctorsPage from "@/pages/(common)/DoctorsPage";
 import HomePage from "@/pages/(common)/HomePage";
+import MeetPage from "@/pages/(common)/MeetPage";
+import OrderDetailsPage from "@/pages/(common)/OrderDetailsPage";
+import PDFPage from "@/pages/(common)/PDFPage";
 import ProductsDetailsPage from "@/pages/(common)/ProductsDetailsPage";
 import ProductsHomePage from "@/pages/(common)/ProductsHomePage";
 import ProductsPage from "@/pages/(common)/ProductsPage";
+import ServicesBookingPage from "@/pages/(common)/ServicesBookingPage";
 import ServicesDetailsPage from "@/pages/(common)/ServicesDetailsPage";
 import ServicesHomePage from "@/pages/(common)/ServicesHomePage";
 import ServicesPage from "@/pages/(common)/ServicesPage";
 import DashboardCustomer from "@/pages/(customer)/DashboardCustomer";
-import { FavoritePage } from "@/pages/(customer)/FavoritePage";
+import FavoritePage from "@/pages/(customer)/FavoritePage";
 import DashboardParlor from "@/pages/(parlor)/DashboardParlor";
 import EarningsPage from "@/pages/(parlor)/EarningsPage";
 import HistoryPage from "@/pages/(parlor)/HistoryPage";
 import WithdrawsPage from "@/pages/(parlor)/WithdrawsPage";
 import ErrorPage from "@/pages/(partials)/ErrorPage";
 import NotFoundPage from "@/pages/(partials)/NotFoundPage";
-import NotificationPage from "@/pages/(user)/NotificatonPage";
+import NotificationPage from "@/pages/(user)/NotificationPage";
 import { createBrowserRouter } from "react-router";
 
 export const router = createBrowserRouter([
@@ -49,13 +54,16 @@ export const router = createBrowserRouter([
             element: <ServicesPage />,
           },
           { path: "services-home", element: <ServicesHomePage /> },
-          { path: "services/book", element: <></> },
+          {
+            path: "services/book",
+            element: <ServicesBookingPage />,
+          },
           { path: "services/:id", element: <ServicesDetailsPage /> },
           { path: "services-info/:id", element: <></> },
 
           { path: "doctors", element: <DoctorsPage /> },
           { path: "doctors-home", element: <DoctorsHomePage /> },
-          { path: "doctors/book", element: <></> },
+          { path: "doctors/book", element: <DoctorsBookingPage /> },
           { path: "doctors/:id", element: <DoctorsDetailsPage /> },
           { path: "doctors-info/:id", element: <></> },
 
@@ -63,16 +71,11 @@ export const router = createBrowserRouter([
           { path: "products", element: <ProductsHomePage /> },
           { path: "products/:id", element: <ProductsDetailsPage /> },
 
-          { path: "payment", element: <></> },
-          { path: "payment/success", element: <></> },
-          { path: "payment/failed", element: <></> },
-          { path: "payment/canceled", element: <></> },
-
           {
             path: "pdf/:id",
             element: (
               <AuthWrapper>
-                <></>
+                <PDFPage />
               </AuthWrapper>
             ),
           },
@@ -80,7 +83,7 @@ export const router = createBrowserRouter([
             path: "meet/:id",
             element: (
               <AuthWrapper>
-                <></>
+                <MeetPage />
               </AuthWrapper>
             ),
           },
@@ -119,7 +122,14 @@ export const router = createBrowserRouter([
               </AuthWrapper>
             ),
           },
-          { path: "orders/:id", element: <></> },
+          {
+            path: "orders/:id",
+            element: (
+              <AuthWrapper>
+                <OrderDetailsPage />
+              </AuthWrapper>
+            ),
+          },
         ],
       },
       {
@@ -141,25 +151,25 @@ export const router = createBrowserRouter([
           {
             path: "history",
             element: (
-              <>
+              <AuthWrapper>
                 <HistoryPage />
-              </>
+              </AuthWrapper>
             ),
           },
           {
             path: "earnings",
             element: (
-              <>
+              <AuthWrapper>
                 <EarningsPage />
-              </>
+              </AuthWrapper>
             ),
           },
           {
             path: "withdraws",
             element: (
-              <>
+              <AuthWrapper>
                 <WithdrawsPage />
-              </>
+              </AuthWrapper>
             ),
           },
           { path: "withdraws/:id", element: <></> },

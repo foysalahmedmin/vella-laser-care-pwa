@@ -230,7 +230,7 @@ const YourProblem = ({ id }: { id: string }) => {
 };
 
 // Main BookService Component
-const BookService = () => {
+const ServicesBookingPage = () => {
   const { language } = useLanguage();
   const { id } = useParams();
 
@@ -252,4 +252,4 @@ const BookService = () => {
   );
 };
 
-export default BookService;
+export default ServicesBookingPage;
