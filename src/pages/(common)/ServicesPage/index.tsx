@@ -1,4 +1,5 @@
 import ServiceCard from "@/components/cards/ServiceCard";
+import { Button } from "@/components/ui/Button";
 import useLanguage from "@/hooks/states/useLanguage";
 import {
   SetFilterCategory,
@@ -28,15 +29,12 @@ const BookAppointment = () => {
           : "সৌন্দর্যের স্বপ্ন এখান থেকেই শুরু হয়, আজই আমাদের পরিদর্শন করুন!"}
       </p>
 
-      <button
-        onClick={() => navigate("BookService")}
-        className="bg-primary mt-4 flex w-full items-center justify-center rounded-2xl p-3"
-      >
+      <Button onClick={() => navigate(`/services`)}>
         <span className="mr-2 font-bold text-white">
           {language.code === "en" ? "Book Service" : "সেবা বুক করুন"}
         </span>
         <ArrowUpRight size={20} color="white" />
-      </button>
+      </Button>
     </div>
   );
 };
@@ -205,7 +203,7 @@ const TopServices = () => {
           {language.code === "en" ? "Top Services" : "উল্লেখযোগ্য সেবাসমূহ"}
         </h2>
         <button
-          onClick={() => navigate("services")}
+          onClick={() => navigate("/services")}
           className="text-primary-500"
         >
           {language.code === "en" ? "See All" : "সব দেখুন"}
@@ -229,7 +227,7 @@ const TopServices = () => {
   );
 };
 
-const ServicePage = () => {
+const ServicesPage = () => {
   return (
     <div className="min-h-screen bg-gray-50">
       <div className="sticky top-0 z-10 bg-white shadow-sm">
@@ -245,4 +243,4 @@ const ServicePage = () => {
   );
 };
 
-export default ServicePage;
+export default ServicesPage;

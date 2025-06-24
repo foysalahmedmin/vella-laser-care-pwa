@@ -95,7 +95,10 @@ export async function fetchServiceEarnings(): Promise<EarningItem[]> {
   return response.data;
 }
 
-export async function fetchParlorCounts(): Promise<{ count: number }> {
+export async function fetchParlorCounts(): Promise<{
+  balance: number;
+  total_earnings?: number;
+}> {
   const response = await api.get("/api/dashboard/get_parlor_counts");
   return response.data;
 }

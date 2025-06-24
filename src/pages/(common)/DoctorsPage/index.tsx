@@ -44,7 +44,7 @@ const DoctorsSection = () => {
           {language.code === "en" ? "Top Doctors" : "উল্লেখযোগ্য ডাক্তার"}
         </h2>
         <button
-          onClick={() => navigate("AllDoctors")}
+          onClick={() => navigate("/doctors/list")}
           className="text-primary-500"
         >
           {language.code === "en" ? "See All" : "সব দেখুন"}
@@ -87,7 +87,7 @@ const DepartmentCard = ({ department }: { department: DoctorDepartment }) => {
     <button
       onClick={() => {
         dispatch(SetFilterDepartment(department._id));
-        navigate("doctors");
+        navigate("/doctors");
       }}
       className="flex h-64 flex-col items-center justify-center rounded-2xl p-4"
       style={{

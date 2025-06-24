@@ -1,9 +1,10 @@
+import { Button } from "@/components/ui/Button";
 import useLanguage from "@/hooks/states/useLanguage";
 import { fetchOneService } from "@/services/services.service";
 import { ArrowUpRight, ChevronRight, Star } from "lucide-react";
 import React from "react";
 import { useQuery } from "react-query";
-import { useParams } from "react-router";
+import { useNavigate, useParams } from "react-router";
 
 // Bio Component
 const Bio = ({
@@ -165,14 +166,13 @@ const ServiceCard = ({
   charge,
   features,
   id,
-  lang,
 }: {
   type: string;
   charge: number;
   features: any[];
   id: string;
-  lang: string;
 }) => {
+  const navigate = useNavigate();
   const { language } = useLanguage();
 
   return (
@@ -220,12 +220,10 @@ const ServiceCard = ({
         </div>
       </div>
 
-      <button className="bg-primary mt-6 flex w-full items-center justify-center rounded-2xl p-3">
-        <span className="font-bold text-white">
-          {language.code === "en" ? "BOOK SERVICE" : "বুক সার্ভিস"}
-        </span>
+      <Button onClick={() => navigate(`/services/${id}/book`)}>
+        <span>{language.code === "en" ? "BOOK SERVICE" : "বুক সার্ভিস"}</span>
         <ArrowUpRight size={20} color="white" className="ml-2" />
-      </button>
+      </Button>
     </div>
   );
 };
@@ -236,13 +234,11 @@ const Services = ({
   service_charge,
   features,
   id,
-  lang,
 }: {
   consultant_charge: number;
   service_charge: number;
   features: any[];
   id: string;
-  lang: string;
 }) => {
   return (
     <div className="mt-6 space-y-6">
@@ -251,14 +247,12 @@ const Services = ({
         charge={consultant_charge}
         features={features}
         id={id}
-        lang={lang}
       />
       <ServiceCard
         type="service"
         charge={service_charge}
         features={features}
         id={id}
-        lang={lang}
       />
     </div>
   );
@@ -326,7 +320,6 @@ const ServiceDetails = () => {
           service_charge={service?.service_charge}
           features={service?.header?.tags}
           id={id!}
-          lang={language.code}
         />
 
         {/* Uncomment to show reviews */}

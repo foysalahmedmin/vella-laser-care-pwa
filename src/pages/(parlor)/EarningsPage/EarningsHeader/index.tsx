@@ -1,3 +1,4 @@
+import { Button } from "@/components/ui/Button";
 import useLanguage from "@/hooks/states/useLanguage";
 import { fetchEarningSummary } from "@/services/transactions.service";
 import { ArrowUpRight } from "lucide-react";
@@ -114,15 +115,10 @@ export const EarningHeader = () => {
         <h1 className="text-xl font-bold">
           {language.code === "en" ? "Earning" : "উপার্জন"}
         </h1>
-        <button
-          onClick={() => navigate("/withdraw")}
-          className="flex items-center justify-center rounded-2xl bg-blue-500 p-2 px-6 transition-colors hover:bg-blue-600"
-        >
-          <span className="mr-2 text-lg font-bold text-white">
-            {language.code === "en" ? "WITHDRAW" : "উত্তলোন"}
-          </span>
+        <Button onClick={() => navigate("/parlor/withdraw")}>
+          <span>{language.code === "en" ? "WITHDRAW" : "উত্তলোন"}</span>
           <ArrowUpRight size={20} className="text-white" />
-        </button>
+        </Button>
       </div>
       <BalanceCard />
       <CardSections />

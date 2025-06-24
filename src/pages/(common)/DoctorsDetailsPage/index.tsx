@@ -1,4 +1,5 @@
 import Badge from "@/components/ui/Badge";
+import { Button } from "@/components/ui/Button";
 import useLanguage from "@/hooks/states/useLanguage";
 import { fetchOneDoctor } from "@/services/doctor.service";
 import type { DoctorDetails } from "@/types";
@@ -10,10 +11,11 @@ import {
   User,
 } from "lucide-react";
 import { useQuery } from "react-query";
-import { useParams } from "react-router";
+import { useNavigate, useParams } from "react-router";
 
 // Bio Component
 const Bio = ({ doctor }: { doctor: DoctorDetails }) => {
+  const navigate = useNavigate();
   const { language } = useLanguage();
 
   return (
@@ -61,17 +63,14 @@ const Bio = ({ doctor }: { doctor: DoctorDetails }) => {
 
       <div className="my-4 border-b border-gray-100" />
 
-      <button
-        onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-        className="bg-primary mt-3 flex w-full items-center justify-center rounded-2xl p-3"
-      >
+      <Button onClick={() => navigate(`/doctors/${doctor?.user?._id}/book`)}>
         <span className="mr-2 font-bold text-white">
           {language.code === "en"
-            ? "BOOK APPOINTMENT"
+            ? "BOOK DOCTOR APPOINTMENT"
             : "অ্যাপয়েন্টমেন্ট বুক করুন"}
         </span>
         <ArrowUpRight size={20} color="white" />
-      </button>
+      </Button>
     </div>
   );
 };

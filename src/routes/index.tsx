@@ -25,6 +25,8 @@ import FavoritePage from "@/pages/(customer)/FavoritePage";
 import DashboardParlor from "@/pages/(parlor)/DashboardParlor";
 import EarningsPage from "@/pages/(parlor)/EarningsPage";
 import HistoryPage from "@/pages/(parlor)/HistoryPage";
+import ServiceManagePage from "@/pages/(parlor)/ServiceManagePage";
+import WithdrawPage from "@/pages/(parlor)/WithdrawPage";
 import WithdrawsPage from "@/pages/(parlor)/WithdrawsPage";
 import ErrorPage from "@/pages/(partials)/ErrorPage";
 import NotFoundPage from "@/pages/(partials)/NotFoundPage";
@@ -128,7 +130,8 @@ export const router = createBrowserRouter([
           { path: "history", element: <HistoryPage /> },
           { path: "earnings", element: <EarningsPage /> },
           { path: "withdraws", element: <WithdrawsPage /> },
-          { path: "withdraws/:id", element: <></> },
+          { path: "withdraw", element: <WithdrawPage /> },
+          { path: "service-manage", element: <ServiceManagePage /> },
         ],
       },
 

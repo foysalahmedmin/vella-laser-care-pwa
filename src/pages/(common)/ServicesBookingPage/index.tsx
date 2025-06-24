@@ -229,7 +229,6 @@ const YourProblem = ({ id }: { id: string }) => {
   );
 };
 
-// Main BookService Component
 const ServicesBookingPage = () => {
   const { language } = useLanguage();
   const { id } = useParams();
