@@ -1,11 +1,11 @@
-import AuthenticationLayout from "@/components/layouts/AuthenticationLayout";
+import AuthLayout from "@/components/layouts/AuthLayout";
 import CommonLayout from "@/components/layouts/CommonLayout";
 import ParlorLayout from "@/components/layouts/ParlorLayout";
 import RootLayout from "@/components/layouts/RootLayout";
 import UserLayout from "@/components/layouts/UserLayout";
 import AuthWrapper from "@/components/wrapper/AuthWrapper";
-import SignInPage from "@/pages/(authentication)/SignInPage";
-import SignUpPage from "@/pages/(authentication)/SignUpPage";
+import SignInPage from "@/pages/(auth)/SignInPage";
+import SignUpPage from "@/pages/(auth)/SignUpPage";
 import CartPage from "@/pages/(common)/CartPage";
 import DoctorsBookingPage from "@/pages/(common)/DoctorsBookingPage";
 import DoctorsDetailsPage from "@/pages/(common)/DoctorsDetailsPage";
@@ -29,6 +29,7 @@ import WithdrawsPage from "@/pages/(parlor)/WithdrawsPage";
 import ErrorPage from "@/pages/(partials)/ErrorPage";
 import NotFoundPage from "@/pages/(partials)/NotFoundPage";
 import NotificationPage from "@/pages/(user)/NotificationPage";
+import ProfilePage from "@/pages/(user)/ProfilePage";
 import { createBrowserRouter } from "react-router";
 
 export const router = createBrowserRouter([
@@ -81,6 +82,14 @@ export const router = createBrowserRouter([
             ),
           },
           {
+            path: "profile",
+            element: (
+              <AuthWrapper>
+                <ProfilePage />
+              </AuthWrapper>
+            ),
+          },
+          {
             path: "notifications",
             element: (
               <AuthWrapper>
@@ -90,18 +99,19 @@ export const router = createBrowserRouter([
           },
         ],
       },
+
       // Customer
       {
         path: "customer",
         element: (
-          <AuthWrapper>
+          <AuthWrapper roles={["customer"]}>
             <UserLayout />
           </AuthWrapper>
         ),
         children: [
           { index: true, element: <DashboardCustomer /> },
           { path: "favorites", element: <FavoritePage /> },
-          { path: "orders/:orderId", element: <OrderDetailsPage /> },
+          { path: "orders/:id", element: <OrderDetailsPage /> },
         ],
       },
 
@@ -109,7 +119,7 @@ export const router = createBrowserRouter([
       {
         path: "parlor",
         element: (
-          <AuthWrapper>
+          <AuthWrapper roles={["parlor"]}>
             <ParlorLayout />
           </AuthWrapper>
         ),
@@ -118,14 +128,14 @@ export const router = createBrowserRouter([
           { path: "history", element: <HistoryPage /> },
           { path: "earnings", element: <EarningsPage /> },
           { path: "withdraws", element: <WithdrawsPage /> },
-          { path: "withdraws/:withdrawId", element: <></> },
+          { path: "withdraws/:id", element: <></> },
         ],
       },
 
       // Auth
       {
         path: "auth",
-        element: <AuthenticationLayout />,
+        element: <AuthLayout />,
         children: [
           { path: "signin", element: <SignInPage /> },
           { path: "signup", element: <SignUpPage /> },

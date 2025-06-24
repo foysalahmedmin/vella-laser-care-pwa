@@ -1,6 +1,6 @@
 import { Outlet } from "react-router";
 
-const AuthenticationLayout = () => {
+const AuthLayout = () => {
   return (
     <>
       <Outlet />
@@ -8,4 +8,4 @@ const AuthenticationLayout = () => {
   );
 };
 
-export default AuthenticationLayout;
+export default AuthLayout;

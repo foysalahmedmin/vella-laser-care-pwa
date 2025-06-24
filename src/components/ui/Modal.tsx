@@ -7,7 +7,8 @@ import type { VariantProps } from "class-variance-authority";
 import { cva } from "class-variance-authority";
 import { X } from "lucide-react";
 import type { ComponentProps } from "react";
-import { createContext, useContext } from "react";
+import { createContext, Fragment, useContext } from "react";
+import PortalWrapper from "../wrapper/PortalWrapper";
 import type { ButtonProps } from "./Button";
 import { Button } from "./Button";
 
@@ -122,16 +123,19 @@ const ModalRoot: React.FC<ModalProps> = ({
 }) => {
   const overlayState = useOverlayState(isOpenProp, setIsOpenProp);
 
+  const Comp = asPortal ? PortalWrapper : Fragment;
   return (
     <ModalContext.Provider value={{ ...overlayState, variant, size, side }}>
-      <div
-        className={cn(modalVariants({ variant, className }), {
-          [cn("visible opacity-100", activeClassName)]: overlayState.isOpen,
-        })}
-        {...props}
-      >
-        {children}
-      </div>
+      <Comp>
+        <div
+          className={cn(modalBackdropVariants({ variant, className }), {
+            [cn("visible opacity-100", activeClassName)]: overlayState.isOpen,
+          })}
+          {...props}
+        >
+          {children}
+        </div>
+      </Comp>
     </ModalContext.Provider>
   );
 };
