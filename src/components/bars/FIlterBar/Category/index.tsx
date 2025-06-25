@@ -64,7 +64,7 @@ const Category = () => {
                 className="flex w-full items-center"
               >
                 {category === item._id ? (
-                  <Radio className="text-primary-500 fill-current" />
+                  <Radio className="text-primary fill-current" />
                 ) : (
                   <Circle className="text-gray-300" />
                 )}
@@ -99,7 +99,9 @@ const Category = () => {
                           {language.code === "en" ? sub.name : sub.name_bn}
                         </span>
                       </button>
-                      <span className="text-sm text-gray-400">(284)</span>
+                      <span className="text-muted-foreground text-sm">
+                        (284)
+                      </span>
                     </div>
                   ))}
                 </div>

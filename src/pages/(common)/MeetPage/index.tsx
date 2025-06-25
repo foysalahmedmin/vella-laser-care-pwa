@@ -191,7 +191,7 @@ const MeetPage = ({ className }: { className?: string }) => {
       >
         <div className="flex flex-col items-center space-y-4">
           <Loader2 className="text-primary h-8 w-8 animate-spin" />
-          <p className="text-sm text-gray-600 dark:text-gray-400">
+          <p className="text-muted-foreground dark:text-muted-foreground text-sm">
             {language.code === "bn" ? "লোড হচ্ছে..." : "Loading..."}
           </p>
         </div>
@@ -209,7 +209,7 @@ const MeetPage = ({ className }: { className?: string }) => {
       >
         <div className="flex flex-col items-center space-y-4">
           <Video className="text-primary h-12 w-12 animate-pulse" />
-          <p className="text-sm text-gray-600 dark:text-gray-400">
+          <p className="text-muted-foreground dark:text-muted-foreground text-sm">
             {language.code === "bn"
               ? "মিটিং লোড হচ্ছে..."
               : "Loading meeting..."}

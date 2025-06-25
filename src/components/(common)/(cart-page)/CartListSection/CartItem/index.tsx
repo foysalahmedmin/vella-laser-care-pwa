@@ -38,7 +38,7 @@ const CartItem: React.FC<CartItemProps> = ({ item, index }) => {
       <div className="ml-4 flex flex-1 flex-col justify-between">
         <div>
           <h3 className="text-lg font-bold text-gray-900">{item.name}</h3>
-          <p className="line-clamp-2 text-sm text-gray-600">
+          <p className="text-muted-foreground line-clamp-2 text-sm">
             {item.short_description}
           </p>
 
@@ -47,7 +47,7 @@ const CartItem: React.FC<CartItemProps> = ({ item, index }) => {
               ৳{item.price.toLocaleString()}
             </span>
             {item.discount_amount && item.discount_amount > 0 && (
-              <span className="text-sm text-gray-500 line-through">
+              <span className="text-muted-foreground text-sm line-through">
                 ৳{(item.price + item.discount_amount).toLocaleString()}
               </span>
             )}
@@ -56,7 +56,7 @@ const CartItem: React.FC<CartItemProps> = ({ item, index }) => {
 
         <div className="mt-4 flex items-center justify-between">
           <div className="flex items-center space-x-2">
-            <div className="flex items-center rounded-lg border border-gray-300 bg-white">
+            <div className="bg-card flex items-center rounded-lg border border-gray-300">
               <Button
                 variant="ghost"
                 size="sm"
@@ -76,7 +76,7 @@ const CartItem: React.FC<CartItemProps> = ({ item, index }) => {
                 variant="ghost"
                 size="sm"
                 onClick={handleIncrease}
-                className="h-8 w-8 p-0 text-blue-600 hover:bg-blue-50"
+                className="text-primary h-8 w-8 p-0 hover:bg-blue-50"
                 aria-label="Increase quantity"
               >
                 <Plus size={16} />

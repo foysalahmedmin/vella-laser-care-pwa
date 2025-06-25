@@ -53,7 +53,7 @@ const modalContentVariants = cva(
     variants: {
       variant: {
         default:
-          "border border-gray-200 max-h-full overflow-y-auto bg-white rounded-lg shadow-xl",
+          "border border-gray-200 max-h-full overflow-y-auto bg-card rounded-lg shadow-xl",
         none: "",
       },
       size: {

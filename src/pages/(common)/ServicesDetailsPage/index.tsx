@@ -17,7 +17,7 @@ const Bio = ({
   const { language } = useLanguage();
 
   return (
-    <div className="mt-4 rounded-lg bg-white p-6 shadow-sm">
+    <div className="bg-card mt-4 rounded-lg p-6 shadow-sm">
       {banner && (
         <img
           src={banner}
@@ -29,7 +29,7 @@ const Bio = ({
         <h3 className="text-lg font-bold">
           {language.code === "en" ? "Description" : "বিবরণ"}
         </h3>
-        <p className="pt-2 leading-relaxed text-gray-600">
+        <p className="text-muted-foreground pt-2 leading-relaxed">
           {short_description}
         </p>
       </div>
@@ -52,7 +52,7 @@ const Features = ({
   const { language } = useLanguage();
 
   return (
-    <div className="mt-6 rounded-lg bg-white p-6 shadow-sm">
+    <div className="bg-card mt-6 rounded-lg p-6 shadow-sm">
       <div className="rounded-2xl bg-orange-50 p-4">
         <div className="flex space-x-4 overflow-x-auto pb-2">
           {benefits?.map((item, index) => (
@@ -103,7 +103,7 @@ const ReviewCard = ({ item }: { item: any }) => {
       <div className="h-12 w-12 rounded-xl border-2 border-dashed bg-gray-200" />
       <div className="ml-4">
         <h4 className="text-lg font-bold">{item?.name}</h4>
-        <p className="w-4/5 pt-2 text-gray-600">{item?.description}</p>
+        <p className="text-muted-foreground w-4/5 pt-2">{item?.description}</p>
       </div>
     </div>
   );
@@ -131,14 +131,14 @@ const ReviewRating = () => {
   ];
 
   return (
-    <div className="mt-6 rounded-lg bg-white p-6 shadow-sm">
+    <div className="bg-card mt-6 rounded-lg p-6 shadow-sm">
       <div className="flex items-center justify-between border-b border-gray-200 pb-4">
         <div className="flex items-center">
           <div className="rounded-2xl bg-blue-100 p-2">
             <Star size={20} className="text-yellow-500" fill="#FFD700" />
           </div>
           <div className="ml-2">
-            <p className="text-gray-600">Rating</p>
+            <p className="text-muted-foreground">Rating</p>
             <p className="font-bold">4.78 out of 5</p>
           </div>
         </div>
@@ -176,7 +176,7 @@ const ServiceCard = ({
   const { language } = useLanguage();
 
   return (
-    <div className="rounded-lg bg-white p-6 shadow-sm">
+    <div className="bg-card rounded-lg p-6 shadow-sm">
       <div className="flex justify-between">
         <div className="w-8/12 border-r border-gray-300 pr-4">
           <div className="space-y-4">
@@ -189,7 +189,7 @@ const ServiceCard = ({
                   ? "পরামর্শদাতা ফি"
                   : "পরিষেবা চার্জ"}
             </h3>
-            <p className="text-gray-600">
+            <p className="text-muted-foreground">
               {language.code === "en"
                 ? "Ideal for individual"
                 : "ব্যক্তির জন্য আদর্শ"}
@@ -199,7 +199,9 @@ const ServiceCard = ({
             <span className="text-lg font-bold">
               {charge} {language.code === "en" ? "BDT" : "টাকা"}
             </span>
-            <span className="ml-1 font-semibold text-gray-600">/PER</span>
+            <span className="text-muted-foreground ml-1 font-semibold">
+              /PER
+            </span>
           </div>
         </div>
 

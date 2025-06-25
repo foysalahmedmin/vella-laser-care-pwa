@@ -35,7 +35,7 @@ const ProductCard = ({ product }: { product: FavoriteProduct }) => {
           <h3 className="text-lg font-semibold">
             {code === "en" ? product.name : product.name_bn}
           </h3>
-          <p className="text-sm text-gray-600">
+          <p className="text-muted-foreground text-sm">
             {code === "en"
               ? product.short_description
               : product.short_description_bn}
@@ -59,7 +59,7 @@ const ProductCard = ({ product }: { product: FavoriteProduct }) => {
             </span>
             {product.discount > 0 && (
               <>
-                <span className="text-sm text-gray-500 line-through">
+                <span className="text-muted-foreground text-sm line-through">
                   ৳
                   {code === "en"
                     ? product.selling_price

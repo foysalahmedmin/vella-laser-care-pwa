@@ -115,7 +115,7 @@ const ProductsPage: React.FC = () => {
             ))
           ) : (
             <div className="col-span-full py-8 text-center">
-              <p className="text-gray-500">
+              <p className="text-muted-foreground">
                 {code === "en" ? "No products found" : "কোন পণ্য পাওয়া যায়নি"}
               </p>
             </div>

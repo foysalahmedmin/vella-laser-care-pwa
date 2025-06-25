@@ -117,7 +117,7 @@ const AppointmentCard = ({ item }: { item: Appointment }) => {
               <p>{item.slot?.name}</p>
             </div>
             {item.appointment_type === "online" && (
-              <button className="bg-primary-100 rounded-full p-2">
+              <button className="bg-primary/10 rounded-full p-2">
                 <PhoneCall className="text-primary" />
               </button>
             )}
@@ -157,7 +157,7 @@ const BookingCard = ({ item }: { item: Booking }) => {
               <p>{item.slot?.name}</p>
             </div>
             {item.payment_method === "online" && (
-              <button className="bg-primary-100 rounded-full p-2">
+              <button className="bg-primary/10 rounded-full p-2">
                 <PhoneCall className="text-primary" />
               </button>
             )}
@@ -179,12 +179,12 @@ const OrderCard = ({ item }: { item: Order }) => {
       className="bg-card mt-1 flex items-center justify-between rounded-lg p-4 shadow"
     >
       <div className="flex flex-1 items-center gap-4">
-        <div className="bg-primary-100 rounded-full p-2">
+        <div className="bg-primary/10 rounded-full p-2">
           <Truck className="text-primary" />
         </div>
         <div>
           <h3 className="text-lg font-bold">#{item.order_id}</h3>
-          <p className="text-sm text-gray-500">
+          <p className="text-muted-foreground text-sm">
             {moment(item.createdAt).format(
               language.code === "en"
                 ? "MMMM, DD YYYY hh:mm A"

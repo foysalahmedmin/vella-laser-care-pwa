@@ -34,7 +34,7 @@ export default function ProfilePage() {
   };
 
   const ProfileSection = ({ me }: { me: any }) => (
-    <div className="items-center justify-center bg-white py-6">
+    <div className="bg-card items-center justify-center py-6">
       <div className="flex flex-col items-center">
         <div className="flex h-24 w-24 items-center justify-center rounded-full border-2 border-dashed bg-gray-200">
           {me?.photo ? (
@@ -44,7 +44,7 @@ export default function ProfilePage() {
               className="h-full w-full rounded-full object-cover"
             />
           ) : (
-            <User className="text-gray-400" size={48} />
+            <User className="text-muted-foreground" size={48} />
           )}
         </div>
         <h2 className="pt-3 text-lg font-bold">
@@ -57,20 +57,20 @@ export default function ProfilePage() {
   );
 
   const BioSection = ({ me }: { me: any }) => (
-    <div className="items-center justify-center rounded-lg bg-white p-4 shadow-sm">
-      <div className="w-full space-y-6 rounded-md bg-white p-4">
+    <div className="bg-card items-center justify-center rounded-lg p-4 shadow-sm">
+      <div className="bg-card w-full space-y-6 rounded-md p-4">
         <div className="flex items-center">
           <div className="w-8/12 space-y-3">
             <p className="text-sm font-bold">
               {language.code === "en" ? "Email" : "ইমেইল"}
             </p>
-            <p className="text-gray-600">{me?.email || "-"}</p>
+            <p className="text-muted-foreground">{me?.email || "-"}</p>
           </div>
           <div className="w-4/12 space-y-3">
             <p className="text-sm font-bold">
               {language.code === "en" ? "Phone" : "ফোন"}
             </p>
-            <p className="text-gray-600">{me?.phone || "-"}</p>
+            <p className="text-muted-foreground">{me?.phone || "-"}</p>
           </div>
         </div>
 
@@ -79,13 +79,13 @@ export default function ProfilePage() {
             <p className="text-sm font-bold">
               {language.code === "en" ? "Postal" : "পোস্টাল"}
             </p>
-            <p className="text-gray-600">{me?.postal || "-"}</p>
+            <p className="text-muted-foreground">{me?.postal || "-"}</p>
           </div>
           <div className="w-4/12 space-y-3">
             <p className="text-sm font-bold">
               {language.code === "en" ? "Role" : "ভূমিকা"}
             </p>
-            <p className="text-gray-600">{me?.role || "-"}</p>
+            <p className="text-muted-foreground">{me?.role || "-"}</p>
           </div>
         </div>
 
@@ -93,15 +93,15 @@ export default function ProfilePage() {
           <p className="text-sm font-bold">
             {language.code === "en" ? "Address" : "ঠিকানা"}
           </p>
-          <p className="text-gray-600">{me?.address || "-"}</p>
+          <p className="text-muted-foreground">{me?.address || "-"}</p>
         </div>
       </div>
     </div>
   );
 
   const SettingsSection = () => (
-    <div className="items-center justify-center rounded-lg bg-white p-4 shadow-sm">
-      <div className="w-full space-y-4 rounded-md bg-white p-4">
+    <div className="bg-card items-center justify-center rounded-lg p-4 shadow-sm">
+      <div className="bg-card w-full space-y-4 rounded-md p-4">
         <div className="border-b border-gray-200 pb-4">
           <Button
             onClick={() => navigate("/reset-password")}

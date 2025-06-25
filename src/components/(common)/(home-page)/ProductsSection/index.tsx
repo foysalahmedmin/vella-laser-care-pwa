@@ -15,27 +15,29 @@ const SearchBar = () => {
   const search = useSelector((state: RootState) => state.product_filter.search);
 
   return (
-    <div className="flex w-full items-center rounded-full border border-gray-300 px-4 py-2">
-      <input
-        type="text"
-        value={search}
-        onChange={(e) => dispatch(SetFilterSearch(e.target.value))}
-        placeholder={code === "en" ? "Search Product" : "পণ্যসমূহ খুজুন"}
-        className="flex-1 bg-transparent outline-none"
-      />
-      <svg
-        className="h-5 w-5 text-gray-500"
-        fill="none"
-        stroke="currentColor"
-        viewBox="0 0 24 24"
-      >
-        <path
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          strokeWidth={2}
-          d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+    <div className="bg-card container">
+      <div className="flex w-full items-center rounded-full border border-gray-300 px-4 py-2">
+        <input
+          type="text"
+          value={search}
+          onChange={(e) => dispatch(SetFilterSearch(e.target.value))}
+          placeholder={code === "en" ? "Search Product" : "পণ্যসমূহ খুজুন"}
+          className="flex-1 bg-transparent outline-none"
         />
-      </svg>
+        <svg
+          className="text-muted-foreground h-5 w-5"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth={2}
+            d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+          />
+        </svg>
+      </div>
     </div>
   );
 };

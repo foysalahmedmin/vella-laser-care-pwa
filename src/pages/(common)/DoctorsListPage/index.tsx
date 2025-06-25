@@ -24,28 +24,32 @@ const SearchBar = () => {
   const { language } = useLanguage();
 
   return (
-    <div className="flex items-center bg-white p-4">
-      <button
-        onClick={() => {
-          dispatch(ResetDoctorFilter());
-          navigate(-1);
-        }}
-        className="mr-2 p-1"
-      >
-        <ChevronLeft size={24} />
-      </button>
+    <div className="bg-card container">
+      <div className="flex items-center p-4">
+        <button
+          onClick={() => {
+            dispatch(ResetDoctorFilter());
+            navigate(-1);
+          }}
+          className="mr-2 p-1"
+        >
+          <ChevronLeft size={24} />
+        </button>
 
-      <div className="flex flex-1 items-center rounded-full border border-gray-300 p-2">
-        <input
-          type="text"
-          value={search}
-          onChange={(e) => dispatch(SetFilterSearch(e.target.value))}
-          placeholder={
-            language.code === "en" ? "Search doctors" : "ডাক্তার অনুসন্ধান করুন"
-          }
-          className="h-10 flex-1 pl-2 outline-none"
-        />
-        <Search size={20} className="text-primary-500 ml-2" />
+        <div className="flex flex-1 items-center rounded-full border border-gray-300 p-2">
+          <input
+            type="text"
+            value={search}
+            onChange={(e) => dispatch(SetFilterSearch(e.target.value))}
+            placeholder={
+              language.code === "en"
+                ? "Search doctors"
+                : "ডাক্তার অনুসন্ধান করুন"
+            }
+            className="h-10 flex-1 pl-2 outline-none"
+          />
+          <Search size={20} className="text-primary ml-2" />
+        </div>
       </div>
     </div>
   );
@@ -56,7 +60,7 @@ const DoctorCard = ({ doctor }: { doctor: Doctor }) => {
   const { language } = useLanguage();
 
   return (
-    <div className="mb-4 rounded-xl bg-white p-4 shadow-md transition-transform hover:scale-[1.02]">
+    <div className="bg-card mb-4 rounded-xl p-4 shadow-md transition-transform hover:scale-[1.02]">
       <div className="flex items-center">
         {doctor.photo ? (
           <img
@@ -74,7 +78,7 @@ const DoctorCard = ({ doctor }: { doctor: Doctor }) => {
               <h3 className="text-lg font-bold">
                 {language.code === "en" ? doctor.name : doctor?.name_bn}
               </h3>
-              <p className="mt-1 line-clamp-2 text-gray-600">
+              <p className="text-muted-foreground mt-1 line-clamp-2">
                 {language.code === "en"
                   ? doctor.description
                   : doctor?.description_bn}
@@ -93,7 +97,7 @@ const DoctorCard = ({ doctor }: { doctor: Doctor }) => {
             </div>
 
             <button className="rounded-full bg-blue-100 p-2">
-              <Heart size={20} className="text-primary-500" />
+              <Heart size={20} className="text-primary" />
             </button>
           </div>
         </div>
@@ -147,7 +151,7 @@ const SearchResult = () => {
 
   if (deptLoading || doctorLoading) {
     return (
-      <div className="mt-4 bg-white p-4">
+      <div className="bg-card mt-4 p-4">
         <div className="flex animate-pulse flex-wrap gap-4">
           {[...Array(5)].map((_, i) => (
             <div key={i} className="h-8 w-24 rounded-full bg-gray-200"></div>
@@ -171,7 +175,7 @@ const SearchResult = () => {
   }
 
   return (
-    <div className="mt-4 bg-white p-4">
+    <div className="bg-card mt-4 p-4">
       <div className="flex flex-wrap">
         {departments?.map((department) => (
           <DepartmentSelect key={department._id} department={department} />
@@ -184,7 +188,7 @@ const SearchResult = () => {
             <DoctorCard key={doctor._id} doctor={doctor} />
           ))
         ) : (
-          <div className="py-12 text-center text-gray-500">
+          <div className="text-muted-foreground py-12 text-center">
             {language.code === "en"
               ? "No doctors found"
               : "কোনো ডাক্তার পাওয়া যায়নি"}

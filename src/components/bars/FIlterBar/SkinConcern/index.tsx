@@ -52,7 +52,7 @@ const SkinConcern = () => {
               className="flex w-full items-center pt-2"
             >
               {skin_concern === item._id ? (
-                <Radio className="text-primary-500 fill-current" />
+                <Radio className="text-primary fill-current" />
               ) : (
                 <Circle className="text-gray-300" />
               )}

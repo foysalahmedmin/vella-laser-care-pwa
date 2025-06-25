@@ -32,7 +32,7 @@ export default function DoctorsSection() {
             </h2>
             <button
               onClick={() => navigate("/doctors")}
-              className="text-primary-500 hover:text-primary-600 transition-colors"
+              className="text-primary hover:text-primary transition-colors"
             >
               <p className="text-md">
                 {code === "en" ? "See All" : "বিস্তারিত"}

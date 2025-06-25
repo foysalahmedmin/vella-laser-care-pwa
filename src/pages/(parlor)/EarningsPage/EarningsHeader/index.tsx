@@ -44,7 +44,7 @@ const StatCard = ({ title, title_bn, sub, sub_bn, amount }: StatCardProps) => {
   return (
     <div className="bg-card w-full rounded-lg p-4">
       <p className="text-md">{language.code === "en" ? title : title_bn}</p>
-      <p className="text-sm text-gray-500">
+      <p className="text-muted-foreground text-sm">
         {language.code === "en" ? sub : sub_bn}
       </p>
       <p className="pt-4 text-xl font-bold">
@@ -110,7 +110,7 @@ export const EarningHeader = () => {
   const navigate = useNavigate();
 
   return (
-    <div className="bg-white p-4">
+    <div className="bg-card p-4">
       <div className="flex items-center justify-between">
         <h1 className="text-xl font-bold">
           {language.code === "en" ? "Earning" : "উপার্জন"}

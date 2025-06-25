@@ -105,14 +105,14 @@ const PDFPage = ({ className }: { className?: string }) => {
   if (!decodedPdfUrl) {
     return (
       <div className={cn("min-h-screen bg-gray-50", className)}>
-        <div className="border-b border-gray-200 bg-white px-4 py-3">
+        <div className="bg-card border-b border-gray-200 px-4 py-3">
           <div className="flex items-center gap-3">
             <button
               onClick={handleGoBack}
               className="rounded-lg p-2 transition-colors hover:bg-gray-100"
               aria-label="Go back"
             >
-              <ArrowLeft className="h-5 w-5 text-gray-600" />
+              <ArrowLeft className="text-muted-foreground h-5 w-5" />
             </button>
             <h1 className="text-lg font-semibold text-gray-900">
               {language.code === "bn" ? "প্রেসক্রিপশন" : "Prescription"}
@@ -122,7 +122,7 @@ const PDFPage = ({ className }: { className?: string }) => {
 
         <div className="flex h-96 items-center justify-center">
           <div className="text-center">
-            <p className="mb-2 text-gray-500">
+            <p className="text-muted-foreground mb-2">
               {language.code === "bn"
                 ? "পিডিএফ URL পাওয়া যায়নি"
                 : "No PDF URL provided"}
@@ -142,7 +142,7 @@ const PDFPage = ({ className }: { className?: string }) => {
   return (
     <div className={cn("flex min-h-screen flex-col bg-gray-50", className)}>
       {/* Header */}
-      <div className="sticky top-0 z-10 border-b border-gray-200 bg-white px-4 py-3">
+      <div className="bg-card sticky top-0 z-10 border-b border-gray-200 px-4 py-3">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-3">
             <button
@@ -150,7 +150,7 @@ const PDFPage = ({ className }: { className?: string }) => {
               className="rounded-lg p-2 transition-colors hover:bg-gray-100"
               aria-label="Go back"
             >
-              <ArrowLeft className="h-5 w-5 text-gray-600" />
+              <ArrowLeft className="text-muted-foreground h-5 w-5" />
             </button>
             <h1 className="text-lg font-semibold text-gray-900">
               {language.code === "bn" ? "প্রেসক্রিপশন" : "Prescription"}
@@ -165,10 +165,10 @@ const PDFPage = ({ className }: { className?: string }) => {
               aria-label="Zoom out"
               disabled={pdfState.scale <= 0.5}
             >
-              <ZoomOut className="h-4 w-4 text-gray-600" />
+              <ZoomOut className="text-muted-foreground h-4 w-4" />
             </button>
 
-            <span className="min-w-[60px] text-center text-sm text-gray-500">
+            <span className="text-muted-foreground min-w-[60px] text-center text-sm">
               {Math.round(pdfState.scale * 100)}%
             </span>
 
@@ -178,7 +178,7 @@ const PDFPage = ({ className }: { className?: string }) => {
               aria-label="Zoom in"
               disabled={pdfState.scale >= 3.0}
             >
-              <ZoomIn className="h-4 w-4 text-gray-600" />
+              <ZoomIn className="text-muted-foreground h-4 w-4" />
             </button>
 
             <button
@@ -186,7 +186,7 @@ const PDFPage = ({ className }: { className?: string }) => {
               className="rounded-lg p-2 transition-colors hover:bg-gray-100"
               aria-label="Rotate"
             >
-              <RotateCw className="h-4 w-4 text-gray-600" />
+              <RotateCw className="text-muted-foreground h-4 w-4" />
             </button>
 
             <button
@@ -194,7 +194,7 @@ const PDFPage = ({ className }: { className?: string }) => {
               className="rounded-lg p-2 transition-colors hover:bg-gray-100"
               aria-label="Download"
             >
-              <Download className="h-4 w-4 text-gray-600" />
+              <Download className="text-muted-foreground h-4 w-4" />
             </button>
           </div>
         </div>
@@ -210,7 +210,7 @@ const PDFPage = ({ className }: { className?: string }) => {
               {language.code === "bn" ? "পূর্ববর্তী" : "Previous"}
             </button>
 
-            <span className="text-sm text-gray-600">
+            <span className="text-muted-foreground text-sm">
               {language.code === "bn"
                 ? `পৃষ্ঠা ${pdfState.pageNumber} / ${pdfState.numPages}`
                 : `Page ${pdfState.pageNumber} of ${pdfState.numPages}`}
@@ -232,7 +232,7 @@ const PDFPage = ({ className }: { className?: string }) => {
         {pdfState.loading && (
           <div className="text-center">
             <div className="mx-auto mb-4 h-8 w-8 animate-spin rounded-full border-b-2 border-blue-600"></div>
-            <p className="text-gray-500">
+            <p className="text-muted-foreground">
               {language.code === "bn"
                 ? "পিডিএফ লোড হচ্ছে..."
                 : "Loading PDF..."}
@@ -247,7 +247,9 @@ const PDFPage = ({ className }: { className?: string }) => {
                 ? "পিডিএফ লোড করতে ত্রুটি হয়েছে"
                 : "Error loading PDF"}
             </p>
-            <p className="mb-4 text-sm text-gray-500">{pdfState.error}</p>
+            <p className="text-muted-foreground mb-4 text-sm">
+              {pdfState.error}
+            </p>
             <button
               onClick={() => window.location.reload()}
               className="rounded-lg bg-blue-600 px-4 py-2 text-white transition-colors hover:bg-blue-700"
@@ -280,9 +282,9 @@ const PDFPage = ({ className }: { className?: string }) => {
 
       {/* Alternative: If iframe doesn't work, show a link to view PDF */}
       {!pdfState.loading && !pdfState.error && (
-        <div className="border-t border-gray-200 bg-white p-4">
+        <div className="bg-card border-t border-gray-200 p-4">
           <div className="text-center">
-            <p className="mb-2 text-sm text-gray-500">
+            <p className="text-muted-foreground mb-2 text-sm">
               {language.code === "bn"
                 ? "পিডিএফ দেখতে সমস্যা হচ্ছে? নিচের লিঙ্কে ক্লিক করুন"
                 : "Having trouble viewing the PDF? Click the link below"}
@@ -291,7 +293,7 @@ const PDFPage = ({ className }: { className?: string }) => {
               href={decodedPdfUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 text-blue-600 underline hover:text-blue-700"
+              className="text-primary inline-flex items-center gap-2 underline hover:text-blue-700"
             >
               {language.code === "bn" ? "নতুন ট্যাবে খুলুন" : "Open in new tab"}
               <ArrowLeft className="h-4 w-4 rotate-180" />

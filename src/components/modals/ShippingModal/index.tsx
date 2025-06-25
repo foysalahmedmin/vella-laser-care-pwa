@@ -37,7 +37,7 @@ const ShippingModal: React.FC<ShippingModalProps> = ({ onClose }) => {
           </div>
           <button
             onClick={() => updateField("payment_method", "address")}
-            className="text-blue-500 hover:text-blue-600"
+            className="hover:text-primary text-blue-500"
             aria-label="Edit address"
           >
             <Edit size={20} />

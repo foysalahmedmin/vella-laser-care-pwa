@@ -51,7 +51,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, className }) => {
 
         <div className="flex-1">
           <h3 className="text-lg">{code === "en" ? name : name_bn}</h3>
-          <p className="mb-2 text-sm text-gray-600">
+          <p className="text-muted-foreground mb-2 text-sm">
             {code === "en" ? short_description : short_description_bn}
           </p>
 
@@ -73,7 +73,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, className }) => {
             </span>
             {discount > 0 && (
               <>
-                <span className="text-sm text-gray-500 line-through">
+                <span className="text-muted-foreground text-sm line-through">
                   ৳{selling_price.toLocaleString()}
                 </span>
                 <span className="rounded bg-green-500 px-2 py-1 text-sm text-white">

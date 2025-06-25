@@ -23,7 +23,9 @@ const ParlorCard: React.FC<ParlorCardProps> = ({ parlor }) => {
             <div className="mr-2 p-1">
               <MapPin className="text-primary h-5 w-5" />
             </div>
-            <p className="line-clamp-1 text-sm text-gray-600">{address}</p>
+            <p className="text-muted-foreground line-clamp-1 text-sm">
+              {address}
+            </p>
           </div>
         </div>
       </div>

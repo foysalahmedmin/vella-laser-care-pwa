@@ -134,10 +134,13 @@ export interface ProductDetails {
 export interface CartProduct {
   _id: string;
   name: string;
+  name_bn?: string;
   price: number;
   quantity: number;
   thumbnail: string;
   short_description: string;
+  short_description_bn?: string;
+  rating?: number;
   discount_amount?: number;
 }
 

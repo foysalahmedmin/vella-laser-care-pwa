@@ -24,7 +24,7 @@ const CartCalculationSection: React.FC<CartCalculationProps> = ({
   const hasItems = cartProducts.length > 0;
 
   return (
-    <div className="border-t bg-white p-4">
+    <div className="bg-card border-t p-4">
       <div className="space-y-3">
         <div className="flex justify-between">
           <span>Subtotal:</span>

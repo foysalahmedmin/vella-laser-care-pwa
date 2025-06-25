@@ -72,12 +72,14 @@ const OrderDetailsPage = () => {
   const ProfileCard: React.FC<{ item: OrderItem }> = ({ item }) => (
     <div className="flex flex-row items-center justify-between rounded-lg bg-gray-50 p-4 shadow-sm">
       <div className="flex w-2/3 flex-row items-center">
-        <div className="flex items-center justify-center rounded-full bg-white p-3 shadow-sm">
-          <Truck className="text-blue-600" size={20} />
+        <div className="bg-card flex items-center justify-center rounded-full p-3 shadow-sm">
+          <Truck className="text-primary" size={20} />
         </div>
         <div className="ml-4 flex flex-col justify-center">
           <h3 className="text-lg font-bold text-gray-900">#{item?.order_id}</h3>
-          <p className="text-sm text-gray-500">{formatDate(item?.createdAt)}</p>
+          <p className="text-muted-foreground text-sm">
+            {formatDate(item?.createdAt)}
+          </p>
         </div>
       </div>
       <div className="flex flex-row items-center justify-end">
@@ -89,16 +91,18 @@ const OrderDetailsPage = () => {
   );
 
   const Details: React.FC<{ data: OrderItem }> = ({ data }) => (
-    <div className="items-center justify-center bg-white p-2">
-      <div className="m-2 w-full space-y-6 rounded-md border border-gray-200 bg-white p-4 py-6">
+    <div className="bg-card items-center justify-center p-2">
+      <div className="bg-card m-2 w-full space-y-6 rounded-md border border-gray-200 p-4 py-6">
         <div className="flex flex-row items-start">
           <div className="w-2/3 space-y-2">
             <h4 className="text-base font-bold text-gray-900">Status</h4>
-            <p className="pt-1 text-gray-600">{data?.status?.toUpperCase()}</p>
+            <p className="text-muted-foreground pt-1">
+              {data?.status?.toUpperCase()}
+            </p>
           </div>
           <div className="w-1/3 space-y-2">
             <h4 className="text-base font-bold text-gray-900">Total</h4>
-            <p className="pt-1 text-gray-600">{data?.total}BDT</p>
+            <p className="text-muted-foreground pt-1">{data?.total}BDT</p>
           </div>
         </div>
       </div>
@@ -165,7 +169,7 @@ const OrderDetailsPage = () => {
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Header */}
-      <header className="border-b border-gray-200 bg-white shadow-sm">
+      <header className="bg-card border-b border-gray-200 shadow-sm">
         <div className="flex items-center justify-between px-4 py-3">
           <Button
             onClick={() => navigate(-1)}
@@ -182,7 +186,7 @@ const OrderDetailsPage = () => {
       </header>
 
       {/* Content */}
-      <main className="flex-1 bg-white p-4">
+      <main className="bg-card flex-1 p-4">
         <div className="mx-auto max-w-2xl space-y-4">
           <div className="m-1">
             <ProfileCard item={data} />

@@ -30,19 +30,19 @@ const CartPage: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      <header className="bg-white p-4 shadow-sm">
+      <header className="bg-card p-4 shadow-sm">
         <h1 className="text-xl font-bold">
           Shopping Cart ({totalItems.toLocaleString()})
         </h1>
       </header>
 
       <div className="flex flex-col gap-6 p-4 lg:flex-row">
-        <div className="flex-1 overflow-hidden rounded-lg bg-white shadow-sm">
+        <div className="bg-card flex-1 overflow-hidden rounded-lg shadow-sm">
           <CartListSection />
         </div>
 
         <div className="lg:w-96">
-          <div className="rounded-lg bg-white shadow-sm">
+          <div className="bg-card rounded-lg shadow-sm">
             <CartCalculationSection onOpenModal={openCheckoutModal} />
           </div>
         </div>

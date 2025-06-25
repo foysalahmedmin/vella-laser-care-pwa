@@ -57,7 +57,7 @@ const HistoryCard = ({
                 {status}
               </span>
             </div>
-            <p className="mt-1 text-gray-500">
+            <p className="text-muted-foreground mt-1">
               {moment(date).format(
                 lang === "en"
                   ? "MMMM DD, YYYY hh:mm A"
@@ -106,9 +106,9 @@ const NotFound = () => {
   return (
     <div className="py-10 text-center">
       <div className="mx-auto h-16 w-16 rounded-full bg-gray-100 p-4">
-        <Activity size={32} className="mx-auto text-gray-400" />
+        <Activity size={32} className="text-muted-foreground mx-auto" />
       </div>
-      <p className="mt-4 text-gray-500">
+      <p className="text-muted-foreground mt-4">
         {lang === "en" ? "No history found" : "কোন ইতিহাস পাওয়া যায়নি"}
       </p>
     </div>
@@ -215,7 +215,7 @@ export const EarningsTab = () => {
   const lang = language.code;
 
   return (
-    <div className="rounded-lg bg-white p-4 shadow-sm">
+    <div className="bg-card rounded-lg p-4 shadow-sm">
       <Tabs defaultValue="orders">
         <Tabs.List className="w-full">
           <Tabs.Trigger value="orders">

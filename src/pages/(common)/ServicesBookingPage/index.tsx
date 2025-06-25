@@ -33,8 +33,8 @@ const AppointmentCalendar = () => {
   });
 
   return (
-    <div className="mt-6 rounded-lg bg-white p-6 shadow-sm">
-      <p className="text-gray-600">{today}</p>
+    <div className="bg-card mt-6 rounded-lg p-6 shadow-sm">
+      <p className="text-muted-foreground">{today}</p>
       <h3 className="mt-1 text-lg font-bold">
         {language.code === "en" ? "Today" : "আজ"}
       </h3>
@@ -49,16 +49,16 @@ const AppointmentCalendar = () => {
               )
             }
             className={`flex min-w-[60px] flex-col items-center rounded-2xl px-4 py-2 ${
-              date === item.dateString ? "text-primary-500 bg-blue-100" : ""
+              date === item.dateString ? "text-primary bg-blue-100" : ""
             }`}
           >
             <span
-              className={`text-lg font-bold ${date === item.dateString ? "text-primary-500" : "text-gray-600"}`}
+              className={`text-lg font-bold ${date === item.dateString ? "text-primary" : "text-muted-foreground"}`}
             >
               {item.day}
             </span>
             <span
-              className={`text-sm ${date === item.dateString ? "text-primary-500" : "text-gray-400"}`}
+              className={`text-sm ${date === item.dateString ? "text-primary" : "text-muted-foreground"}`}
             >
               {item.name}
             </span>
@@ -78,7 +78,7 @@ const AppointmentType = () => {
   );
 
   return (
-    <div className="rounded-lg bg-white p-6 shadow-sm">
+    <div className="bg-card rounded-lg p-6 shadow-sm">
       <h3 className="font-bold">
         {language.code === "en" ? "Service Type" : "সেবার ধরন"}
       </h3>
@@ -95,7 +95,7 @@ const AppointmentType = () => {
           className={`flex-1 rounded-full py-3 font-semibold ${
             service_type === "consultant"
               ? "bg-primary text-white"
-              : "border-primary-500 text-primary-500 border"
+              : "border-primary-500 text-primary border"
           }`}
         >
           {language.code === "en" ? "Consultant" : "পরামর্শদাতা"}
@@ -110,7 +110,7 @@ const AppointmentType = () => {
           className={`flex-1 rounded-full py-3 font-semibold ${
             service_type === "service"
               ? "bg-primary text-white"
-              : "border-primary-500 text-primary-500 border"
+              : "border-primary-500 text-primary border"
           }`}
         >
           {language.code === "en" ? "Service" : "সেবা"}
@@ -131,7 +131,7 @@ const ChooseHours = () => {
   });
 
   return (
-    <div className="mt-6 rounded-lg bg-white p-6 shadow-sm">
+    <div className="bg-card mt-6 rounded-lg p-6 shadow-sm">
       <h3 className="font-bold">
         {language.code === "en" ? "Choose the hours" : "সময় নির্বাচন করুন"}
       </h3>
@@ -177,7 +177,7 @@ const YourProblem = ({ id }: { id: string }) => {
   };
 
   return (
-    <div className="mt-6 rounded-lg bg-white p-6 shadow-sm">
+    <div className="bg-card mt-6 rounded-lg p-6 shadow-sm">
       <h3 className="mb-4 font-bold">
         {language.code === "en" ? "Payment Method" : "পেমেন্ট পদ্ধতি"}
       </h3>
@@ -235,7 +235,7 @@ const ServicesBookingPage = () => {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      <div className="bg-white p-6 shadow-sm">
+      <div className="bg-card p-6 shadow-sm">
         <h1 className="text-xl font-bold">
           {language.code === "en" ? "Book a Service" : "সেবা বুক করুন"}
         </h1>

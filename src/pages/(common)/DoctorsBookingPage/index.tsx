@@ -69,7 +69,7 @@ export function AppointmentCalendar() {
   };
 
   return (
-    <div className="mt-2 bg-white p-4">
+    <div className="bg-card mt-2 p-4">
       <p className="font-semibold text-slate-600">{today}</p>
       <p className="text-lg font-bold">Today</p>
 
@@ -133,7 +133,7 @@ export function AppointmentType() {
   };
 
   return (
-    <div className="bg-white p-4 pb-6">
+    <div className="bg-card p-4 pb-6">
       <p className="text-md font-bold">Appointment Type</p>
       <div className="mt-4 flex justify-between gap-2">
         <button
@@ -182,7 +182,7 @@ export function ChooseHours() {
   ];
 
   return (
-    <div className="bg-white p-4 pt-4">
+    <div className="bg-card p-4 pt-4">
       <p className="text-md flex items-center gap-2 font-bold">
         <Clock size={18} />
         Choose the hours
@@ -235,7 +235,7 @@ export function YourProblem({ doctorId }: { doctorId: string }) {
   };
 
   return (
-    <div className="bg-white p-4 pt-4">
+    <div className="bg-card p-4 pt-4">
       <p className="text-md flex items-center gap-2 font-bold">
         <Stethoscope size={18} />
         Your Problem

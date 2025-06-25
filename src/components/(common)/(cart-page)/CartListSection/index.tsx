@@ -9,14 +9,14 @@ const CartListSection: React.FC = () => {
   if (cartProducts.length === 0) {
     return (
       <div className="py-10 text-center">
-        <ShoppingCart size={48} className="mx-auto text-gray-400" />
-        <p className="mt-4 text-gray-500">Your cart is empty</p>
+        <ShoppingCart size={48} className="text-muted-foreground mx-auto" />
+        <p className="text-muted-foreground mt-4">Your cart is empty</p>
       </div>
     );
   }
 
   return (
-    <div className="bg-white">
+    <div className="bg-card">
       {cartProducts.map((item, index) => (
         <CartItem key={item._id} item={item} index={index} />
       ))}

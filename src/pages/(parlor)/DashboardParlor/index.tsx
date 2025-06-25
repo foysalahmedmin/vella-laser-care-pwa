@@ -6,7 +6,7 @@ const DashboardParlor = () => {
   return (
     <div>
       <div className="flex-1">
-        <div className="bg-white p-4">
+        <div className="bg-card p-4">
           <h2 className="text-2xl font-bold">
             {language.code === "en" ? "Dashboard" : "ড্যাশবোর্ড"}
           </h2>

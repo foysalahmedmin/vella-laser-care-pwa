@@ -103,7 +103,7 @@ const SubmitForm = ({
   };
 
   return (
-    <div className="mt-2 rounded-lg bg-white p-4 shadow-md">
+    <div className="bg-card mt-2 rounded-lg p-4 shadow-md">
       <div className="mb-4">
         <label className="mb-1 flex items-center text-sm font-medium text-gray-700">
           <User className="mr-2 h-4 w-4" />

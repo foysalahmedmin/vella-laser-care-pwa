@@ -48,14 +48,14 @@ export default function ServiceManagePage() {
             <p className="text-lg font-bold">
               {language.code === "en" ? "Upload image" : "ছবি আপলোড করুন"}
             </p>
-            <div className="bg-primary-100 border-primary-200 flex h-48 w-full flex-col items-center justify-center rounded-lg border-2 border-dashed">
-              <Upload className="text-primary-500 mb-2 h-16 w-16" />
-              <p className="text-primary-500 font-medium">
+            <div className="bg-primary/10 border-primary-200 flex h-48 w-full flex-col items-center justify-center rounded-lg border-2 border-dashed">
+              <Upload className="text-primary mb-2 h-16 w-16" />
+              <p className="text-primary font-medium">
                 {language.code === "en"
                   ? "Click to upload or drag and drop"
                   : "আপলোড করতে ক্লিক করুন বা ফাইল টেনে আনুন"}
               </p>
-              <p className="mt-1 text-sm text-gray-500">
+              <p className="text-muted-foreground mt-1 text-sm">
                 {language.code === "en"
                   ? "PNG, JPG, GIF up to 10MB"
                   : "PNG, JPG, GIF সর্বোচ্চ ১০MB"}

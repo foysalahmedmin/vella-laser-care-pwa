@@ -38,14 +38,14 @@ const DoctorsSection = () => {
   }
 
   return (
-    <div className="rounded-lg bg-white p-6 shadow-sm">
+    <div className="bg-card rounded-lg p-6 shadow-sm">
       <div className="mb-4 flex items-center justify-between">
         <h2 className="text-xl font-bold">
           {language.code === "en" ? "Top Doctors" : "উল্লেখযোগ্য ডাক্তার"}
         </h2>
         <button
           onClick={() => navigate("/doctors/list")}
-          className="text-primary-500"
+          className="text-primary"
         >
           {language.code === "en" ? "See All" : "সব দেখুন"}
         </button>
@@ -57,7 +57,7 @@ const DoctorsSection = () => {
             .slice(0, 4)
             .map((doctor) => <DoctorCard key={doctor._id} doctor={doctor} />)
         ) : (
-          <div className="col-span-2 py-8 text-center text-gray-500">
+          <div className="text-muted-foreground col-span-2 py-8 text-center">
             {language.code === "en"
               ? "No doctors found"
               : "কোনো ডাক্তার পাওয়া যায়নি"}
@@ -118,7 +118,7 @@ const SpecialistDoctors = () => {
   });
 
   return (
-    <div className="rounded-lg bg-white p-6 shadow-sm">
+    <div className="bg-card rounded-lg p-6 shadow-sm">
       <div className="mb-4 flex items-center justify-between">
         <h2 className="text-xl font-bold">
           {language.code === "en" ? "Specialist Doctors" : "বিশেষজ্ঞ ডাক্তার"}
@@ -133,7 +133,7 @@ const SpecialistDoctors = () => {
             </div>
           ))
         ) : (
-          <div className="w-full py-8 text-center text-gray-500">
+          <div className="text-muted-foreground w-full py-8 text-center">
             {language.code === "en"
               ? "No departments found"
               : "কোনো বিভাগ পাওয়া যায়নি"}
@@ -152,23 +152,27 @@ const SearchDepartmentBar = () => {
   const navigate = useNavigate();
 
   return (
-    <div className="flex items-center bg-white p-4 shadow-sm">
-      <button onClick={() => navigate(-1)} className="mr-4">
-        <ChevronLeft size={24} className="text-gray-400" />
-      </button>
-      <div className="flex flex-1 items-center rounded-full border border-gray-300 p-2 px-4">
-        <input
-          type="text"
-          value={department_search}
-          onChange={(e) => dispatch(SetFilterDepartmentSearch(e.target.value))}
-          placeholder={
-            language.code === "en"
-              ? "Search Department"
-              : "বিভাগ অনুসন্ধান করুন"
-          }
-          className="flex-1 outline-none"
-        />
-        <Search size={20} className="text-primary-500" />
+    <div className="container">
+      <div className="bg-card flex items-center p-4 shadow-sm">
+        <button onClick={() => navigate(-1)}>
+          <ChevronLeft size={24} className="text-muted-foreground" />
+        </button>
+        <div className="flex flex-1 items-center rounded-full border border-gray-300 p-2 px-4">
+          <input
+            type="text"
+            value={department_search}
+            onChange={(e) =>
+              dispatch(SetFilterDepartmentSearch(e.target.value))
+            }
+            placeholder={
+              language.code === "en"
+                ? "Search Department"
+                : "বিভাগ অনুসন্ধান করুন"
+            }
+            className="flex-1 outline-none"
+          />
+          <Search size={20} className="text-primary" />
+        </div>
       </div>
     </div>
   );
@@ -177,7 +181,7 @@ const SearchDepartmentBar = () => {
 const DoctorsPage = () => {
   return (
     <div className="min-h-screen bg-gray-50">
-      <div className="sticky top-0 z-10 bg-white shadow-sm">
+      <div className="bg-card sticky top-0 z-10 shadow-sm">
         <SearchDepartmentBar />
       </div>
 

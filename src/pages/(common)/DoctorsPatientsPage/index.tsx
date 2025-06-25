@@ -88,14 +88,14 @@ export function SubmitForm({
   };
 
   return (
-    <div className="rounded-lg bg-white p-4 shadow-sm">
+    <div className="bg-card rounded-lg p-4 shadow-sm">
       <div className="space-y-4">
         <div>
           <label className="mb-1 block text-sm font-medium text-gray-700">
             Name
           </label>
           <div className="relative">
-            <User className="absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 transform text-gray-400" />
+            <User className="text-muted-foreground absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 transform" />
             <input
               type="text"
               placeholder="Enter your name"
@@ -111,7 +111,7 @@ export function SubmitForm({
             Email
           </label>
           <div className="relative">
-            <Mail className="absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 transform text-gray-400" />
+            <Mail className="text-muted-foreground absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 transform" />
             <input
               type="email"
               placeholder="Enter your email"
@@ -127,7 +127,7 @@ export function SubmitForm({
             Phone Number
           </label>
           <div className="relative">
-            <Phone className="absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 transform text-gray-400" />
+            <Phone className="text-muted-foreground absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 transform" />
             <input
               type="tel"
               placeholder="Enter your phone number"
@@ -143,7 +143,7 @@ export function SubmitForm({
             Message
           </label>
           <div className="relative">
-            <MessageSquare className="absolute top-4 left-3 h-4 w-4 text-gray-400" />
+            <MessageSquare className="text-muted-foreground absolute top-4 left-3 h-4 w-4" />
             <textarea
               placeholder="Enter your message"
               value={message}
@@ -190,8 +190,8 @@ export function PatientInformation() {
   });
 
   return (
-    <div className="mx-auto min-h-screen max-w-md bg-white">
-      <header className="sticky top-0 z-10 border-b bg-white p-4 shadow-sm">
+    <div className="bg-card mx-auto min-h-screen max-w-md">
+      <header className="bg-card sticky top-0 z-10 border-b p-4 shadow-sm">
         <button
           onClick={() => navigate(-1)}
           className="flex items-center text-blue-500"

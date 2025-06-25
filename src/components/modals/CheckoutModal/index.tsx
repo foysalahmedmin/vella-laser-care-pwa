@@ -172,7 +172,7 @@ const CheckoutModal: React.FC<CheckoutModalProps> = ({ onClose }) => {
           >
             <span>Shipping</span>
             <div className="flex items-center">
-              <span className="text-gray-600">
+              <span className="text-muted-foreground">
                 {cart.address || "Add address"}
               </span>
               <ChevronRight size={20} />
@@ -187,7 +187,9 @@ const CheckoutModal: React.FC<CheckoutModalProps> = ({ onClose }) => {
             <div className="flex items-center">
               {cart.payment_method && (
                 <>
-                  <span className="text-gray-600">({cart.payment_method})</span>
+                  <span className="text-muted-foreground">
+                    ({cart.payment_method})
+                  </span>
                   <img
                     src={
                       cart.payment_method === "offline"

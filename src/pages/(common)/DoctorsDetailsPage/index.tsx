@@ -19,11 +19,11 @@ const Bio = ({ doctor }: { doctor: DoctorDetails }) => {
   const { language } = useLanguage();
 
   return (
-    <div className="mt-6 rounded-2xl bg-white p-6 shadow-md">
+    <div className="bg-card mt-6 rounded-2xl p-6 shadow-md">
       <h2 className="mb-4 text-lg font-bold">
         {language.code === "en" ? "Doctor's Bio" : "ডাক্তারের বায়ো"}
       </h2>
-      <p className="mb-4 text-gray-600">
+      <p className="text-muted-foreground mb-4">
         {language.code === "en"
           ? doctor?.user?.description
           : doctor?.user?.description_bn}
@@ -33,7 +33,7 @@ const Bio = ({ doctor }: { doctor: DoctorDetails }) => {
 
       <div className="mb-4 grid grid-cols-2 gap-4">
         <div>
-          <div className="flex items-center text-gray-600">
+          <div className="text-muted-foreground flex items-center">
             <Phone size={16} className="mr-2" />
             <span>{language.code === "en" ? "Phone" : "ফোন"}</span>
           </div>
@@ -41,7 +41,7 @@ const Bio = ({ doctor }: { doctor: DoctorDetails }) => {
         </div>
 
         <div>
-          <div className="flex items-center text-gray-600">
+          <div className="text-muted-foreground flex items-center">
             <BriefcaseMedical size={16} className="mr-2" />
             <span>{language.code === "en" ? "Experience" : "অভিজ্ঞতা"}</span>
           </div>
@@ -54,7 +54,7 @@ const Bio = ({ doctor }: { doctor: DoctorDetails }) => {
       </div>
 
       <div className="mb-4">
-        <div className="flex items-center text-gray-600">
+        <div className="text-muted-foreground flex items-center">
           <Mail size={16} className="mr-2" />
           <span>Email</span>
         </div>
@@ -98,7 +98,7 @@ const ProfileCard = ({ doctor }: { doctor: DoctorDetails }) => {
   const { language } = useLanguage();
 
   return (
-    <div className="rounded-2xl bg-white p-6 shadow-md">
+    <div className="bg-card rounded-2xl p-6 shadow-md">
       <div className="flex">
         {doctor?.user?.photo ? (
           <img
@@ -108,14 +108,14 @@ const ProfileCard = ({ doctor }: { doctor: DoctorDetails }) => {
           />
         ) : (
           <div className="flex h-24 w-24 items-center justify-center rounded-2xl border-2 border-dashed bg-gray-200">
-            <User size={32} className="text-gray-400" />
+            <User size={32} className="text-muted-foreground" />
           </div>
         )}
 
         <div className="ml-4 flex w-7/12 flex-col justify-between">
           <div>
             <h2 className="text-lg font-bold">{doctor?.user?.name}</h2>
-            <p className="text-gray-600">
+            <p className="text-muted-foreground">
               {language.code === "en"
                 ? doctor?.experience
                 : doctor?.experience_bn}
@@ -127,7 +127,7 @@ const ProfileCard = ({ doctor }: { doctor: DoctorDetails }) => {
               <User size={20} className="text-blue-500" />
             </div>
             <div className="ml-2">
-              <p className="text-sm text-gray-600">
+              <p className="text-muted-foreground text-sm">
                 {language.code === "en" ? "Patients" : "রোগী"}
               </p>
               <p className="font-bold">100+</p>
@@ -175,7 +175,7 @@ const DoctorsDetailsPage = () => {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      <div className="bg-white px-6 py-4 shadow-sm">
+      <div className="bg-card px-6 py-4 shadow-sm">
         <h1 className="text-xl font-bold">
           {language.code === "en" ? "Doctor's Profile" : "ডাক্তারের প্রোফাইল"}
         </h1>
